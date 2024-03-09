@@ -538,7 +538,67 @@ Należy przygotować procedury: `p_add_reservation_4`, `p_modify_reservation_sta
 
 ```sql
 
--- wyniki, kod, zrzuty ekranów, komentarz ...
+
+-- Trigger dodający dodanie Rezerwacji do Logów
+CREATE OR REPLACE TRIGGER trg_add_reservation_log
+AFTER INSERT ON RESERVATION
+FOR EACH ROW
+BEGIN
+    INSERT INTO LOG (LOG_ID, RESERVATION_ID, LOG_DATE, STATUS)
+    VALUES ((SELECT NVL(MAX(log_id), 0) + 1 FROM LOG),
+            :NEW.reservation_id,
+            SYSDATE,
+            'P');
+END;
+/
+
+-- Trigger dodający zmiane statusu Rezerwacji do Logów
+CREATE OR REPLACE TRIGGER trg_modify_reservation_status_log
+AFTER UPDATE OF status ON RESERVATION
+FOR EACH ROW
+BEGIN
+    INSERT INTO LOG (LOG_ID, RESERVATION_ID, LOG_DATE, STATUS)
+    VALUES ((SELECT NVL(MAX(log_id), 0) + 1 FROM LOG),
+            :OLD.reservation_id,
+            SYSDATE,
+            :NEW.status);
+END;
+/
+
+-- Trigger blokujący usuwanie Rezerwacji
+CREATE OR REPLACE TRIGGER trg_prevent_reservation_deletion
+BEFORE DELETE ON RESERVATION
+FOR EACH ROW
+BEGIN
+    RAISE_APPLICATION_ERROR(-20001, 'Deletion of reservation not allowed.');
+END;
+/
+
+-- Dodawanie Rezerwacji (nowe)
+CREATE OR REPLACE PROCEDURE p_add_reservation_4 (
+    p_trip_id IN NUMBER,
+    p_person_id IN NUMBER
+) AS
+BEGIN
+    INSERT INTO RESERVATION (reservation_id, trip_id, person_id, status)
+    VALUES ((SELECT NVL(MAX(reservation_id), 0) + 1 FROM RESERVATION),
+            p_trip_id,
+            p_person_id,
+            'P');
+END;
+/
+
+-- Zmiana statusus Rezerwacji (nowe)
+CREATE OR REPLACE PROCEDURE p_modify_reservation_status_4 (
+    p_reservation_id IN NUMBER,
+    p_status IN VARCHAR2
+) AS
+BEGIN
+    UPDATE RESERVATION
+    SET status = p_status
+    WHERE reservation_id = p_reservation_id;
+END;
+/
 
 ```
 
