@@ -396,7 +396,119 @@ Proponowany zestaw procedur można rozbudować wedle uznania/potrzeb
 
 ```sql
 
--- wyniki, kod, zrzuty ekranów, komentarz ...
+-- Dodawanie Rezerwacji
+create or replace procedure p_add_reservation(
+    p_trip_id in NUMBER,
+    p_person_id in Number
+) AS
+    v_trip_date DATE;
+    v_available_seats NUMBER;
+    v_reservation_id NUMBER;
+    v_log_id NUMBER;
+    v_trip_number NUMBER;
+BEGIN
+    select count(*) into v_trip_number from TRIP where TRIP_ID=p_trip_id;
+    if v_trip_number>0 THEN
+        select TRIP_DATE into v_trip_date
+        from TRIP
+            where TRIP_ID=p_trip_id;
+        IF v_trip_date>SYSDATE then
+            Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID)
+                into v_available_seats
+            from TRIP
+                where TRIP_ID=p_trip_id;
+            IF v_available_seats>0 then
+                select Max(RESERVATION_ID)+1 into v_reservation_id from RESERVATION;
+                select Max(LOG_ID)+1 into v_log_id from LOG;
+                Insert into RESERVATION (reservation_id, trip_id, person_id, status) VALUES
+                (v_reservation_id,p_trip_id,p_person_id,'P');
+                INSERT INTO log (LOG_ID, RESERVATION_ID, LOG_DATE, STATUS)
+                VALUES (v_log_id, v_reservation_id,SYSDATE,'P');
+            ELSE
+                DBMS_OUTPUT.PUT_LINE('No available seats for this trip.');
+            end if;
+            ELSE
+                DBMS_OUTPUT.PUT_LINE('Trip has already been completed.');
+        end if;
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('There is no Trip with that TRIP_ID');
+    end if;
+end;
+/
+
+-- Zmiana Rezerwacji
+CREATE OR REPLACE PROCEDURE p_modify_reservation_status (
+    p_reservation_id IN NUMBER,
+    p_status IN VARCHAR2
+) AS
+    v_current_status VARCHAR2(20);
+    v_trip_id NUMBER;
+    v_trip_date DATE;
+    v_log_id NUMBER;
+    v_available_seats NUMBER;
+    v_reservation_number NUMBER;
+BEGIN
+    select count(*) into v_reservation_number from RESERVATION where RESERVATION_ID=p_reservation_id;
+    IF v_reservation_number>0 THEN
+        SELECT status INTO v_current_status
+        FROM RESERVATION
+        WHERE reservation_id = p_reservation_id;
+        IF v_current_status != p_status THEN
+            select TRIP_ID into v_trip_id from RESERVATION where RESERVATION_ID=p_reservation_id;
+            select TRIP_DATE into v_trip_date from TRIP where TRIP_ID=v_trip_id;
+            IF v_trip_date>SYSDATE THEN
+                Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID)
+                into v_available_seats
+                from TRIP
+                    where TRIP_ID=v_trip_id;
+                IF v_available_seats>0 THEN
+                    UPDATE RESERVATION
+                    SET status = p_status
+                    WHERE reservation_id = p_reservation_id;
+                    select Max(LOG_ID)+1 into v_log_id from LOG;
+                    INSERT INTO log (LOG_ID, RESERVATION_ID, LOG_DATE, STATUS)
+                    VALUES (v_log_id, p_reservation_id,SYSDATE,p_status);
+                ELSE
+                    DBMS_OUTPUT.PUT_LINE('Cannot modify status of a reservation for full trip.');
+                END IF;
+            ELSE
+            DBMS_OUTPUT.PUT_LINE('Cannot modify status of a reservation for ended trip.');
+            END IF;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Cannot modify status for same status.');
+        END IF;
+    ELSE
+            DBMS_OUTPUT.PUT_LINE('There is no Reservation with that RESERVATION_ID');
+    END IF;
+END;
+/
+
+--Zmiana liczby miejsc na wyjazd
+CREATE OR REPLACE PROCEDURE p_modify_max_no_places (
+    p_trip_id IN NUMBER,
+    p_max_no_places IN NUMBER
+) AS
+    v_reserved_seats NUMBER;
+    v_trip_number NUMBER;
+BEGIN
+    select count(*) into v_trip_number from TRIP where TRIP_ID=p_trip_id;
+    if v_trip_number>0 THEN
+        Select (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID)
+        into v_reserved_seats
+        from TRIP
+        where TRIP_ID=p_trip_id;
+        IF p_max_no_places >= v_reserved_seats THEN
+            UPDATE TRIP
+            SET max_no_places = p_max_no_places
+            WHERE trip_id = p_trip_id;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Cannot decrease max number of places below reserved seats.');
+        END IF;
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('There is no Trip with that TRIP_ID.');
+    END IF;
+END;
+
 
 ```
 
