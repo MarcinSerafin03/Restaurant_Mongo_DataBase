@@ -626,8 +626,91 @@ Należy przygotować procedury: `p_add_reservation_5`, `p_modify_reservation_sta
 # Zadanie 5 - rozwiązanie
 
 ```sql
+-- Trigger sprawdzający czy są wolne miejsca na wyjazd
+CREATE OR REPLACE TRIGGER trg_check_seat_availability_add_reservation
+BEFORE INSERT ON RESERVATION
+FOR EACH ROW
+DECLARE
+    v_available_seats NUMBER;
+BEGIN
+    Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID)
+                into v_available_seats
+            from TRIP
+                where TRIP_ID=new.trip_id;
 
--- wyniki, kod, zrzuty ekranów, komentarz ...
+    IF v_available_seats <= 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'No available seats for this trip.');
+    END IF;
+END;
+/
+
+--Trigger sprawdzający czy wyjazd sie już nie odbył
+CREATE OR REPLACE TRIGGER trg_check_date_add_reservation
+BEFORE INSERT ON RESERVATION
+FOR EACH ROW
+DECLARE
+    v_trip_date DATE;
+BEGIN
+    SELECT TRIP_DATE INTO v_trip_date
+    FROM TRIP
+    WHERE TRIP_ID = :NEW.trip_id;
+
+    IF v_trip_date <= SYSDATE THEN
+        DBMS_OUTPUT.PUT_LINE('Trip has already been completed.');
+    END IF;
+END;
+
+-- Trigger sprawdzający czy są wolne miejsca lub czy nie odbył sie wyjazd dla rezerwacji której zmieniamy status
+CREATE OR REPLACE TRIGGER trg_check_seat_availability_modify_status
+BEFORE UPDATE OF status ON RESERVATION
+FOR EACH ROW
+DECLARE
+    v_available_seats NUMBER;
+    v_trip_date DATE;
+BEGIN
+    Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID)
+    into v_available_seats
+    from TRIP
+    where TRIP_ID=new.trip_id;
+    IF v_available_seats <= 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Cannot modify status of a reservation for a full trip.');
+    END IF;
+    SELECT TRIP_DATE INTO v_trip_date
+    FROM TRIP
+    WHERE TRIP_ID = OLD.TRIP_ID;
+
+    IF v_trip_date <= SYSDATE THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Cannot modify status of a reservation for ended trip.');
+    END IF;
+END;
+/
+
+-- Dodawanie Rezerwacji (nowsze)
+CREATE OR REPLACE PROCEDURE p_add_reservation_5(
+    p_trip_id IN NUMBER,
+    p_person_id IN NUMBER
+) AS
+    v_trip_date DATE;
+BEGIN
+    SELECT TRIP_DATE INTO v_trip_date
+    FROM TRIP
+    WHERE TRIP_ID = p_trip_id;
+    INSERT INTO RESERVATION (reservation_id, trip_id, person_id, status)
+    VALUES ((SELECT MAX(reservation_id) + 1 FROM RESERVATION), p_trip_id, p_person_id, 'P');
+END;
+/
+
+-- Zmiana statusus Rezerwacji (nowsze)
+CREATE OR REPLACE PROCEDURE p_modify_reservation_status_5(
+    p_reservation_id IN NUMBER,
+    p_status IN VARCHAR2
+) AS
+BEGIN
+    UPDATE RESERVATION
+    SET status = p_status
+    WHERE reservation_id = p_reservation_id;
+END;
+/
 
 ```
 
