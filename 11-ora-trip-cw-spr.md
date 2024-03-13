@@ -538,7 +538,7 @@ BEGIN
         from TRIP
             where TRIP_ID=p_trip_id;
         IF v_trip_date>SYSDATE then
-            Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID)
+            Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID and RESERVATION.STATUS!='C')
                 into v_available_seats
             from TRIP
                 where TRIP_ID=p_trip_id;
@@ -582,7 +582,7 @@ BEGIN
             select TRIP_ID into v_trip_id from RESERVATION where RESERVATION_ID=p_reservation_id;
             select TRIP_DATE into v_trip_date from TRIP where TRIP_ID=v_trip_id;
             IF v_trip_date>SYSDATE THEN
-                Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID)
+                Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID and RESERVATION.STATUS!='C')
                 into v_available_seats
                 from TRIP
                     where TRIP_ID=v_trip_id;
@@ -700,29 +700,92 @@ END;
 /
 
 -- Dodawanie Rezerwacji (nowe)
-CREATE OR REPLACE PROCEDURE p_add_reservation_4 (
-    p_trip_id IN NUMBER,
-    p_person_id IN NUMBER
+create or replace procedure p_add_reservation_4(
+    p_trip_id in NUMBER,
+    p_person_id in Number
 ) AS
+    v_trip_date DATE;
+    v_available_seats NUMBER;
+    v_reservation_id NUMBER;
+    v_log_id NUMBER;
+    v_trip_number NUMBER;
 BEGIN
-    INSERT INTO RESERVATION (reservation_id, trip_id, person_id, status)
-    VALUES ((SELECT NVL(MAX(reservation_id), 0) + 1 FROM RESERVATION),
-            p_trip_id,
-            p_person_id,
-            'P');
-END;
+    select count(*) into v_trip_number from TRIP where TRIP_ID=p_trip_id;
+    if v_trip_number>0 THEN
+        select TRIP_DATE into v_trip_date
+        from TRIP
+            where TRIP_ID=p_trip_id;
+        IF v_trip_date>SYSDATE then
+            Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID and RESERVATION.STATUS!='C')
+                into v_available_seats
+            from TRIP
+                where TRIP_ID=p_trip_id;
+            IF v_available_seats>0 then
+                select Max(RESERVATION_ID)+1 into v_reservation_id from RESERVATION;
+                select Max(LOG_ID)+1 into v_log_id from LOG;
+                Insert into RESERVATION (reservation_id, trip_id, person_id, status) VALUES
+                (v_reservation_id,p_trip_id,p_person_id,'P');
+            ELSE
+                DBMS_OUTPUT.PUT_LINE('No available seats for this trip.');
+            end if;
+            ELSE
+                DBMS_OUTPUT.PUT_LINE('Trip has already been completed.');
+        end if;
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('There is no Trip with that TRIP_ID');
+    end if;
+end;
+/
+
+
 /
 
 -- Zmiana statusus Rezerwacji (nowe)
-CREATE OR REPLACE PROCEDURE p_modify_reservation_status_4 (
+create or replace PROCEDURE p_modify_reservation_status_4 (
     p_reservation_id IN NUMBER,
     p_status IN VARCHAR2
 ) AS
+    v_current_status VARCHAR2(20);
+    v_trip_id NUMBER;
+    v_trip_date DATE;
+    v_log_id NUMBER;
+    v_available_seats NUMBER;
+    v_reservation_number NUMBER;
 BEGIN
-    UPDATE RESERVATION
-    SET status = p_status
-    WHERE reservation_id = p_reservation_id;
+    select count(*) into v_reservation_number from RESERVATION where RESERVATION_ID=p_reservation_id;
+    IF v_reservation_number>0 THEN
+        SELECT status INTO v_current_status
+        FROM RESERVATION
+        WHERE reservation_id = p_reservation_id;
+        IF v_current_status != p_status THEN
+            select TRIP_ID into v_trip_id from RESERVATION where RESERVATION_ID=p_reservation_id;
+            select TRIP_DATE into v_trip_date from TRIP where TRIP_ID=v_trip_id;
+            IF v_trip_date>SYSDATE THEN
+                Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID and RESERVATION.STATUS!='C')
+                into v_available_seats
+                from TRIP
+                    where TRIP_ID=v_trip_id;
+                IF v_available_seats>0 THEN
+                    UPDATE RESERVATION
+                    SET status = p_status
+                    WHERE reservation_id = p_reservation_id;
+                    select Max(LOG_ID)+1 into v_log_id from LOG;
+                ELSE
+                    DBMS_OUTPUT.PUT_LINE('Cannot modify status of a reservation for full trip.');
+                END IF;
+            ELSE
+            DBMS_OUTPUT.PUT_LINE('Cannot modify status of a reservation for ended trip.');
+            END IF;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Cannot modify status for same status.');
+        END IF;
+    ELSE
+            DBMS_OUTPUT.PUT_LINE('There is no Reservation with that RESERVATION_ID');
+    END IF;
 END;
+/
+
+
 /
 
 ```
@@ -752,13 +815,14 @@ Należy przygotować procedury: `p_add_reservation_5`, `p_modify_reservation_sta
 
 ```sql
 -- Trigger sprawdzający czy są wolne miejsca na wyjazd
-CREATE OR REPLACE TRIGGER trg_check_seat_availability_add_reservation
-BEFORE INSERT ON RESERVATION
-FOR EACH ROW
+create trigger TRG_CHECK_SEAT_AVAILABILITY_ADD_RESERVATION
+    before insert
+    on RESERVATION
+    for each row
 DECLARE
     v_available_seats NUMBER;
 BEGIN
-    Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID)
+    Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID and RESERVATION.STATUS!='C')
                 into v_available_seats
             from TRIP
                 where TRIP_ID=new.trip_id;
@@ -786,14 +850,15 @@ BEGIN
 END;
 
 -- Trigger sprawdzający czy są wolne miejsca lub czy nie odbył sie wyjazd dla rezerwacji której zmieniamy status
-CREATE OR REPLACE TRIGGER trg_check_seat_availability_modify_status
-BEFORE UPDATE OF status ON RESERVATION
-FOR EACH ROW
+create or replace trigger TRG_CHECK_SEAT_AVAILABILITY_MODIFY_STATUS
+    before update of STATUS
+    on RESERVATION
+    for each row
 DECLARE
     v_available_seats NUMBER;
     v_trip_date DATE;
 BEGIN
-    Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID)
+    Select MAX_NO_PLACES - (select count(*) from RESERVATION where TRIP.TRIP_ID=RESERVATION.TRIP_ID and STATUS!='C')
     into v_available_seats
     from TRIP
     where TRIP_ID=new.trip_id;
@@ -810,20 +875,21 @@ BEGIN
 END;
 /
 
+
+/
+
 -- Dodawanie Rezerwacji (nowsze)
-CREATE OR REPLACE PROCEDURE p_add_reservation_5(
+create or replace PROCEDURE p_add_reservation_5(
     p_trip_id IN NUMBER,
     p_person_id IN NUMBER
-) AS
-    v_trip_date DATE;
+)AS
 BEGIN
-    SELECT TRIP_DATE INTO v_trip_date
-    FROM TRIP
-    WHERE TRIP_ID = p_trip_id;
     INSERT INTO RESERVATION (reservation_id, trip_id, person_id, status)
     VALUES ((SELECT MAX(reservation_id) + 1 FROM RESERVATION), p_trip_id, p_person_id, 'P');
 END;
 /
+
+
 
 -- Zmiana statusus Rezerwacji (nowsze)
 CREATE OR REPLACE PROCEDURE p_modify_reservation_status_5(
