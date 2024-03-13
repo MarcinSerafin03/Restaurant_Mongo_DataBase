@@ -234,9 +234,56 @@ w szczególności dokument: `1_modyf.pdf`
 
 ```sql
 
--- przyklady, kod, zrzuty ekranów, komentarz ...
+begin
+    update trip set country = 'Niemcy' where trip_id = 1;
+    rollback;
+end;
+
+begin
+    insert into person(firstname, lastname) values ('Żaneta', 'Kowalska');
+    insert into person(firstname, lastname) values ('Janek', 'Rapowanie');
+    commit;
+end;
+begin
+    update person set person_id = 11 where firstname = 'Żaneta' and lastname = 'Kowalska';
+    commit;
+end;
+begin
+    update person set person_id = 12 where firstname = 'Janek' and lastname = 'Rapowanie';
+    commit;
+end;
+-- bez commita nie usuwa z tabeli
+begin
+    delete from person where person_id = 11;
+    delete from person where person_id = 12;
+end;
+
+
+begin
+    delete from person where person_id = 11;
+    delete from person where person_id = 12;
+    commit;
+end;
+
+
+Transakcjami nazywami zagnieżdżone w blokach begin end linijki kodu,
+wykonujące pewne operacje na systemie bazy danych. Do transakcji używane są polecenia
+commit i rollback - rollback wycofuje wprowadzenie zmian, commit natomiast zatwierdza
+zmiany do bazy danych. W praktyce polecenia rollback używamy zabezpieczając się przed
+potencjalnymi błędami, tak żeby zmiany nie zaszły częściowo, jeśli wprowadzone dane
+nie są poprawne bądź występują jakieś inne problemy skutkujące wyrzuceniem błędu - usuwanie
+części danych ręcznie, zeby nastepnie wprowadzic holistycznie calosc zmian byloby niepraktyczne. 
+Języki MS SQLserver T-SQL i Oracle PL/SQL mają wiele podobieństw w sposobie wykorzystywania
+transakcji, w obu mozemy dane w transakcjach wstawiac, usuwac. Oprocz tego uzywac
+polecen commit i rollback, definiowac bloki transakcji. Z istotniejszych roznic
+mozna wskazac obsluge bledow - w PL/SQL wystepuja exceptions zamiast blokow try catch w T-SQLu.
+Dodatkowo transakcje w PL/SQL są obsługiwane w sposób niejawny - każde polecenie SQL jest
+domyślnie częścią transakcji, a w T-SQL mamy to zrobione w sposób jawny 
 
 ```
+
+
+
 
 ---
 
@@ -743,7 +790,32 @@ alter table trip add
 
 ```sql
 
--- wyniki, kod, zrzuty ekranów, komentarz ...
+alter table trip add
+no_available_places int null;
+
+create or replace procedure p_recalculate_available_places as
+begin
+    for record in (select trip_id, max_no_places from trip) loop
+        update trip
+        set no_available_places = record.max_no_places - (
+            select count(*)
+            from reservation
+            where trip_id = record.trip_id
+            and status = 'P'
+        )
+        where trip_id = record.trip_id;
+    end loop;
+    commit;
+end;
+
+begin
+    p_recalculate_available_places;
+end;
+
+
+W tym zadaniu najpierw dodajemy pole no_available_places do tabeli trip, 
+następnie tworzymy procedure, która odejmuje od maksymalnej liczby miejsc w danej wyciecze wszystkie miejsca, które są zajęte
+przez rezerawcje potwierdzone i zapłacone. Wywołując tą procedurę jednokrotnie nowo dodane pole w tabeli trip jest wypełniane wartościami
 
 ```
 
