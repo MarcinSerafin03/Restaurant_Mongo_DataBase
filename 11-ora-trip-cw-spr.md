@@ -400,8 +400,86 @@ Proponowany zestaw funkcji można rozbudować wedle uznania/potrzeb
 # Zadanie 2 - rozwiązanie
 
 ```sql
+--f_trip_participants
+create function f_trip_participants(f_trip_id int)
+    return TRIP_PARTICIPANTS_TABLE
+as
+    result TRIP_PARTICIPANTS_TABLE;
+    trip_count number;
+begin
 
--- wyniki, kod, zrzuty ekranów, komentarz ...
+    select count(*)
+    into trip_count
+    from TRIP
+    where TRIP_ID = f_trip_id;
+
+    if trip_count = 0 then
+        raise NO_DATA_FOUND;
+    end if;
+
+    select PARTICIPANT(r.TRIP_ID,p.PERSON_ID,p.FIRSTNAME,p.LASTNAME)
+    bulk collect
+    into result
+    from RESERVATION r
+    join PERSON p on r.PERSON_ID = p.PERSON_ID
+    where r.TRIP_ID = f_trip_id and r.STATUS != 'C';
+
+    return result;
+exception
+    when NO_DATA_FOUND then
+        raise_application_error(-20001, 'Nie znaleziono podróży o podanym identyfikatorze');
+        return null;
+end;
+
+
+
+--f_person_reservations
+create function f_person_reservations(f_person_id int )
+    return person_reservation_table
+as
+    result person_reservation_table;
+    person_count number;
+begin
+
+    select count(*)
+    into person_count
+    from PERSON
+    where PERSON_ID = f_person_id;
+
+    if person_count = 0 then
+        raise NO_DATA_FOUND;
+    end if;
+
+    select person_reservation(r.RESERVATION_ID,r.TRIP_ID,r.STATUS)
+    bulk collect
+    into result
+    from RESERVATION r
+    where r.PERSON_ID = f_person_id;
+
+    return result;
+
+exception
+    when NO_DATA_FOUND then
+        raise_application_error(-20001, 'Nie istnieje uczestink o podanym identyfikatorze');
+        return null;
+end;
+
+
+--f_available_trips_to
+create function f_available_trips_to(f_country varchar,date_from date, date_to date)
+    return available_trips_to_table
+as
+    result available_trips_to_table;
+begin
+
+    select available_trip_to(t.TRIP_ID,t.TRIP_NAME)
+    bulk collect
+    into result
+    from TRIP t
+    where t.COUNTRY = f_country and t.TRIP_DATE between date_from and date_to;
+
+    return result;
+end
 
 ```
 
