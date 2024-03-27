@@ -982,7 +982,65 @@ Obsługę pola `no_available_places` należy zrealizować przy pomocy procedur
 
 ```sql
 
--- wyniki, kod, zrzuty ekranów, komentarz ...
+--dodawanie rezerwacji
+create PROCEDURE p_add_reservation_6(
+    p_trip_id IN trip.trip_id%TYPE,
+    p_person_id IN reservation.person_id%TYPE
+) AS
+    v_max_places trip.max_no_places%TYPE;
+BEGIN
+    SELECT max_no_places INTO v_max_places FROM trip WHERE trip_id = p_trip_id;
+
+    UPDATE trip
+    SET no_available_places = no_available_places - 1
+    WHERE trip_id = p_trip_id
+    AND no_available_places > 0;
+
+    INSERT INTO reservation (trip_id, person_id, status)
+    VALUES (p_trip_id, p_person_id, 'N');
+END;
+/
+
+--modyfikacja statusu rezerwacji
+create PROCEDURE p_modify_reservation_status_6(
+    p_reservation_id IN reservation.reservation_id%TYPE,
+    p_new_status IN reservation.status%TYPE
+) AS
+    v_trip_id reservation.trip_id%TYPE;
+BEGIN
+    SELECT trip_id INTO v_trip_id FROM reservation WHERE reservation_id = p_reservation_id;
+
+    IF p_new_status = 'C' THEN
+        UPDATE trip
+        SET no_available_places = no_available_places + 1
+        WHERE trip_id = v_trip_id;
+    END IF;
+
+    UPDATE reservation
+    SET status = p_new_status
+    WHERE reservation_id = p_reservation_id;
+
+END;
+/
+
+--zmiana maksymalnej liczby miejsc wycieczki
+CREATE PROCEDURE p_update_max_places(
+    p_trip_id IN trip.trip_id%TYPE,
+    p_new_max_places IN trip.max_no_places%TYPE
+) AS
+    v_diff_places NUMBER;
+BEGIN
+    SELECT p_new_max_places - max_no_places INTO v_diff_places
+    FROM trip
+    WHERE trip_id = p_trip_id;
+
+    UPDATE trip
+    SET no_available_places = no_available_places + v_diff_places,
+        max_no_places = p_new_max_places
+    WHERE trip_id = p_trip_id;
+
+END;
+/
 
 ```
 
@@ -1005,7 +1063,33 @@ Obsługę pola `no_available_places` należy zrealizować przy pomocy triggerów
 
 ```sql
 
--- wyniki, kod, zrzuty ekranów, komentarz ...
+-- trigger przy dodaniu nowej rezerwacji
+create trigger TRG_RESERVATION_ADDED_6
+    after insert
+    on RESERVATION
+    for each row
+BEGIN
+    UPDATE trip
+    SET no_available_places = no_available_places - 1
+    WHERE trip_id = :NEW.trip_id;
+END;
+/
+
+--trigger przy odwołaniu rezerwacji
+create trigger TRG_RESERVATION_STATUS_CHANGED_6
+    after update of STATUS
+    on RESERVATION
+    for each row
+BEGIN
+    IF :OLD.status <> 'C' AND :NEW.status = 'C' THEN
+        UPDATE trip
+        SET no_available_places = no_available_places + 1
+        WHERE trip_id = :NEW.trip_id;
+    END IF;
+END;
+/
+
+
 
 ```
 
@@ -1015,6 +1099,7 @@ Porównaj sposób programowania w systemie Oracle PL/SQL ze znanym ci systemem/j
 
 ```sql
 
--- komentarz ...
+
+
 
 ```
