@@ -337,12 +337,9 @@ create view vw_taken_places as
 select distinct
     r.TRIP_ID,
     (select count(*) from RESERVATION r1
-    where r.TRIP_ID=r1.TRIP_ID and (r1.STATUS ='P' or r1.STATUS = 'N')
-    group by r1.TRIP_ID) - nvl((select count(*) from RESERVATION r2
-    where r.TRIP_ID=r2.TRIP_ID and r2.STATUS ='C'
-    group by r2.TRIP_ID),0) as taken_places
-from RESERVATION r
-order by r.TRIP_ID;
+    where r.TRIP_ID=r1.TRIP_ID and (r1.STATUS !='C')
+    group by r1.TRIP_ID) as taken_places
+from RESERVATION r;
 
 -- Widok wszystkich wycieczek z użyciem widoku vw_taken_places
 create view vw_trip as
@@ -400,69 +397,96 @@ Proponowany zestaw funkcji można rozbudować wedle uznania/potrzeb
 # Zadanie 2 - rozwiązanie
 
 ```sql
+-- funkcja pomocnicza do sprawdzania czy istnieje trip o danym id
+create function f_trip_exists(t_id in TRIP.TRIP_ID%type)
+    return boolean
+as
+    exist number;
+begin
+    select case
+            when exists(select * from TRIP where TRIP_ID = t_id) then 1
+            else 0
+        end
+    into exist from dual;
+
+    if exist = 1 then
+        return true;
+    else
+        return false;
+    end if;
+end;
+/
+
+
+
 --f_trip_participants
-create function f_trip_participants(f_trip_id int)
+create function f_trip_participants(t_id int)
     return TRIP_PARTICIPANTS_TABLE
 as
     result TRIP_PARTICIPANTS_TABLE;
-    trip_count number;
+    vaild int;
 begin
-
-    select count(*)
-    into trip_count
-    from TRIP
-    where TRIP_ID = f_trip_id;
-
-    if trip_count = 0 then
-        raise NO_DATA_FOUND;
+    
+    if not F_TRIP_EXISTS(t_id) then
+        raise_application_error(-20001,'trip not found');
     end if;
 
-    select PARTICIPANT(r.TRIP_ID,p.PERSON_ID,p.FIRSTNAME,p.LASTNAME)
+    select TRIP_PARTICIPANT(PERSON_ID,FIRSTNAME,LASTNAME,RESERVATION_ID,COUNTRY,TRIP_DATE,TRIP_NAME,STATUS)
     bulk collect
     into result
-    from RESERVATION r
-    join PERSON p on r.PERSON_ID = p.PERSON_ID
-    where r.TRIP_ID = f_trip_id and r.STATUS != 'C';
+    from VW_RESERVATION
+    where TRIP_ID = t_id and STATUS != 'C';
 
     return result;
-exception
-    when NO_DATA_FOUND then
-        raise_application_error(-20001, 'Nie znaleziono podróży o podanym identyfikatorze');
-        return null;
 end;
+/
+
+
+
+-- funkcja pomocnicza sprawdzająca czy osoba o danym id istnieje
+create function f_person_exists(p_id in person.PERSON_ID%type)
+    return boolean
+as
+    exist number;
+begin
+    select case
+            when exists(select * from PERSON where PERSON_ID = p_id) then 1
+            else 0
+        end
+    into exist from dual;
+
+    if exist = 1 then
+        return true;
+    else
+        return false;
+    end if;
+end;
+/
+
 
 
 
 --f_person_reservations
-create function f_person_reservations(f_person_id int )
+create or replace function f_person_reservations(p_id int )
     return person_reservation_table
 as
     result person_reservation_table;
-    person_count number;
+    valid int;
 begin
 
-    select count(*)
-    into person_count
-    from PERSON
-    where PERSON_ID = f_person_id;
-
-    if person_count = 0 then
-        raise NO_DATA_FOUND;
+    if not F_PERSON_EXISTS(p_id) then
+        raise_application_error(-20001,'person not found');
     end if;
 
-    select person_reservation(r.RESERVATION_ID,r.TRIP_ID,r.STATUS)
+    select person_reservation(PERSON_ID,RESERVATION_ID,TRIP_ID,FIRSTNAME,LASTNAME,COUNTRY,TRIP_DATE,TRIP_NAME,STATUS)
     bulk collect
     into result
-    from RESERVATION r
-    where r.PERSON_ID = f_person_id;
+    from VW_RESERVATION
+    where PERSON_ID = p_id;
 
     return result;
-
-exception
-    when NO_DATA_FOUND then
-        raise_application_error(-20001, 'Nie istnieje uczestink o podanym identyfikatorze');
-        return null;
 end;
+
 
 
 --f_available_trips_to
@@ -472,14 +496,14 @@ as
     result available_trips_to_table;
 begin
 
-    select available_trip_to(t.TRIP_ID,t.TRIP_NAME)
+    select available_trip_to(TRIP_ID,COUNTRY,TRIP_DATE,TRIP_NAME,MAX_NO_PLACES,NO_AVAILABLE_PLACES)
     bulk collect
     into result
-    from TRIP t
-    where t.COUNTRY = f_country and t.TRIP_DATE between date_from and date_to;
+    from VW_AVAILABLE_TRIP
+    where COUNTRY = f_country and TRIP_DATE between date_from and date_to;
 
     return result;
-end
+end;
 
 ```
 
