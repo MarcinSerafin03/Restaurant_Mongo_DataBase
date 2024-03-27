@@ -1123,7 +1123,37 @@ Porównaj sposób programowania w systemie Oracle PL/SQL ze znanym ci systemem/j
 
 ```sql
 
-
-
-
+Oracle PL/SQL i MS Sqlserver T-SQL działają w ogólności podobnie i pozwalają na
+programowanie relacyjnych baz danych, oraz interakcji wewnątrz nich.
+Różnice porównamy na kilku płaszczyznach:
+a) Typy danych: 
+Oracle PL/SQL posiada wsparcie dla typów prostych(np.
+NUMBER, VARCHAR2, DATE), typów kolekcji (np. TABLE OF, VARRAY),
+typów obiektowych(np. OBJECT), typów tablicy asocjacyjnej (np. PL/SQL TABLE)
+T-SQL posiada wsparcie dla typów podobnych co Oracle (np. NUMBER, VARCHAR, DATE),
+ale generalnie ich zasób jest nieco mniejszy, natomiast na bardziej złożone
+struktury danych pozwala typ tabli(TABLE)
+b) Funkcjonalność:
+Oba języki wykorzystują podobne konstrukcje takie jak:
+BEGIN ... END, IF ... ELSE, WHILE, CASE, LOOP
+Oracle SQL ponadto posiada swoje unikalne konstrukcje takie jak: FORALL,
+BULK COLLECT, EXCEPTION INIT
+Natomiast T-SQL skupia się dodatkowo na danych zapisanych w SQL Server do których
+daje nam dostęp funkcjami takimi jak : TOP, SET ROWCOUNT, 
+CTE (Common Table Expressions)
+c) Funkcje analityczne: 
+W Oracle PL/SQL mamy funkcje takie jak: LAG, LEAD, ROW_NUMBER,
+które umożliwiają wykonywanie zaawansowanych operacji
+analitycznych bez konieczności pisania złożonych zapytań.
+W T-SQL również mamy takie funkcję, chociaż ich zakres nieco się różni, są to np.
+ROW_NUMBER(), RANK(), DENSE_RANK().
+Wnioski: 
+Programowanie w PL/SQL oraz T-SQL co do zasady jest bardzo
+podobne, ponieważ oba języki mają podobne zastosowanie,
+różnice obawiają się w składni, dostępnych funkcjach oraz typach danych czy
+praktykach takich jak zmienne globalne, których w PL/SQL stosuje się trochę więcej
+Główna różnica jest natomiast platforma z której korzystamy
+przy rozwiązaniach microsoftu prawdopodobnie łatwiej będzie
+obsługiwać je bazą z T-SQL, natomiast w pozostałych OracleDatabase sprawdza się
+równie dobrze
 ```
