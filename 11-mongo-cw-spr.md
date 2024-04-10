@@ -103,8 +103,9 @@ Przetestuj działanie operacji
 ## Zadanie 2  - rozwiązanie
 
 > Wyniki: 
-> 
-> przykłady, kod, zrzuty ekranów, komentarz ...
+> ![Połączenie - konsola](collections_init.png)
+
+>![alt text](collections_init1.png)
 
 ```js
 --  ...
