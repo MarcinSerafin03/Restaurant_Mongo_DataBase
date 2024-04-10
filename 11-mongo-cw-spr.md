@@ -134,7 +134,28 @@ Stwórz nową bazę danych
 > przykłady, kod, zrzuty ekranów, komentarz ...
 
 ```js
---  ...
+--  zaproponowana struktura:
+
+kolekcja Clients:
+{
+  "fullName": "",
+  "companiesAdmining": [
+    ""
+  ],
+  "gender": "",
+  "sex": "",
+  "adult": "",
+  "clientID": "",
+  "favouriteMovie": {
+    "name": "",
+    "genre": ""
+  },
+  "balance": "",
+  "messageToTheWorld": ""
+}
+
+kolekcja 
+
 ```
 
 
