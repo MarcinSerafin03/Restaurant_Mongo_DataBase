@@ -30,9 +30,12 @@ Stwórz bazę danych/kolekcję/dokument
 
 ## Zadanie 1  - rozwiązanie
 
+
+
 > Wyniki: 
+> ![Połączenie - kompas](compass_init.png)
+> ![Połączenie - konsola](shell_init.png)
 > 
-> przykłady, kod, zrzuty ekranów, komentarz ...
 
 ```js
 --  ...
