@@ -103,7 +103,7 @@ Przetestuj działanie operacji
 ## Zadanie 2  - rozwiązanie
 
 > Wyniki: 
-> ![Połączenie - konsola](collections_init.png)
+> ![Połączenie - konsola](collecions_init.png)
 
 >![alt text](collections_init1.png)
 
@@ -154,7 +154,29 @@ kolekcja Clients:
   "messageToTheWorld": ""
 }
 
-kolekcja 
+kolekcja History:
+[
+  {
+    "ClientID": "1234",
+    "MovieID": "5678",
+    "Price": 9.99,
+    "Date": "2024-04-10"
+  },
+  {
+    "ClientID": "5678",
+    "MovieID": "1234",
+    "Price": 8.99,
+    "Date": "2024-04-09"
+  },
+  {
+    "ClientID": "9012",
+    "MovieID": "3456",
+    "Price": 12.99,
+    "Date": "2024-04-08"
+  }
+]
+
+
 
 ```
 
