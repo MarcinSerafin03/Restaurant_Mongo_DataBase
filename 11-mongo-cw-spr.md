@@ -6,7 +6,7 @@
 
 ---
 
-**Imiona i nazwiska autorów:**
+**Imiona i nazwiska autorów: Marcin Serafin, Wojciech Wietrzny, Antoni Dulewicz**
 
 --- 
 
