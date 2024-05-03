@@ -1,0 +1,58 @@
+[
+    {
+        "_id": "60df26e8a2c4e82f644c016b",
+        "name": "Grand Canyon Adventure",
+        "date": "2024-07-15",
+        "duration": "5 days",
+        "price": 1500,
+        "max_capacity": 20
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c016f",
+        "name": "Rocky Mountain Backpacking",
+        "date": "2024-06-20",
+        "duration": "7 days",
+        "price": 2000,
+        "max_capacity": 15
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0175",
+        "name": "Caribbean Cruise",
+        "date": "2024-08-10",
+        "duration": "10 days",
+        "price": 3000,
+        "max_capacity": 30
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0179",
+        "name": "Skiing in the Alps",
+        "date": "2024-12-01",
+        "duration": "7 days",
+        "price": 2500,
+        "max_capacity": 12
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c017d",
+        "name": "Maasai Mara Safari",
+        "date": "2024-09-20",
+        "duration": "4 days",
+        "price": 1800,
+        "max_capacity": 10
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0181",
+        "name": "Icelandic Aurora Tour",
+        "date": "2024-11-10",
+        "duration": "6 days",
+        "price": 2800,
+        "max_capacity": 15
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0185",
+        "name": "Jungle Adventure",
+        "date": "2024-10-05",
+        "duration": "8 days",
+        "price": 2200,
+        "max_capacity": 20
+    }
+]
