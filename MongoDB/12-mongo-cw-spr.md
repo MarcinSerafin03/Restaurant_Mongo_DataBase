@@ -186,6 +186,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
     "details": {...},
 }
 ```
+##### Baza: 
 ```js
 [
     {
@@ -550,7 +551,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
 ### Wariant Drugi. Wszystko podzielone na 5 plików
 
 #### clients.json
-##### Model
+##### Model:
 ```js 
 {
     "_id": ObjectID(),
@@ -559,7 +560,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
     "phone": "..."
 }
 ```
-
+##### Baza:
 ```js
 [
     {
@@ -920,7 +921,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
 ```
 
 ### Wariant Trzeci. Zagnieżdżone elementy
-##### Model
+##### Model:
 ```js
 {
         "_id": ObjectID(),
@@ -930,31 +931,36 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
             "location": "...",
             "contact": "..."
         },
-        "details": {
-            "_id": ObjectID(),
-            "name": "...",
-            "date": "...",
-            "duration": "...",
-            "price": ,
-            "max_capacity": 
-        },
-        "attentants": [
+        "Trips":[ 
             {
-                "client": {
+            "details": {
                 "_id": ObjectID(),
                 "name": "...",
-                "email": "...",
-                "phone": "..."
-                },
-                "review": {
-                "_id": ObjectID(),
-                "rating": ,
-                "comment": "..."
+                "date": "...",
+                "duration": "...",
+                "price": ,
+                "max_capacity": 
+            },
+            "attentants": [
+                {
+                    "client": {
+                    "_id": ObjectID(),
+                    "name": "...",
+                    "email": "...",
+                    "phone": "..."
+                    },
+                    "review": {
+                    "_id": ObjectID(),
+                    "rating": ,
+                    "comment": "..."
+                    }
                 }
-            }
-        ]
-    },
+            ]
+        }
+    ]
+},
 ```
+##### Baza:
 ```js
 [
     {
@@ -965,54 +971,58 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
             "location": "Los Angeles",
             "contact": "contact@adventuretours.com"
         },
-        "details": {
-            "_id": "60df26e8a2c4e82f644c016b",
-            "name": "Grand Canyon Adventure",
-            "date": "2024-07-15",
-            "duration": "5 days",
-            "price": 1500,
-            "max_capacity": 20
-        },
-        "attentants": [
+        "Trips":[ 
             {
-                "client": {
-                "_id": "60df26e8a2c4e82f644c016c",
-                "name": "John Doe",
-                "email": "john.doe@example.com",
-                "phone": "123-456-7890"
+                "details": {
+                    "_id": "60df26e8a2c4e82f644c016b",
+                    "name": "Grand Canyon Adventure",
+                    "date": "2024-07-15",
+                    "duration": "5 days",
+                    "price": 1500,
+                    "max_capacity": 20
                 },
-                "review": {
-                "_id": "60df26e8a2c4e82f644c016d",
-                "rating": 5,
-                "comment": "Really enjoyed the experience."
-                }
-            },
-                {
-                    "client": {
-                        "_id": "60df26e8a2c4e82f644c0190",
-                        "name": "Olivia White",
-                        "email": "olivia.white@example.com",
+                "attentants": [
+                    {
+                        "client": {
+                        "_id": "60df26e8a2c4e82f644c016c",
+                        "name": "John Doe",
+                        "email": "john.doe@example.com",
                         "phone": "123-456-7890"
-                    },
-                    "review": {
-                        "_id": "60df26e8a2c4e82f644c0191",
+                        },
+                        "review": {
+                        "_id": "60df26e8a2c4e82f644c016d",
                         "rating": 5,
-                        "comment": "An amazing journey, will cherish the memories forever!"
-                    }
-                },
-                {
-                    "client": {
-                        "_id": "60df26e8a2c4e82f644c0192",
-                        "name": "Ethan Harris",
-                        "email": "ethan.harris@example.com",
-                        "phone": "901-234-5678"
+                        "comment": "Really enjoyed the experience."
+                        }
                     },
-                    "review": {
-                        "_id": "60df26e8a2c4e82f644c0193",
-                        "rating": 4,
-                        "comment": "Great experience, would love to do it again!"
-                    }
-                }
+                        {
+                            "client": {
+                                "_id": "60df26e8a2c4e82f644c0190",
+                                "name": "Olivia White",
+                                "email": "olivia.white@example.com",
+                                "phone": "123-456-7890"
+                            },
+                            "review": {
+                                "_id": "60df26e8a2c4e82f644c0191",
+                                "rating": 5,
+                                "comment": "An amazing journey, will cherish the memories forever!"
+                            }
+                        },
+                        {
+                            "client": {
+                                "_id": "60df26e8a2c4e82f644c0192",
+                                "name": "Ethan Harris",
+                                "email": "ethan.harris@example.com",
+                                "phone": "901-234-5678"
+                            },
+                            "review": {
+                                "_id": "60df26e8a2c4e82f644c0193",
+                                "rating": 4,
+                                "comment": "Great experience, would love to do it again!"
+                            }
+                        }
+                ]
+            }
         ]
     },
     {
@@ -1023,53 +1033,134 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
             "location": "Denver",
             "contact": "info@wildernessexplorers.com"
         },
-        "details": {
-            "_id": "60df26e8a2c4e82f644c016f",
-            "name": "Rocky Mountain Backpacking",
-            "date": "2024-06-20",
-            "duration": "7 days",
-            "price": 2000,
-            "max_capacity": 15
-        },
-        "attentants": [
+        "Trips" : [
             {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0170",
-                    "name": "Jane Smith",
-                    "email": "jane.smith@example.com",
-                    "phone": "987-654-3210"
+                "details": {
+                "_id": "60df26e8a2c4e82f644c016f",
+                "name": "Rocky Mountain Backpacking",
+                "date": "2024-06-20",
+                "duration": "7 days",
+                "price": 2000,
+                "max_capacity": 15
                 },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0171",
-                    "rating": 4,
-                    "comment": "Beautiful scenery, knowledgeable guides."
-                }
+                "attentants": [
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0170",
+                            "name": "Jane Smith",
+                            "email": "jane.smith@example.com",
+                            "phone": "987-654-3210"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0171",
+                            "rating": 4,
+                            "comment": "Beautiful scenery, knowledgeable guides."
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0172",
+                            "name": "Michael Johnson",
+                            "email": "michael.johnson@example.com",
+                            "phone": "456-789-0123"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0173",
+                            "rating": 5,
+                            "comment": "An unforgettable experience!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0186",
+                            "name": "Sarah Taylor",
+                            "email": "sarah.taylor@example.com",
+                            "phone": "345-678-9012"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0187",
+                            "rating": 4,
+                            "comment": "Loved the diversity of wildlife!"
+                        }
+                    }
+                ]
             },
             {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0172",
-                    "name": "Michael Johnson",
-                    "email": "michael.johnson@example.com",
-                    "phone": "456-789-0123"
+                "details": {
+                    "_id": "60df26e8a2c4e82f644c017d",
+                    "name": "Maasai Mara Safari",
+                    "date": "2024-09-20",
+                    "duration": "4 days",
+                    "price": 1800,
+                    "max_capacity": 10
                 },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0173",
-                    "rating": 5,
-                    "comment": "An unforgettable experience!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0186",
-                    "name": "Sarah Taylor",
-                    "email": "sarah.taylor@example.com",
-                    "phone": "345-678-9012"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0187",
-                    "rating": 4,
-                    "comment": "Loved the diversity of wildlife!"
-                }
+                "attentants": [
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c017e",
+                            "name": "Jessica Brown",
+                            "email": "jessica.brown@example.com",
+                            "phone": "234-567-8901"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c017f",
+                            "rating": 5,
+                            "comment": "Witnessed incredible wildlife!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0188",
+                            "name": "Alicia Martinez",
+                            "email": "alicia.martinez@example.com",
+                            "phone": "789-012-3456"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0189",
+                            "rating": 5,
+                            "comment": "Unforgettable experience, highly recommended!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c018a",
+                            "name": "Daniel Thompson",
+                            "email": "daniel.thompson@example.com",
+                            "phone": "234-567-8901"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c018b",
+                            "rating": 4,
+                            "comment": "Amazing trip, great guides!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c018c",
+                            "name": "Sophie Garcia",
+                            "email": "sophie.garcia@example.com",
+                            "phone": "567-890-1234"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c018d",
+                            "rating": 5,
+                            "comment": "Incredible adventure, exceeded expectations!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c018e",
+                            "name": "Matthew Lee",
+                            "email": "matthew.lee@example.com",
+                            "phone": "345-678-9012"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c018f",
+                            "rating": 4,
+                            "comment": "Beautiful landscapes, friendly staff."
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -1081,40 +1172,44 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
             "location": "Miami",
             "contact": "hello@tropicaladventures.com"
         },
-        "details": {
-            "_id": "60df26e8a2c4e82f644c0175",
-            "name": "Caribbean Cruise",
-            "date": "2024-08-10",
-            "duration": "10 days",
-            "price": 3000,
-            "max_capacity": 30
-        },
-        "attentants": [
+        "Trips": [
             {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0176",
-                    "name": "Emily Davis",
-                    "email": "emily.davis@example.com",
-                    "phone": "321-654-0987"
+                "details": {
+                    "_id": "60df26e8a2c4e82f644c0175",
+                    "name": "Caribbean Cruise",
+                    "date": "2024-08-10",
+                    "duration": "10 days",
+                    "price": 3000,
+                    "max_capacity": 30
                 },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0177",
-                    "rating": 5,
-                    "comment": "Absolutely amazing trip!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0172",
-                    "name": "Michael Johnson",
-                    "email": "michael.johnson@example.com",
-                    "phone": "456-789-0123"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0173",
-                    "rating": 5,
-                    "comment": "An unforgettable experience!"
-                }
+                "attentants": [
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0176",
+                            "name": "Emily Davis",
+                            "email": "emily.davis@example.com",
+                            "phone": "321-654-0987"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0177",
+                            "rating": 5,
+                            "comment": "Absolutely amazing trip!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0172",
+                            "name": "Michael Johnson",
+                            "email": "michael.johnson@example.com",
+                            "phone": "456-789-0123"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0173",
+                            "rating": 5,
+                            "comment": "An unforgettable experience!"
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -1126,149 +1221,69 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
             "location": "Seattle",
             "contact": "info@alpineadventures.com"
         },
-        "details": {
-            "_id": "60df26e8a2c4e82f644c0179",
-            "name": "Skiing in the Alps",
-            "date": "2024-12-01",
-            "duration": "7 days",
-            "price": 2500,
-            "max_capacity": 12
-        },
-        "attentants": [
+        "Trips": [
             {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c017a",
-                    "name": "Chris Williams",
-                    "email": "chris.williams@example.com",
-                    "phone": "789-012-3456"
+                "details": {
+                    "_id": "60df26e8a2c4e82f644c0179",
+                    "name": "Skiing in the Alps",
+                    "date": "2024-12-01",
+                    "duration": "7 days",
+                    "price": 2500,
+                    "max_capacity": 12
                 },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c017b",
-                    "rating": 4,
-                    "comment": "Great slopes and cozy accommodations!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0186",
-                    "name": "Sarah Taylor",
-                    "email": "sarah.taylor@example.com",
-                    "phone": "345-678-9012"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0187",
-                    "rating": 4,
-                    "comment": "Loved the diversity of wildlife!"
-                }
-            },{
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0190",
-                    "name": "Olivia White",
-                    "email": "olivia.white@example.com",
-                    "phone": "123-456-7890"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0191",
-                    "rating": 5,
-                    "comment": "An amazing journey, will cherish the memories forever!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0192",
-                    "name": "Ethan Harris",
-                    "email": "ethan.harris@example.com",
-                    "phone": "901-234-5678"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0193",
-                    "rating": 4,
-                    "comment": "Great experience, would love to do it again!"
-                }
-            }
-        ]
-    },
-    {
-        "_id": "5f8f4b3b9b1f3b0017f3b3b5",
-        "company": {
-            "_id": "60df26e8a2c4e82f644c016e",
-            "name": "Wilderness Explorers",
-            "location": "Denver",
-            "contact": "info@wildernessexplorers.com"
-        },
-        "details": {
-            "_id": "60df26e8a2c4e82f644c017d",
-            "name": "Maasai Mara Safari",
-            "date": "2024-09-20",
-            "duration": "4 days",
-            "price": 1800,
-            "max_capacity": 10
-        },
-        "attentants": [
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c017e",
-                    "name": "Jessica Brown",
-                    "email": "jessica.brown@example.com",
-                    "phone": "234-567-8901"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c017f",
-                    "rating": 5,
-                    "comment": "Witnessed incredible wildlife!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0188",
-                    "name": "Alicia Martinez",
-                    "email": "alicia.martinez@example.com",
-                    "phone": "789-012-3456"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0189",
-                    "rating": 5,
-                    "comment": "Unforgettable experience, highly recommended!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c018a",
-                    "name": "Daniel Thompson",
-                    "email": "daniel.thompson@example.com",
-                    "phone": "234-567-8901"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c018b",
-                    "rating": 4,
-                    "comment": "Amazing trip, great guides!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c018c",
-                    "name": "Sophie Garcia",
-                    "email": "sophie.garcia@example.com",
-                    "phone": "567-890-1234"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c018d",
-                    "rating": 5,
-                    "comment": "Incredible adventure, exceeded expectations!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c018e",
-                    "name": "Matthew Lee",
-                    "email": "matthew.lee@example.com",
-                    "phone": "345-678-9012"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c018f",
-                    "rating": 4,
-                    "comment": "Beautiful landscapes, friendly staff."
-                }
+                "attentants": [
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c017a",
+                            "name": "Chris Williams",
+                            "email": "chris.williams@example.com",
+                            "phone": "789-012-3456"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c017b",
+                            "rating": 4,
+                            "comment": "Great slopes and cozy accommodations!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0186",
+                            "name": "Sarah Taylor",
+                            "email": "sarah.taylor@example.com",
+                            "phone": "345-678-9012"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0187",
+                            "rating": 4,
+                            "comment": "Loved the diversity of wildlife!"
+                        }
+                    },{
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0190",
+                            "name": "Olivia White",
+                            "email": "olivia.white@example.com",
+                            "phone": "123-456-7890"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0191",
+                            "rating": 5,
+                            "comment": "An amazing journey, will cherish the memories forever!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0192",
+                            "name": "Ethan Harris",
+                            "email": "ethan.harris@example.com",
+                            "phone": "901-234-5678"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0193",
+                            "rating": 4,
+                            "comment": "Great experience, would love to do it again!"
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -1280,27 +1295,31 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
             "location": "Reykjavik",
             "contact": "info@northernlights.com"
         },
-        "details": {
-            "_id": "60df26e8a2c4e82f644c0181",
-            "name": "Icelandic Aurora Tour",
-            "date": "2024-11-10",
-            "duration": "6 days",
-            "price": 2800,
-            "max_capacity": 15
-        },
-        "attentants": [
+        "Trips":[
             {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0182",
-                    "name": "David Wilson",
-                    "email": "david.wilson@example.com",
-                    "phone": "567-890-1234"
+                "details": {
+                    "_id": "60df26e8a2c4e82f644c0181",
+                    "name": "Icelandic Aurora Tour",
+                    "date": "2024-11-10",
+                    "duration": "6 days",
+                    "price": 2800,
+                    "max_capacity": 15
                 },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0183",
-                    "rating": 5,
-                    "comment": "Breathtaking views of the aurora borealis!"
-                }
+                "attentants": [
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0182",
+                            "name": "David Wilson",
+                            "email": "david.wilson@example.com",
+                            "phone": "567-890-1234"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0183",
+                            "rating": 5,
+                            "comment": "Breathtaking views of the aurora borealis!"
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -1312,107 +1331,110 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
             "location": "Manaus",
             "contact": "contact@amazonexpeditions.com"
         },
-        "details": {
-            "_id": "60df26e8a2c4e82f644c0185",
-            "name": "Jungle Adventure",
-            "date": "2024-10-05",
-            "duration": "8 days",
-            "price": 2200,
-            "max_capacity": 20
-        },
-        "attentants": [
+        "Trips": [
             {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0186",
-                    "name": "Sarah Taylor",
-                    "email": "sarah.taylor@example.com",
-                    "phone": "345-678-9012"
+                "details": {
+                    "_id": "60df26e8a2c4e82f644c0185",
+                    "name": "Jungle Adventure",
+                    "date": "2024-10-05",
+                    "duration": "8 days",
+                    "price": 2200,
+                    "max_capacity": 20
                 },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0187",
-                    "rating": 4,
-                    "comment": "Loved the diversity of wildlife!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0188",
-                    "name": "Alicia Martinez",
-                    "email": "alicia.martinez@example.com",
-                    "phone": "789-012-3456"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0189",
-                    "rating": 5,
-                    "comment": "Unforgettable experience, highly recommended!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c018a",
-                    "name": "Daniel Thompson",
-                    "email": "daniel.thompson@example.com",
-                    "phone": "234-567-8901"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c018b",
-                    "rating": 4,
-                    "comment": "Amazing trip, great guides!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c018c",
-                    "name": "Sophie Garcia",
-                    "email": "sophie.garcia@example.com",
-                    "phone": "567-890-1234"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c018d",
-                    "rating": 5,
-                    "comment": "Incredible adventure, exceeded expectations!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c018e",
-                    "name": "Matthew Lee",
-                    "email": "matthew.lee@example.com",
-                    "phone": "345-678-9012"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c018f",
-                    "rating": 4,
-                    "comment": "Beautiful landscapes, friendly staff."
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0190",
-                    "name": "Olivia White",
-                    "email": "olivia.white@example.com",
-                    "phone": "123-456-7890"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0191",
-                    "rating": 5,
-                    "comment": "An amazing journey, will cherish the memories forever!"
-                }
-            },
-            {
-                "client": {
-                    "_id": "60df26e8a2c4e82f644c0192",
-                    "name": "Ethan Harris",
-                    "email": "ethan.harris@example.com",
-                    "phone": "901-234-5678"
-                },
-                "review": {
-                    "_id": "60df26e8a2c4e82f644c0193",
-                    "rating": 4,
-                    "comment": "Great experience, would love to do it again!"
-                }
+                "attentants": [
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0186",
+                            "name": "Sarah Taylor",
+                            "email": "sarah.taylor@example.com",
+                            "phone": "345-678-9012"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0187",
+                            "rating": 4,
+                            "comment": "Loved the diversity of wildlife!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0188",
+                            "name": "Alicia Martinez",
+                            "email": "alicia.martinez@example.com",
+                            "phone": "789-012-3456"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0189",
+                            "rating": 5,
+                            "comment": "Unforgettable experience, highly recommended!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c018a",
+                            "name": "Daniel Thompson",
+                            "email": "daniel.thompson@example.com",
+                            "phone": "234-567-8901"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c018b",
+                            "rating": 4,
+                            "comment": "Amazing trip, great guides!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c018c",
+                            "name": "Sophie Garcia",
+                            "email": "sophie.garcia@example.com",
+                            "phone": "567-890-1234"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c018d",
+                            "rating": 5,
+                            "comment": "Incredible adventure, exceeded expectations!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c018e",
+                            "name": "Matthew Lee",
+                            "email": "matthew.lee@example.com",
+                            "phone": "345-678-9012"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c018f",
+                            "rating": 4,
+                            "comment": "Beautiful landscapes, friendly staff."
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0190",
+                            "name": "Olivia White",
+                            "email": "olivia.white@example.com",
+                            "phone": "123-456-7890"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0191",
+                            "rating": 5,
+                            "comment": "An amazing journey, will cherish the memories forever!"
+                        }
+                    },
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0192",
+                            "name": "Ethan Harris",
+                            "email": "ethan.harris@example.com",
+                            "phone": "901-234-5678"
+                        },
+                        "review": {
+                            "_id": "60df26e8a2c4e82f644c0193",
+                            "rating": 4,
+                            "comment": "Great experience, would love to do it again!"
+                        }
+                    }
+                ]
             }
-            
         ]
     }
 ]
