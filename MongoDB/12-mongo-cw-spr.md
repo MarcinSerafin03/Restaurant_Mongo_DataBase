@@ -215,7 +215,15 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
       "name": "John Doe",
       "details": {
         "email": "john.doe@example.com",
-        "phone": "123-456-7890"
+        "phone": "123-456-7890",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016b"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0189"
+            }
+        ]
       }
     },
     {
@@ -233,320 +241,523 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "_id": "60df26e8a2c4e82f644c016e",
         "type": "company",
         "name": "Wilderness Explorers",
-        "address": "Denver",
-        "contact": "info@wildernessexplorers.com"
+        "details":{
+            "address": "Denver",
+            "contact": "info@wildernessexplorers.com"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0174",
         "type": "company",
         "name": "Tropical Adventures Ltd.",
-        "address": "Miami",
-        "contact": "hello@tropicaladventures.com"
+        "details":{
+            "address": "Miami",
+            "contact": "hello@tropicaladventures.com"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0178",
         "type": "company",
         "name": "Alpine Adventures",
-        "address": "Seattle",
-        "contact": "info@alpineadventures.com"
+        "details":{
+            "address": "Seattle",
+            "contact": "info@alpineadventures.com"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0180",
         "type": "company",
         "name": "Northern Lights Expeditions",
-        "address": "Reykjavik",
-        "contact": "info@northernlights.com"
+        "details":{
+            "address": "Reykjavik",
+            "contact": "info@northernlights.com"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0184",
         "type": "company",
         "name": "Amazon Expeditions",
-        "address": "Manaus",
-        "contact": "contact@amazonexpeditions.com"
+        "details":{
+            "address": "Manaus",
+            "contact": "contact@amazonexpeditions.com"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c016f",
         "type": "trip",
         "name": "Rocky Mountain Backpacking",
-        "date": "2024-06-20",
-        "duration": "7 days",
-        "price": 2000,
-        "max_capacity": 15
+        "details":{
+            "date": "2024-06-20",
+            "duration": "7 days",
+            "price": 2000,
+            "max_capacity": 15
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0175",
         "type": "trip",
         "name": "Caribbean Cruise",
-        "date": "2024-08-10",
-        "duration": "10 days",
-        "price": 3000,
-        "max_capacity": 30
+        "details":{
+            "date": "2024-08-10",
+            "duration": "10 days",
+            "price": 3000,
+            "max_capacity": 30
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0179",
         "type": "trip",
         "name": "Skiing in the Alps",
-        "date": "2024-12-01",
-        "duration": "7 days",
-        "price": 2500,
-        "max_capacity": 12
+        "details":{
+            "date": "2024-12-01",
+            "duration": "7 days",
+            "price": 2500,
+            "max_capacity": 12
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c017d",
         "type": "trip",
         "name": "Maasai Mara Safari",
-        "date": "2024-09-20",
-        "duration": "4 days",
-        "price": 1800,
-        "max_capacity": 10
+        "details":{
+            "date": "2024-09-20",
+            "duration": "4 days",
+            "price": 1800,
+            "max_capacity": 10
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0181",
         "type": "trip",
         "name": "Icelandic Aurora Tour",
-        "date": "2024-11-10",
-        "duration": "6 days",
-        "price": 2800,
-        "max_capacity": 15
+        "details":{
+            "date": "2024-11-10",
+            "duration": "6 days",
+            "price": 2800,
+            "max_capacity": 15
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0185",
         "type": "trip",
         "name": "Jungle Adventure",
         "date": "2024-10-05",
-        "duration": "8 days",
-        "price": 2200,
-        "max_capacity": 20
+        "details":{ 
+            "duration": "8 days",
+            "price": 2200,
+            "max_capacity": 20
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0190",
         "type": "client",
         "name": "Olivia White",
-        "email": "olivia.white@example.com",
-        "phone": "123-456-7890"
+        "details":{
+            "email": "olivia.white@example.com",
+            "phone": "123-456-7890",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c016b"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0179"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0185"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0176",
         "type": "client",
         "name": "Emily Davis",
-        "email": "emily.davis@example.com",
-        "phone": "321-654-0987"
+        "details":{
+            "email": "emily.davis@example.com",
+            "phone": "321-654-0987",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c0175"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0188",
         "type": "client",
         "name": "Alicia Martinez",
-        "email": "alicia.martinez@example.com",
-        "phone": "789-012-3456"
+        "details":{
+            "email": "alicia.martinez@example.com",
+            "phone": "789-012-3456"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0192",
         "type": "client",
         "name": "Ethan Harris",
-        "email": "ethan.harris@example.com",
-        "phone": "901-234-5678"
+        "details":{
+            "email": "ethan.harris@example.com",
+            "phone": "901-234-5678",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c016b"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0179"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0185"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0170",
         "type": "client",
         "name": "Jane Smith",
-        "email": "jane.smith@example.com",
-        "phone": "987-654-3210"
+        "details":{
+            "email": "jane.smith@example.com",
+            "phone": "987-654-3210",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c016f"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0172",
         "type": "client",
         "name": "Michael Johnson",
-        "email": "michael.johnson@example.com",
-        "phone": "456-789-0123"
+        "details":{
+            "email": "michael.johnson@example.com",
+            "phone": "456-789-0123",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c016f"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0175"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0186",
         "type": "client",
         "name": "Sarah Taylor",
-        "email": "sarah.taylor@example.com",
-        "phone": "345-678-9012"
+        "details":{
+            "email": "sarah.taylor@example.com",
+            "phone": "345-678-9012",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c016f"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0179"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0185"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c018a",
         "type": "client",
         "name": "Daniel Thompson",
-        "email": "daniel.thompson@example.com",
-        "phone": "234-567-8901"
+        "details":{
+            "email": "daniel.thompson@example.com",
+            "phone": "234-567-8901"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c018c",
         "type": "client",
-        "name": "Sophie Garcia",
-        "email": "sophie.garcia@example.com",
-        "phone": "567-890-1234"
+        "details":{
+            "name": "Sophie Garcia",
+            "email": "sophie.garcia@example.com",
+            "phone": "567-890-1234"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c018e",
         "type": "client",
-        "name": "Matthew Lee",
-        "email": "matthew.lee@example.com",
-        "phone": "345-678-9012"
+        "details":{
+            "name": "Matthew Lee",
+            "email": "matthew.lee@example.com",
+            "phone": "345-678-9012"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c017e",
         "type": "client",
         "name": "Jessica Brown",
-        "email": "jessica.brown@example.com",
-        "phone": "234-567-8901"
+        "details":{
+            "email": "jessica.brown@example.com",
+            "phone": "234-567-8901",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c017d"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0188",
         "type": "client",
         "name": "Alicia Martinez",
-        "email": "alicia.martinez@example.com",
-        "phone": "789-012-3456"
+        "details":{
+            "email": "alicia.martinez@example.com",
+            "phone": "789-012-3456",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c017d"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0185"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c018a",
         "type": "client",
         "name": "Daniel Thompson",
-        "email": "daniel.thompson@example.com",
-        "phone": "234-567-8901"
+        "details":{
+            "email": "daniel.thompson@example.com",
+            "phone": "234-567-8901",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c017d"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0185"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c018c",
         "type": "client",
         "name": "Sophie Garcia",
-        "email": "sophie.garcia@example.com",
-        "phone": "567-890-1234"
+        "details":{
+            "email": "sophie.garcia@example.com",
+            "phone": "567-890-1234",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c017d"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0185"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c018e",
         "type": "client",
         "name": "Matthew Lee",
-        "email": "matthew.lee@example.com",
-        "phone": "345-678-9012"
+        "details":{
+            "email": "matthew.lee@example.com",
+            "phone": "345-678-9012",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c017d"
+                },
+                {
+                    "id": "60df26e8a2c4e82f644c0185"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0190",
         "type": "client",
         "name": "Olivia White",
-        "email": "olivia.white@example.com",
-        "phone": "123-456-7890"
+        "details":{
+            "email": "olivia.white@example.com",
+            "phone": "123-456-7890"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0192",
         "type": "client",
         "name": "Ethan Harris",
-        "email": "ethan.harris@example.com",
-        "phone": "901-234-5678"
+        "details":{
+            "email": "ethan.harris@example.com",
+            "phone": "901-234-5678"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c016f",
         "type": "rating",
         "name": "Rocky Mountain Backpacking Review",
-        "trip_id": "60df26e8a2c4e82f644c016f",
-        "person_id": "60df26e8a2c4e82f644c0170",
-        "rating": 4,
-        "comment": "Beautiful scenery, knowledgeable guides."
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c016f",
+            "person_id": "60df26e8a2c4e82f644c0170",
+            "rating": 4,
+            "comment": "Beautiful scenery, knowledgeable guides."
+        }   
     },
     {
         "_id": "60df26e8a2c4e82f644c0171",
         "type": "rating",
         "name": "Rocky Mountain Backpacking Review",
-        "trip_id": "60df26e8a2c4e82f644c016f",
-        "person_id": "60df26e8a2c4e82f644c0172",
-        "rating": 5,
-        "comment": "An unforgettable experience!"
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c016f",
+            "person_id": "60df26e8a2c4e82f644c0172",
+            "rating": 5,
+            "comment": "An unforgettable experience!"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0193",
         "type": "rating",
         "name": "Grand Canyon Adventure Review",
-        "trip_id": "60df26e8a2c4e82f644c016b",
-        "person_id": "60df26e8a2c4e82f644c0192",
-        "rating": 4,
-        "comment": "Great experience, would love to do it again!"
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c016b",
+            "person_id": "60df26e8a2c4e82f644c0190",
+            "rating": 5,
+            "comment": "An amazing journey, will cherish the memories forever!"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0191",
         "type": "rating",
         "name": "Grand Canyon Adventure Review",
-        "trip_id": "60df26e8a2c4e82f644c016b",
-        "person_id": "60df26e8a2c4e82f644c0190",
-        "rating": 5,
-        "comment": "An amazing journey, will cherish the memories forever!"
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c016b",
+            "person_id": "60df26e8a2c4e82f644c0192",
+            "rating": 4,
+            "comment": "Great trip, would recommend to others."
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0177",
         "type": "rating",
         "name": "Caribbean Cruise Review",
-        "trip_id": "60df26e8a2c4e82f644c0175",
-        "person_id": "60df26e8a2c4e82f644c0176",
-        "rating": 5,
-        "comment": "Absolutely amazing trip!"
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c0175",
+            "person_id": "60df26e8a2c4e82f644c0176",
+            "rating": 5,
+            "comment": "Absolutely amazing trip!"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0173",
         "type": "rating",
         "name": "Caribbean Cruise Review",
-        "trip_id": "60df26e8a2c4e82f644c0175",
-        "person_id": "60df26e8a2c4e82f644c0172",
-        "rating": 5,
-        "comment": "An unforgettable experience!"
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c0175",
+            "person_id": "60df26e8a2c4e82f644c0172",
+            "rating": 5,
+            "comment": "An unforgettable experience!"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c017f",
         "type": "rating",
         "name": "Maasai Mara Safari Review",
-        "trip_id": "60df26e8a2c4e82f644c017d",
-        "person_id": "60df26e8a2c4e82f644c017e",
-        "rating": 5,
-        "comment": "Witnessed incredible wildlife!"
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c017d",
+            "person_id": "60df26e8a2c4e82f644c017e",
+            "rating": 5,
+            "comment": "Witnessed incredible wildlife!"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0189",
         "type": "rating",
         "name": "Maasai Mara Safari Review",
-        "trip_id": "60df26e8a2c4e82f644c017d",
-        "person_id": "60df26e8a2c4e82f644c0188",
-        "rating": 5,
-        "comment": "Unforgettable experience, highly recommended!"
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c017d",
+            "person_id": "60df26e8a2c4e82f644c0188",
+            "rating": 5,
+            "comment": "Unforgettable experience, highly recommended!"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c018b",
         "type": "rating",
         "name": "Maasai Mara Safari Review",
-        "trip_id": "60df26e8a2c4e82f644c017d",
-        "person_id": "60df26e8a2c4e82f644c018a",
-        "rating": 4,
-        "comment": "Amazing trip, great guides!"
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c017d",
+            "person_id": "60df26e8a2c4e82f644c018a",
+            "rating": 4,
+            "comment": "Amazing trip, great guides!"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c018d",
         "type": "rating",
         "name": "Maasai Mara Safari Review",
-        "trip_id": "60df26e8a2c4e82f644c017d",
-        "person_id": "60df26e8a2c4e82f644c018c",
-        "rating": 5,
-        "comment": "Incredible adventure, exceeded expectations!"
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c017d",
+            "person_id": "60df26e8a2c4e82f644c018c",
+            "rating": 5,
+            "comment": "Incredible adventure, exceeded expectations!"
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c018f",
         "type": "rating",
         "name": "Maasai Mara Safari Review",
-        "trip_id": "60df26e8a2c4e82f644c017d",
-        "person_id": "60df26e8a2c4e82f644c018e",
-        "rating": 4,
-        "comment": "Beautiful landscapes, friendly staff."
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c017d",
+            "person_id": "60df26e8a2c4e82f644c018e",
+            "rating": 4,
+            "comment": "Beautiful landscapes, friendly staff."
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0183",
         "type": "rating",
         "name": "Icelandic Aurora Tour Review",
-        "trip_id": "60df26e8a2c4e82f644c0181",
-        "person_id": "60df26e8a2c4e82f644c0182",
-        "rating": 5,
-        "comment": "Breathtaking views of the aurora borealis!"
-    }    
+        "details":{
+            "trip_id": "60df26e8a2c4e82f644c0181",
+            "person_id": "60df26e8a2c4e82f644c0182",
+            "rating": 5,
+            "comment": "Breathtaking views of the aurora borealis!"
+        }
+    },    
+    {
+        "id": "60df26e8a2c4e82f644c0189",
+        "type": "trip",
+        "name": "Szkolna 17 Trip",
+        "details": {
+            "date": "2025-12-05",
+            "duration": "10 days",
+            "price": 3500,
+            "max_capacity": 20
+        }
+    },{
+        "_id": "60df26e8a2c4e82f644c017a",
+        "type": "client",
+        "name": "Chris Williams",
+        "email": "chris.williams@example.com",
+        "phone": "789-012-3456",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c0179"
+            }
+        ]
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0182",
+        "type": "client",
+        "name": "David Wilson",
+        "email": "david.wilson@example.com",
+        "phone": "567-890-1234",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c0181"
+            }
+        ]
+    }
 
 ]
+
 ```
 ### Wariant Drugi. Wszystko podzielone na 5 plików
 
@@ -557,7 +768,12 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
     "_id": ObjectID(),
     "name": "...",
     "email": "...",
-    "phone": "..."
+    "phone": "...",
+    "Trips": [
+        {
+            "id": "..."
+        }
+    ]
 }
 ```
 ##### Baza:
@@ -567,115 +783,197 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "_id": "60df26e8a2c4e82f644c016c",
         "name": "John Doe",
         "email": "john.doe@example.com",
-        "phone": "123-456-7890"
+        "phone": "123-456-7890",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016b"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0189"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0190",
         "name": "Olivia White",
         "email": "olivia.white@example.com",
-        "phone": "123-456-7890"
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c0176",
-        "name": "Emily Davis",
-        "email": "emily.davis@example.com",
-        "phone": "321-654-0987"
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c0188",
-        "name": "Alicia Martinez",
-        "email": "alicia.martinez@example.com",
-        "phone": "789-012-3456"
+        "phone": "123-456-7890",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016b"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0179"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0192",
         "name": "Ethan Harris",
         "email": "ethan.harris@example.com",
-        "phone": "901-234-5678"
+        "phone": "901-234-5678",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016b"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0179"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0170",
         "name": "Jane Smith",
         "email": "jane.smith@example.com",
-        "phone": "987-654-3210"
+        "phone": "987-654-3210",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016f"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0172",
         "name": "Michael Johnson",
         "email": "michael.johnson@example.com",
-        "phone": "456-789-0123"
+        "phone": "456-789-0123",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016f"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0175"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0186",
         "name": "Sarah Taylor",
         "email": "sarah.taylor@example.com",
-        "phone": "345-678-9012"
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c018a",
-        "name": "Daniel Thompson",
-        "email": "daniel.thompson@example.com",
-        "phone": "234-567-8901"
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c018c",
-        "name": "Sophie Garcia",
-        "email": "sophie.garcia@example.com",
-        "phone": "567-890-1234"
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c018e",
-        "name": "Matthew Lee",
-        "email": "matthew.lee@example.com",
-        "phone": "345-678-9012"
+        "phone": "345-678-9012",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016f"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0179"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c017e",
         "name": "Jessica Brown",
         "email": "jessica.brown@example.com",
-        "phone": "234-567-8901"
+        "phone": "234-567-8901",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c017d"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0188",
         "name": "Alicia Martinez",
         "email": "alicia.martinez@example.com",
-        "phone": "789-012-3456"
+        "phone": "789-012-3456",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c017d"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c018a",
         "name": "Daniel Thompson",
         "email": "daniel.thompson@example.com",
-        "phone": "234-567-8901"
+        "phone": "234-567-8901",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c017d"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c018c",
         "name": "Sophie Garcia",
         "email": "sophie.garcia@example.com",
-        "phone": "567-890-1234"
+        "phone": "567-890-1234",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c017d"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c018e",
         "name": "Matthew Lee",
         "email": "matthew.lee@example.com",
-        "phone": "345-678-9012"
+        "phone": "345-678-9012",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c017d"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
-        "_id": "60df26e8a2c4e82f644c0190",
-        "name": "Olivia White",
-        "email": "olivia.white@example.com",
-        "phone": "123-456-7890"
+        "_id": "60df26e8a2c4e82f644c0176",
+        "name": "Emily Davis",
+        "email": "emily.davis@example.com",
+        "phone": "321-654-0987",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c0175"
+            }
+        ]
     },
     {
-        "_id": "60df26e8a2c4e82f644c0192",
-        "name": "Ethan Harris",
-        "email": "ethan.harris@example.com",
-        "phone": "901-234-5678"
+        "_id": "60df26e8a2c4e82f644c017a",
+        "name": "Chris Williams",
+        "email": "chris.williams@example.com",
+        "phone": "789-012-3456",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c0179"
+            }
+        ]
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0182",
+        "name": "David Wilson",
+        "email": "david.wilson@example.com",
+        "phone": "567-890-1234",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c0181"
+            }
+        ]
     }
 ]
 ```
 
 #### companies.json
-##### Model
+##### Model:
 ```js
 {
         "_id": ObjectID(),
@@ -684,6 +982,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "contact": "..."
 }
 ```
+##### Baza:
 ```js
 [
     {
@@ -726,7 +1025,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
 ```
 
 #### reviews.json
-##### model
+##### Model:
 ```js
 {
       "_id": ObjectID(),
@@ -737,7 +1036,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
       "comment": "..."
   },
 ```
-
+##### Baza:
 ```js
 [
   {
@@ -848,10 +1147,11 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
 ```
 
 #### trips.json
-##### Model
+##### Model:
 ```js
 {
         "_id": ObjectID(),
+        "organizer": ObjectID(),
         "name": "...",
         "date": "...",
         "duration": "...",
@@ -859,10 +1159,12 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "max_capacity": 
     },
 ```
+##### Baza:
 ```js
 [
     {
         "_id": "60df26e8a2c4e82f644c016b",
+        "organizer": "60df26e8a2c4e82f644c016a",
         "name": "Grand Canyon Adventure",
         "date": "2024-07-15",
         "duration": "5 days",
@@ -871,6 +1173,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
     },
     {
         "_id": "60df26e8a2c4e82f644c016f",
+        "organizer": "60df26e8a2c4e82f644c016e",
         "name": "Rocky Mountain Backpacking",
         "date": "2024-06-20",
         "duration": "7 days",
@@ -878,7 +1181,17 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "max_capacity": 15
     },
     {
+        "_id": "60df26e8a2c4e82f644c017d",
+        "organizer": "60df26e8a2c4e82f644c016e",
+        "name": "Maasai Mara Safari",
+        "date": "2024-09-20",
+        "duration": "4 days",
+        "price": 1800,
+        "max_capacity": 10
+    },
+    {
         "_id": "60df26e8a2c4e82f644c0175",
+        "organizer": "60df26e8a2c4e82f644c0174",
         "name": "Caribbean Cruise",
         "date": "2024-08-10",
         "duration": "10 days",
@@ -887,6 +1200,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
     },
     {
         "_id": "60df26e8a2c4e82f644c0179",
+        "organizer": "60df26e8a2c4e82f644c0178",
         "name": "Skiing in the Alps",
         "date": "2024-12-01",
         "duration": "7 days",
@@ -894,15 +1208,8 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "max_capacity": 12
     },
     {
-        "_id": "60df26e8a2c4e82f644c017d",
-        "name": "Maasai Mara Safari",
-        "date": "2024-09-20",
-        "duration": "4 days",
-        "price": 1800,
-        "max_capacity": 10
-    },
-    {
         "_id": "60df26e8a2c4e82f644c0181",
+        "organizer": "60df26e8a2c4e82f644c0180",
         "name": "Icelandic Aurora Tour",
         "date": "2024-11-10",
         "duration": "6 days",
@@ -910,7 +1217,17 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "max_capacity": 15
     },
     {
+        "_id": "60df26e8a2c4e82f644c0189",
+        "organizer": "60df26e8a2c4e82f644c0180",
+        "name": "Szkolna 17 Trip",
+        "date": "2025-12-05",
+        "duration": "10 days",
+        "price": 3500,
+        "max_capacity": 20
+    },
+    {
         "_id": "60df26e8a2c4e82f644c0185",
+        "organizer": "60df26e8a2c4e82f644c0184",
         "name": "Jungle Adventure",
         "date": "2024-10-05",
         "duration": "8 days",
@@ -918,6 +1235,8 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "max_capacity": 20
     }
 ]
+
+
 ```
 
 ### Wariant Trzeci. Zagnieżdżone elementy

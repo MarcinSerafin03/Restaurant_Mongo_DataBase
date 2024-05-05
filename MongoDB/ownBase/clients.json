@@ -3,108 +3,190 @@
         "_id": "60df26e8a2c4e82f644c016c",
         "name": "John Doe",
         "email": "john.doe@example.com",
-        "phone": "123-456-7890"
+        "phone": "123-456-7890",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016b"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0189"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0190",
         "name": "Olivia White",
         "email": "olivia.white@example.com",
-        "phone": "123-456-7890"
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c0176",
-        "name": "Emily Davis",
-        "email": "emily.davis@example.com",
-        "phone": "321-654-0987"
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c0188",
-        "name": "Alicia Martinez",
-        "email": "alicia.martinez@example.com",
-        "phone": "789-012-3456"
+        "phone": "123-456-7890",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016b"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0179"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0192",
         "name": "Ethan Harris",
         "email": "ethan.harris@example.com",
-        "phone": "901-234-5678"
+        "phone": "901-234-5678",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016b"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0179"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0170",
         "name": "Jane Smith",
         "email": "jane.smith@example.com",
-        "phone": "987-654-3210"
+        "phone": "987-654-3210",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016f"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0172",
         "name": "Michael Johnson",
         "email": "michael.johnson@example.com",
-        "phone": "456-789-0123"
+        "phone": "456-789-0123",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016f"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0175"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0186",
         "name": "Sarah Taylor",
         "email": "sarah.taylor@example.com",
-        "phone": "345-678-9012"
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c018a",
-        "name": "Daniel Thompson",
-        "email": "daniel.thompson@example.com",
-        "phone": "234-567-8901"
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c018c",
-        "name": "Sophie Garcia",
-        "email": "sophie.garcia@example.com",
-        "phone": "567-890-1234"
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c018e",
-        "name": "Matthew Lee",
-        "email": "matthew.lee@example.com",
-        "phone": "345-678-9012"
+        "phone": "345-678-9012",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c016f"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0179"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c017e",
         "name": "Jessica Brown",
         "email": "jessica.brown@example.com",
-        "phone": "234-567-8901"
+        "phone": "234-567-8901",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c017d"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c0188",
         "name": "Alicia Martinez",
         "email": "alicia.martinez@example.com",
-        "phone": "789-012-3456"
+        "phone": "789-012-3456",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c017d"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c018a",
         "name": "Daniel Thompson",
         "email": "daniel.thompson@example.com",
-        "phone": "234-567-8901"
+        "phone": "234-567-8901",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c017d"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c018c",
         "name": "Sophie Garcia",
         "email": "sophie.garcia@example.com",
-        "phone": "567-890-1234"
+        "phone": "567-890-1234",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c017d"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
         "_id": "60df26e8a2c4e82f644c018e",
         "name": "Matthew Lee",
         "email": "matthew.lee@example.com",
-        "phone": "345-678-9012"
+        "phone": "345-678-9012",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c017d"
+            },
+            {
+                "id": "60df26e8a2c4e82f644c0185"
+            }
+        ]
     },
     {
-        "_id": "60df26e8a2c4e82f644c0190",
-        "name": "Olivia White",
-        "email": "olivia.white@example.com",
-        "phone": "123-456-7890"
+        "_id": "60df26e8a2c4e82f644c0176",
+        "name": "Emily Davis",
+        "email": "emily.davis@example.com",
+        "phone": "321-654-0987",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c0175"
+            }
+        ]
     },
     {
-        "_id": "60df26e8a2c4e82f644c0192",
-        "name": "Ethan Harris",
-        "email": "ethan.harris@example.com",
-        "phone": "901-234-5678"
+        "_id": "60df26e8a2c4e82f644c017a",
+        "name": "Chris Williams",
+        "email": "chris.williams@example.com",
+        "phone": "789-012-3456",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c0179"
+            }
+        ]
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0182",
+        "name": "David Wilson",
+        "email": "david.wilson@example.com",
+        "phone": "567-890-1234",
+        "Trips": [
+            {
+                "id": "60df26e8a2c4e82f644c0181"
+            }
+        ]
     }
 ]

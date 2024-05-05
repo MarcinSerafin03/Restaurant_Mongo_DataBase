@@ -356,6 +356,31 @@
                         }
                     }
                 ]
+            },
+            {
+                "details": {
+                    "_id": "60df26e8a2c4e82f644c0189",
+                    "name": "Szkolna 17 Trip",
+                    "date": "2025-12-05",
+                    "duration": "10 days",
+                    "price": 3500,
+                    "max_capacity": 20
+                },
+                "attentants": [
+                    {
+                        "client": {
+                            "_id": "60df26e8a2c4e82f644c0185",
+                            "name": "John Doe",
+                            "email": "john.doe@example.com",
+                            "phone": "123-456-7890"
+                        },
+                        "review": {
+                            "_id": "null",
+                            "rating": -1,
+                            "comment": "null"
+                        }
+                    }
+                ]
             }
         ]
     },
