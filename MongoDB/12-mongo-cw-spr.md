@@ -203,6 +203,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
       "type": "trip",
       "name": "Grand Canyon Adventure",
       "details": {
+        "organizer": "60df26e8a2c4e82f644c016a",
         "date": "2024-07-15",
         "duration": "5 days",
         "price": 1500,
@@ -287,6 +288,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "type": "trip",
         "name": "Rocky Mountain Backpacking",
         "details":{
+            "organizer": "60df26e8a2c4e82f644c016e",
             "date": "2024-06-20",
             "duration": "7 days",
             "price": 2000,
@@ -297,6 +299,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "_id": "60df26e8a2c4e82f644c0175",
         "type": "trip",
         "name": "Caribbean Cruise",
+        "organizer": "60df26e8a2c4e82f644c0174",
         "details":{
             "date": "2024-08-10",
             "duration": "10 days",
@@ -309,6 +312,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "type": "trip",
         "name": "Skiing in the Alps",
         "details":{
+            "organizer": "60df26e8a2c4e82f644c0178",
             "date": "2024-12-01",
             "duration": "7 days",
             "price": 2500,
@@ -320,6 +324,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "type": "trip",
         "name": "Maasai Mara Safari",
         "details":{
+            "organizer": "60df26e8a2c4e82f644c016e",
             "date": "2024-09-20",
             "duration": "4 days",
             "price": 1800,
@@ -331,6 +336,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "type": "trip",
         "name": "Icelandic Aurora Tour",
         "details":{
+            "organizer": "60df26e8a2c4e82f644c0180",
             "date": "2024-11-10",
             "duration": "6 days",
             "price": 2800,
@@ -341,6 +347,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "_id": "60df26e8a2c4e82f644c0185",
         "type": "trip",
         "name": "Jungle Adventure",
+        "organizer": "60df26e8a2c4e82f644c0184",
         "date": "2024-10-05",
         "details":{ 
             "duration": "8 days",
@@ -380,15 +387,6 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
                     "id": "60df26e8a2c4e82f644c0175"
                 }
             ]
-        }
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c0188",
-        "type": "client",
-        "name": "Alicia Martinez",
-        "details":{
-            "email": "alicia.martinez@example.com",
-            "phone": "789-012-3456"
         }
     },
     {
@@ -460,33 +458,6 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
                     "id": "60df26e8a2c4e82f644c0185"
                 }
             ]
-        }
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c018a",
-        "type": "client",
-        "name": "Daniel Thompson",
-        "details":{
-            "email": "daniel.thompson@example.com",
-            "phone": "234-567-8901"
-        }
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c018c",
-        "type": "client",
-        "details":{
-            "name": "Sophie Garcia",
-            "email": "sophie.garcia@example.com",
-            "phone": "567-890-1234"
-        }
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c018e",
-        "type": "client",
-        "details":{
-            "name": "Matthew Lee",
-            "email": "matthew.lee@example.com",
-            "phone": "345-678-9012"
         }
     },
     {
@@ -572,25 +543,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         }
     },
     {
-        "_id": "60df26e8a2c4e82f644c0190",
-        "type": "client",
-        "name": "Olivia White",
-        "details":{
-            "email": "olivia.white@example.com",
-            "phone": "123-456-7890"
-        }
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c0192",
-        "type": "client",
-        "name": "Ethan Harris",
-        "details":{
-            "email": "ethan.harris@example.com",
-            "phone": "901-234-5678"
-        }
-    },
-    {
-        "_id": "60df26e8a2c4e82f644c016f",
+        "_id": "60df26e8a2c4e82f644c016z",
         "type": "rating",
         "name": "Rocky Mountain Backpacking Review",
         "details":{
@@ -726,6 +679,7 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "type": "trip",
         "name": "Szkolna 17 Trip",
         "details": {
+            "organizer": "60df26e8a2c4e82f644c0180",
             "date": "2025-12-05",
             "duration": "10 days",
             "price": 3500,
@@ -735,30 +689,82 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
         "_id": "60df26e8a2c4e82f644c017a",
         "type": "client",
         "name": "Chris Williams",
-        "email": "chris.williams@example.com",
-        "phone": "789-012-3456",
-        "Trips": [
-            {
-                "id": "60df26e8a2c4e82f644c0179"
-            }
-        ]
+        "details": {
+            "email": "chris.williams@example.com",
+            "phone": "789-012-3456",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c0179"
+                }
+            ]
+        }
     },
     {
         "_id": "60df26e8a2c4e82f644c0182",
         "type": "client",
         "name": "David Wilson",
-        "email": "david.wilson@example.com",
-        "phone": "567-890-1234",
-        "Trips": [
-            {
-                "id": "60df26e8a2c4e82f644c0181"
-            }
-        ]
+        "details":{
+            "email": "david.wilson@example.com",
+            "phone": "567-890-1234",
+            "Trips": [
+                {
+                    "id": "60df26e8a2c4e82f644c0181"
+                }
+            ]
+        }
     }
 
 ]
+```
+##### Zapytania i operacje:
+```py
+from pymongo import MongoClient
+
+# Połączenie z bazą danych MongoDB
+port = "mongodb://localhost:27018/"
+db_name = "OwnMongoBase1"
+collection_name = "OneToRuleThemAll"
+client = MongoClient(port)
+db = client[db_name]
+collection = db[collection_name]
+
+
+# Wszystkie firmy
+# W tym wariancie jest to bardzo proste (jak w każdym)
+all_companies = collection.find({"type": "company"})
+for company in all_companies:
+    print(company)
+
+# Klienci, którzy uczestniczyli w wycieczkach zorganizowanych przez "Northern Lights Expeditions"
+# W tym wariancie wymaga użycia list comprehension oraz kilku zmiennych co przynajmniej naszym zdaniem nie jest zbyt czytelne
+northern_lights_company = collection.find_one({"type": "company", "name": "Northern Lights Expeditions"})
+northern_lights_company_id = northern_lights_company["_id"]
+northern_lights_customers = collection.find({
+    "type": "client",
+    "details.Trips.id": {"$in": [trip["_id"] for trip in collection.find({"type": "trip", "details.organizer": northern_lights_company_id})]
+}})
+for customer in northern_lights_customers:
+    print(customer)
+
+# Wycieczki z Johnem Doe jako uczestnikiem
+# Kolejny raz List Comprehension i zmienne
+john_doe_trips = collection.find_one({"type": "client", "name": "John Doe"})['details']['Trips']
+john_doe_trip_ids = [trip['id'] for trip in john_doe_trips]
+john_doe_trips = collection.find({"type": "trip", "_id": {"$in": john_doe_trip_ids}})
+#for trip in john_doe_trips:
+#    print(trip)
+
+#Średnia ocena wszystkich wycieczek
+#To query natomiast jest juz bardziej czytelne
+average_rating_cursor = collection.aggregate([
+    {"$match": {"type": "rating"}},
+    {"$group": {"_id": None, "avg_rating": {"$avg": "$details.rating"}}}
+])
+average_rating = list(average_rating_cursor)[0]['avg_rating']
+print("Średnia ocena wszystkich wycieczek:", average_rating)
 
 ```
+
 ### Wariant Drugi. Wszystko podzielone na 5 plików
 
 #### clients.json
@@ -1239,6 +1245,46 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
 
 ```
 
+##### Zapytania i operacje:
+```py
+from pymongo import MongoClient
+
+# Połączenie z bazą danych MongoDB
+
+port = "mongodb://localhost:27018/"
+db_name = "OwnMongoBase2"
+client = MongoClient(port)
+db = client[db_name]
+# Wczytanie Kolekcji
+companies_collection = db['companies']
+clients_collection = db['clients']
+trips_collection = db['trips']
+reviews_collection = db['reviews']
+
+
+# Wszystkie firmy
+# Super proste Query
+companies=companies_collection.find({})
+for company in companies:
+        print(company)
+
+# Klienci, którzy uczestniczyli w wycieczkach zorganizowanych przez "Northern Lights Expeditions"
+# Wymaga użycia zmiennych ale dalej jest czytelne
+clients=clients_collection.find({"Trips.organizer": "Northern Lights Expeditions"})
+for client in clients:
+    print(client)
+# Wycieczki z Johnem Doe jako uczestnikiem
+# Wymaga użycia zmiennych ale ponownie jest czytelne
+customer = clients_collection.find_one({"name": "John Doe"})
+trips=trips_collection.find({"_id": {"$in": [trip['id'] for trip in customer['Trips']]}})
+for trip in trips:
+    print(trip)
+# Średnia ocena wszystkich wycieczek
+reviews_collection = db['reviews']
+all_ratings = [review['rating'] for review in reviews_collection.find({})]
+rating= sum(all_ratings) / len(all_ratings)
+print(rating)
+```
 ### Wariant Trzeci. Zagnieżdżone elementy
 ##### Model:
 ```js
@@ -1758,6 +1804,60 @@ Do sprawozdania należy kompletny zrzut wykonanych/przygotowanych baz danych (ta
     }
 ]
 ```
+##### Zapytania i operacje
+```py
+from pymongo import MongoClient
+
+port = "mongodb://localhost:27018/"
+db_name = "OwnMongoBase3"
+collection_name = "NestedVariant"
+client = MongoClient(port)
+db = client[db_name]
+collection = db[collection_name]
+
+# Wszystkie firmy
+# W tym wariancie jest to bardzo proste
+companies = collection.find({},{"company.name": 1, "_id": 0})
+for comp in companies:
+    print(comp["company"]["name"])
+
+# Klienci, którzy uczestniczyli w wycieczkach zorganizowanych przez "Northern Lights Expeditions"
+# W tym wariancie jest wymaga do użycia agregacji i wielu operacji unwinding
+northern_lights_attendees = collection.aggregate([
+    {"$match": {"company.name": "Northern Lights Expeditions"}},
+    {"$unwind": "$Trips"},
+    {"$unwind": "$Trips.attentants"},
+    {"$project": {"_id": 0, "client": "$Trips.attentants.client"}}
+])
+for attendee in northern_lights_attendees:
+    print(attendee)
+
+# Wycieczki z Johnem Doe jako uczestnikiem
+# W tym wariancie wymaga to zagnieżdżonych pętli przy printowaniu
+john_doe_trips = collection.find({"Trips.attentants.client.name": "John Doe"})
+for doc in john_doe_trips:
+    for trip in doc["Trips"]:
+        print(trip["details"]["name"])
+
+# Średnia ocena wszystkich wycieczek
+# W tym wariancie wymaga to kolejny raz użycia agregacji
+average_rating = collection.aggregate([
+    {"$unwind": "$Trips"},
+    {"$unwind": "$Trips.attentants"},
+    {"$group": {"_id": None, "avgRating": {"$avg": "$Trips.attentants.review.rating"}}}
+])
+for result in average_rating:
+    print("\nAverage rating of all trips:", result["avgRating"])
+
+client.close()
+```
+
+### Wnioski
+Wariant Pierwszy (wszystko w jednym pliku) ma zalete tylko w tym ze mozna ją łatwo wczytać a poza tym jest całkowicie bez sensu
+Wariant Drugi (każda kolekcja w osobnym pliku) jest najbardziej czytelny i łatwy do zrozumienia oraz jego query też wyglądają najlepiej
+Wariant Trzeci (zagnieżdżone elementy) jest najbardowiej skomplikowany i wymaga najwięcej operacji do wykonania natomiast jest najbardziej czytelny kiedy chcemy samemu znaleźć coś w pliku json
+
+Podswumowując najlepszym wariantem jest Wariant Drugi który przypomina także bardziej typowe bazy danych (SQL) co prawdopobonie miało wpływ na to że iterperetujemy go jako najbardziej czytelny i najlepszy
 ---
 
 Punktacja:
