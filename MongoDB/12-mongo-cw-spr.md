@@ -7,6 +7,8 @@
 
 **Imiona i nazwiska autorów:**
 
+Marcin Serafin, Antoni Dulewicz, Wojciech Wietrzny
+
 --- 
 
 
@@ -1306,7 +1308,7 @@ print(rating)
                 "price": ,
                 "max_capacity": 
             },
-            "attentants": [
+            "attendants": [
                 {
                     "client": {
                     "_id": ObjectID(),
@@ -1346,7 +1348,7 @@ print(rating)
                     "price": 1500,
                     "max_capacity": 20
                 },
-                "attentants": [
+                "attendants": [
                     {
                         "client": {
                         "_id": "60df26e8a2c4e82f644c016c",
@@ -1408,7 +1410,7 @@ print(rating)
                 "price": 2000,
                 "max_capacity": 15
                 },
-                "attentants": [
+                "attendants": [
                     {
                         "client": {
                             "_id": "60df26e8a2c4e82f644c0170",
@@ -1459,7 +1461,7 @@ print(rating)
                     "price": 1800,
                     "max_capacity": 10
                 },
-                "attentants": [
+                "attendants": [
                     {
                         "client": {
                             "_id": "60df26e8a2c4e82f644c017e",
@@ -1547,7 +1549,7 @@ print(rating)
                     "price": 3000,
                     "max_capacity": 30
                 },
-                "attentants": [
+                "attendants": [
                     {
                         "client": {
                             "_id": "60df26e8a2c4e82f644c0176",
@@ -1596,7 +1598,7 @@ print(rating)
                     "price": 2500,
                     "max_capacity": 12
                 },
-                "attentants": [
+                "attendants": [
                     {
                         "client": {
                             "_id": "60df26e8a2c4e82f644c017a",
@@ -1670,7 +1672,7 @@ print(rating)
                     "price": 2800,
                     "max_capacity": 15
                 },
-                "attentants": [
+                "attendants": [
                     {
                         "client": {
                             "_id": "60df26e8a2c4e82f644c0182",
@@ -1706,7 +1708,7 @@ print(rating)
                     "price": 2200,
                     "max_capacity": 20
                 },
-                "attentants": [
+                "attendants": [
                     {
                         "client": {
                             "_id": "60df26e8a2c4e82f644c0186",
@@ -1853,11 +1855,11 @@ client.close()
 ```
 
 ### Wnioski
-Wariant Pierwszy (wszystko w jednym pliku) ma zalete tylko w tym ze mozna ją łatwo wczytać a poza tym jest całkowicie bez sensu
+Wariant Pierwszy (wszystko w jednym pliku) posiada jedną zaletę i jest nią łatwość wczytania danych. Oprócz tego posiada dużo wad między innymi jego struktura jest bardzo mało czytelna
 Wariant Drugi (każda kolekcja w osobnym pliku) jest najbardziej czytelny i łatwy do zrozumienia oraz jego query też wyglądają najlepiej
-Wariant Trzeci (zagnieżdżone elementy) jest najbardowiej skomplikowany i wymaga najwięcej operacji do wykonania natomiast jest najbardziej czytelny kiedy chcemy samemu znaleźć coś w pliku json
+Wariant Trzeci (zagnieżdżone elementy) jest najbardowiej skomplikowany i wymaga najwięcej operacji do wykonania natomiast jest najbardziej czytelny kiedy chcemy samemu znaleźć coś w pliku json 
 
-Podswumowując najlepszym wariantem jest Wariant Drugi który przypomina także bardziej typowe bazy danych (SQL) co prawdopobonie miało wpływ na to że iterperetujemy go jako najbardziej czytelny i najlepszy
+##### Podsumowując, najlepszym wariantem jest Wariant Drugi który przypomina także dużo bardziej typowe relacyjne bazy danych (SQL) co pokazuje, że mimo zmiany podejścia do zarządzania danymi w bazanach No-SQL, struktura zaproponowana w bazach relacyjnych pozostaje aktualna i zapewnia szerokie możliwości operowania danymi w prosty i przystępny sposób. 
 ---
 
 Punktacja:

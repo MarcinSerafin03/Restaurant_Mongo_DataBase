@@ -1,3 +1,12 @@
+
+---
+
+**Imiona i nazwiska autorów:**
+
+Antoni Dulewicz, Marcin Serafin, Wojciech Wietrzny
+
+--- 
+
 Część samodzielna:
 __a. Dodanie dostawcy i ustawienie dostawcy produktu na niego:__
 
