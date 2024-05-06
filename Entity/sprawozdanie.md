@@ -187,7 +187,7 @@ public class ProductInvoice
 
     public override string ToString()
     {
-        return $"{Product}: {Quantity} szt.";
+        return $" {Product.ProductName} {Quantity} szt.";
     }
 }
 ```
@@ -200,8 +200,24 @@ public class Invoice
 {
     [Key]
     public int InvoiceNumber { get; set; }
-    public int Quantity { get; set; }
     public ICollection<ProductInvoice> ProductInvoices { get; set; } = new List<ProductInvoice>();
+
+    public override string ToString(){
+        string result = "-------------------\n";
+        result += "Faktura nr " + InvoiceNumber + ":\n";
+        int total = 0;
+        result += "-------------------\n";
+        foreach (var prodInvoice in ProductInvoices)
+        {
+            result += prodInvoice.Product.ProductName + ": " + prodInvoice.Quantity + " szt.\n";
+            total += prodInvoice.Quantity;
+        }
+        result += "-------------------\n";
+        result += "Total quantity: " + total + " szt.\n";
+        result += "-------------------\n";
+
+        return result;
+    }
     
 }
 ```
@@ -210,7 +226,7 @@ Program
 ```csharp
 ProdContext prodContext = new ProdContext();
 
-Invoice invoice = new Invoice { Quantity = 15 };
+Invoice invoice = new Invoice {};
 
 
 var product1 = prodContext.Products.FirstOrDefault(p => p.ProductID == 1);
@@ -234,6 +250,29 @@ invoice.ProductInvoices.Add(productInvoice);
 
 prodContext.ProductInvoice.Add(productInvoice);
 
+prodContext.Invoices.Add(invoice);
+
+
+var newInvoice = new Invoice();
+
+var product5 = prodContext.Products.FirstOrDefault(p => p.ProductID == 4);
+var productInvoice = new ProductInvoice { Product = product5, Quantity = 15 };
+
+product5.ProductInvoices.Add(productInvoice);
+newInvoice.ProductInvoices.Add(productInvoice);
+
+prodContext.ProductInvoices.Add(productInvoice);
+
+var product6 = prodContext.Products.FirstOrDefault(p => p.ProductID == 2);
+productInvoice = new ProductInvoice { Product = product6, Quantity = 5 };
+
+product6.ProductInvoices.Add(productInvoice);
+newInvoice.ProductInvoices.Add(productInvoice);
+
+prodContext.ProductInvoices.Add(productInvoice);
+
+prodContext.Invoices.Add(newInvoice);
+
 prodContext.SaveChanges();
 ```
 
@@ -243,3 +282,49 @@ Invoice:
 ![image](images/d_invoice.png)
 Relacja:
 ![image](images/d.png)
+
+Produkty sprzedane w ramach danej faktury/transakcji:
+```csharp
+using System.Linq;
+using Microsoft.EntityFrameworkCore; 
+ProdContext prodContext = new ProdContext();
+
+var myInvoice = prodContext.Invoices.Where(inv => inv.InvoiceNumber == 1).FirstOrDefault();
+
+var prodPerInvoice = prodContext.Invoices.Where(inv =>inv.InvoiceNumber == 1)
+    .Include(inv => inv.ProductInvoices)
+    .ThenInclude(pi => pi.Product)
+    .ToList();
+
+Console.WriteLine(myInvoice);
+
+prodContext.SaveChanges();
+```
+![image](images/d_faktura.png)
+
+Faktury w ramach ktory zostal sprzedany dany produkt:
+```csharp
+using System.Linq;
+using Microsoft.EntityFrameworkCore; 
+ProdContext prodContext = new ProdContext();
+
+var prodToSearch = prodContext.Products
+    .Where(p => p.ProductID == 4)
+    .Include(p => p.ProductInvoices)
+    .ThenInclude(pi => pi.Invoice)
+    .FirstOrDefault();
+
+
+Console.WriteLine(prodToSearch + " -> id: " + prodToSearch.ProductID);
+Console.WriteLine("Invoices:");
+foreach (var prodInvoice in prodToSearch.ProductInvoices)
+{
+    Console.WriteLine("Faktura: " + prodInvoice.Invoice.InvoiceNumber + " -> " + prodInvoice.Quantity + " szt.");
+
+}
+
+prodContext.SaveChanges();
+
+```
+
+![image](images/d_products.png)
