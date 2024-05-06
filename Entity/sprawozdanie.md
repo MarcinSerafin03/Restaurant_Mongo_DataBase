@@ -328,3 +328,238 @@ prodContext.SaveChanges();
 ```
 
 ![image](images/d_products.png)
+
+
+__e. Table-Per-Hierarchy:__
+
+Klasa Company:
+```csharp
+public abstract class Company
+{
+    public int CompanyId { get; set; }
+    public String CompanyName { get; set; } = String.Empty;
+    public String City { get; set; } = String.Empty;
+    public String Street { get; set; } = String.Empty;
+    public String ZipCode { get; set; } = String.Empty;
+
+    public override string ToString()
+    {
+        return $"Company ({CompanyId}) : {CompanyName} located in {City}";
+    }
+
+}
+```
+
+Klasa Supplier:
+```csharp
+public class Supplier : Company
+{
+    public int SupplierID { get; set; }
+    public String bankAccountNumber { get; set; } = String.Empty;
+
+    public override string ToString()
+    {
+        return $"Supplier: {base.ToString()}";
+    }
+}
+```
+
+Klasa Customer:
+```csharp
+public class Customer : Company
+{
+    public int CustomerId { get; set; }
+    public double discount { get; set; }
+
+    public override string ToString()
+    {
+        return $"Customer: {base.ToString()}";
+    }
+}
+```
+
+CompanyContext:
+```csharp
+using Microsoft.EntityFrameworkCore;
+public class CompanyContext: DbContext{
+    public DbSet<Company> Companies { get; set; }
+    public DbSet<Supplier> Suppliers { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.UseSqlite("Datasource=MyCompanyDatabase");
+    }
+
+}
+```
+
+Program:
+```csharp
+using System;
+using System.Linq;
+
+CompanyContext context = new CompanyContext();
+
+Supplier supplier = new Supplier {CompanyName = "POLMEX", City = "Cracow", Street = "Mickiewicza", ZipCode = "32-090", bankAccountNumber = "1234567890"};
+Customer customer = new Customer {CompanyName = "Microsoft", City = "Warsaw", Street = "Marszałkowska", ZipCode = "01-100", discount = 0.5};
+
+context.Companies.Add(supplier);
+context.Companies.Add(customer);
+
+context.SaveChanges();
+```
+Tabela:
+![image](images/e.png)
+![image](images/e_companies.png)
+
+Pobranie firm:
+```csharp
+using System;
+
+CompanyContext context = new CompanyContext();
+
+var myCustomer = context.Customers.FirstOrDefault();
+
+var mySupplier = context.Suppliers.FirstOrDefault();
+
+Console.WriteLine(myCustomer.ToString());
+Console.WriteLine(mySupplier.ToString());
+
+context.SaveChanges();
+```
+![image](images/e_get.png)
+
+
+__f. Table-Per-Type:__
+
+Klasa Company:
+```csharp
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+[Table("Companies")]
+public abstract class Company
+{
+    public int CompanyId { get; set; }
+    public String CompanyName { get; set; } = String.Empty;
+    public String City { get; set; } = String.Empty;
+    public String Street { get; set; } = String.Empty;
+    public String ZipCode { get; set; } = String.Empty;
+
+    public override string ToString()
+    {
+        return $"Company ({CompanyId}) : {CompanyName} located in {City}";
+    }
+
+}
+
+```
+
+Klasa Supplier:
+```csharp
+using System.ComponentModel.DataAnnotations.Schema;
+
+[Table("Suppliers")]
+public class Supplier : Company
+{
+    public int SupplierID { get; set; }
+    public String bankAccountNumber { get; set; } = String.Empty;
+
+    public override string ToString()
+    {
+        return $"Supplier: {base.ToString()}";
+    }
+}
+```
+
+Klasa Customer
+```csharp
+using System.ComponentModel.DataAnnotations.Schema;
+
+[Table("Customers")]
+public class Customer : Company
+{
+    public int CustomerId { get; set; }
+    public double discount { get; set; }
+
+    public override string ToString()
+    {
+        return $"Customer: {base.ToString()}";
+    }
+}
+```
+
+CompanyContext:
+```csharp
+using Microsoft.EntityFrameworkCore;
+public class CompanyContext: DbContext{
+    public DbSet<Supplier> Suppliers { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.UseSqlite("Datasource=MyCompanyDatabase");
+    }
+
+}
+```
+Program:
+```csharp
+using System;
+
+CompanyContext context = new CompanyContext();
+
+Supplier supplier = new Supplier {CompanyName = "POLMEX", City = "Cracow", Street = "Mickiewicza", ZipCode = "32-090", bankAccountNumber = "1234567890"};
+Customer customer = new Customer {CompanyName = "Microsoft", City = "Warsaw", Street = "Marszałkowska", ZipCode = "01-100", discount = 0.5};
+
+context.Suppliers.Add(supplier);
+context.Customers.Add(customer);
+
+context.SaveChanges();
+```
+Tabele:
+![image](images/f.png)
+
+Pobranie firm:
+```csharp
+using System;
+
+CompanyContext context = new CompanyContext();
+
+var getSupp = context.Suppliers.Find(1);
+var getCust = context.Customers.Find(1);
+
+if(getSupp != null && getCust != null){
+    Console.WriteLine(getSupp.ToString());
+    Console.WriteLine(getCust.ToString());
+}
+
+context.SaveChanges();
+```
+![image](images/f_get.png)
+Jak widać w przypadku TPT indeksy obu firm są takie same co wynik z posiadami dwie tabele równolegle dziedziczące po Company.
+
+
+__g. TPH vs TPT:__
+W przypadku dziedziczenia per hirerarchy otrzymujemy jedną wspólną tabelę do której wstawiamy i przechowujemy zarówno obiekty Supplier jak i Customer. W przypadku TPT otrzymujemy tyle tabel ile różnych obiektów dziedziczących po Company - w tym przypadku 2.
+Oba podejścia mają swoje plusy i minusy.
+
+W przypadku __TPH__:
+
+`+` Mniejsza ilość tabel
+`+` Mniejsza ilość zapytań
+`-` W przypadku dużych różnic między obiektami dziedziczącymi po bazowej klasie, tabela może być bardzo rozbudowana i zawierać wiele pustych kolumn
+`-` Mniejsza czytelność
+
+W przypadku __TPT__:
+
+`+` Większa czytelność
+`+` Brak pustych kolumn
+`+` Większa kontrola nad strukturą bazy danych
+`-` Większa ilość tabel
+`-` Większa ilość zapytań
+
+
