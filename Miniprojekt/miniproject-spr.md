@@ -1,227 +1,406 @@
-# Oracle 
+# MiniProject - Restauracja
 
 ---
 
-Imiona i nazwiska autorów :
+### Imiona i nazwiska autorów : Antoni Dulewicz, Marcin Serafin, Wojciech Wietrzny
 
 ---
 
-<style>
-  {
-    font-size: 16pt;
-  }
-</style>
+## Technologie 
+### MongoDB, Express, Node.js2
 
-<style scoped>
- li, p {
-    font-size: 14pt;
-  }
-</style>
+## Schemat
+```js
+const UserSchema = {
+    $jsonSchema: {
+        bsonType: "object",
+        required: ["name", "last_name", "email", "password_hash", "phone", "address"],
+        properties: {
+            name: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            last_name: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            email: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            password_hash: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            phone: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            address: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            history: {
+                bsonType: "array",
+                description: "must be an array and is required",
+                items: {
+                    bsonType: "object",
+                    required: ["order_id", "date", "products"],
+                    properties: {
+                        order_id: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        date: {
+                            bsonType: "date",
+                            description: "must be a date and is required"
+                        },
+                        products: {
+                            bsonType: "array",
+                            description: "must be an array and is required",
+                            items: {
+                                bsonType: "object",
+                                required: ["product_id", "amount"],
+                                properties: {
+                                    product_id: {
+                                        bsonType: "string",
+                                        description: "must be a string and is required"
+                                    },
+                                    amount: {
+                                        bsonType: "int",
+                                        description: "must be an int and is required"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+```js
+const DishSchema = {
+    $jsonSchema: {
+        bsonType: "object",
+        required: ["name", "description", "price", "products"],
+        properties: {
+            name: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            description: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            price: {
+                bsonType: "double",
+                description: "must be a double and is required"
+            },
+            products: {
+                bsonType: "array",
+                description: "must be an array and is required",
+                items: {
+                    bsonType: "object",
+                    required: ["product_id", "quantity", "unit"],
+                    properties: {
+                        product_id: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        quantity: {
+                            bsonType: "int",
+                            description: "must be an int and is required"
+                        },
+                        unit: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+```js
+const ProductSchema = {
+    $jsonSchema: {
+        bsonType: "object",
+        required: ["name", "supplier_id", "stock"],
+        properties: {
+            name: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            supplier_id: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            stock: {
+                bsonType: "object",
+                required: ["quantity", "unit"],
+                properties: {
+                    quantity: {
+                        bsonType: "int",
+                        description: "must be an int and is required"
+                    },
+                    unit: {
+                        bsonType: "string",
+                        description: "must be a string and is required"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+```js
+const SupplierSchema = {
+    $jsonSchema: {
+        bsonType: "object",
+        required: ["name", "contact", "products_supplied"],
+        properties: {
+            name: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            contact: {
+                bsonType: "object",
+                required: ["phone", "email", "address"],
+                properties: {
+                    phone: {
+                        bsonType: "string",
+                        description: "must be a string and is required"
+                    },
+                    email: {
+                        bsonType: "string",
+                        description: "must be a string and is required"
+                    },
+                    address: {
+                        bsonType: "string",
+                        description: "must be a string and is required"
+                    }
+                }
+            },
+            products_supplied: {
+                bsonType: "array",
+                description: "must be an array and is required",
+                items: {
+                    bsonType: "object",
+                    required: ["product_id", "name"],
+                    properties: {
+                        product_id: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        name: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+```js
+const CartSchema = {
+    $jsonSchema: {
+        bsonType: "object",
+        required: ["client_id", "dishes"],
+        properties: {
+            client_id: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            dishes: {
+                bsonType: "array",
+                description: "must be an array and is required",
+                items: {
+                    bsonType: "object",
+                    required: ["dish_id", "quantity"],
+                    properties: {
+                        dish_id: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        quantity: {
+                            bsonType: "int",
+                            description: "must be an int and is required"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+## Tabele 
 
-<style scoped>
- pre {
-    font-size: 10pt;
-  }
-</style>
+### Clients
+```json
+[
+    {
+    "_id": "client_id",
+    "name": "Imie",
+    "last_name": "Nazwisko",
+    "email": "Imie.Nazwisko@example.com",
+    "password_hash": "hashed_password",
+    "phone": "123-456-7890",
+    "address": "Ulica 1 00-000 Miasto",
+    "history": [
+        {
+            "order_id": "order_id",
+            "date": "YYYY-MM-DD",
+            "products": [
+                {
+                    "product_id": "product_id",
+                    "amount": 1
+                }
+            ]
+        }
+    ]
+    }
+]
+```
 
-# Tabele
+### Dishes
 
-- `Accounts` - konta użytkowników
-  - `account_id` - id użytkownika, klucz główny
-  - `login` - login
-  - `password` - hasło
-  - `firstname` - imie
-  - `lastname` - nazwisko
-  - `mail` - mail użytkownika
-- `Dishes` - dania
-  - `dish_id` - id dania klucz główny
-  - `price` - cena
-  - `product` - użyty produkt, klucz obcy
-- `Products` - produkty
-  - `product_id` - id produktu, klucz główny
-  - `amount` - ilość
-  - `amount type` - rodzaj ilości (kg, l, etc.)
-  - `supplier_id` - id dostawcy, klucz obcy
+``` json
+[
+{
+    "_id": "dish_id",
+    "name": "dish name",
+    "description": "dish description",
+    "price": 12.99,
+    "products": [
+        {"product_id": "product_id_1", "quantity": 200, "unit": "grams"},
+        {"product_id": "product_id_2", "quantity": 100, "unit": "ml"},
+    ]
+}
+]
+```
 
+### Products
 
-- `Delivery` - historia zamówień od dostawców
-  - `delivery_id` - id zamówienia, klucz główny
-  - `date` - data dostawy
-  - `supplier_id` - id dostawcy, klucz obcy
-- `Delivery_Details`
-  - `delivery_id` - id zamówienia, klucz obcy
-  - `product_amount` - ilość produktów
-  - `product` - produkt
-  - `price_per_unit` - cena za jednostke produktu
-  - `price` - cena za całą dostawe produktu
+```json
+[
+{
+    "_id": "product_id",
+    "name": "product name",
+    "supplier_id": "supplier_id_1",
+    "stock": {
+        "quantity": 5000,
+        "unit": "grams"
+    }
+}
+]
+```
 
-- `Suppliers` - dostawcy
- - `supplier_id` - id dostawcy, klucz główny
- - `supplier_name` - nazwa dostawcy
- - `phone` - numer telefonu
- - `mail` - mail dostawcy
- - `address` - adres dostawcy
+### Suppliers
 
-- `History` - historia zamówień użytkowników
-  - `history_id` - id zamówienia użytkownika,klucz główny
-  - `date` - data zamówienia
-  - `price` - cena za całe zamówioenie
-  - `paid` - czy zostało opłacone
+```json
+[
+{
+    "_id": "supplier_id",
+    "name": "supplier name",
+    "contact": {
+        "phone": "987-654-3210",
+        "email": "supplier@exaple.com",
+        "address": "Ulica 2 00-000 Miasto"
+    },
+    "products_supplied": [
+        {"product_id": "product_id_1", "name": "product name 1"},
+        {"product_id": "product_id_2", "name": "product name 2"},
+    ]
+}
+]
+```
 
-- `History_Details` - szczegóły zamówień użytkowników
-  - `history_id` - id zamówienia użytkownika,klucz obcy
-  - `dish_id` - zamówione danie
-  - `amount` - ilość zamówionego dania
-  - `dish_price` - cena zamówionego dania
+### Cart
+    
+```json
+[
+{
+    "_id": "cart_id",
+    "client_id": "client_id",
+    "dishes": [
+        {"dish_id": "dish_id_1", "quantity": 2},
+        {"dish_id": "dish_id_2", "quantity": 1},
+    ]
+}
+]
+```
 
+1
 
+## Operacje
 
+Szukanie produktu po id
+```js
+db.system.js.save({
+    _id: "findProductsByName",
+    value: function(name, caseInsensitive = true) {
+        if(!name) throw new Error('Name cannot be empty');
+        var query = caseInsensitive ? { name: { $regex: name, $options: 'i' } } : { name: name };
+        return db.products.find(query).toArray();
+    }
+});
 
-```sql
-create sequence s_account_seq
- start with 1
- increment by 1;
-create table ACCOUNTS
-(
-    ACCOUNT_ID int not null
-        constraint PK_ACCOUNTS
-            primary key,
-    LOGIN      VARCHAR2(50),
-    PASSWORD   VARCHAR2(50),
-    FIRSTNAME  VARCHAR2(50),
-    LASTNAME   VARCHAR2(50),
-    MAIL       VARCHAR2(50),
-    PHONE      INT,
-    ADDRESS     VARCHAR(50)
-);
-alter table ACCOUNTS
- modify ACCOUNT_ID int default s_account_seq.nextval;
+db.eval("findProductsByName('Tomato Sauce', true)");
 
 ```
-``` sql
-create sequence s_dishes_seq
- start with 1
- increment by 1;
-create table DISHES
-(
-    DISH_ID int not null
-        constraint PK_DISHES
-            primary key,
-    PRICE   FLOAT,
-    PRODUCT_ID VARCHAR2(50)
-);
-alter table DISHES
- modify DISH_ID int default s_dishes_seq.nextval;
-alter table DISHES
-add constraint product_id_fk1 foreign key
-( PRODUCT_ID ) references PRODUCTS ( PRODUCT_ID );
 
+Wyświetlanie ilości produktów w magazynie
+```js
+db.system.js.save({
+    _id: "checkStockLevel",
+    value: function(productId) {
+        if(!db.products.findOne({ "_id": productId })) throw new Error('Product not found');
+        return db.products.findOne(
+            { "_id": productId },
+            { "name": 1, "stock.quantity": 1, "stock.unit": 1 }
+        );
+    }
+});
+
+db.eval("checkStockLevel('10',)");
 ```
-``` sql
-create sequence s_products_seq
- start with 1
- increment by 1;
-create table PRODUCTS
-(
-    PRODUCT_ID  int not null
-        constraint PK_PRODUCT
-            primary key,
-    AMOUNT      FLOAT,
-    AMOUNT_TYPE VARCHAR2(50),
-    SUPPLIER_ID NUMBER
-);
-alter table PRODUCTS
-modify PRODUCT_ID int default s_products_seq.nextval;
-alter table PRODUCTS
-add constraint supplier_id_fk1 foreign key
-( SUPPLIER_ID ) references SUPPLIERS ( SUPPLIER_ID );
 
+Zmiana ilości produktów po zakupie
+```js
+db.system.js.save({
+    _id: "updateStockLevel",
+    value: function(productId, amountUsed) {
+        if(amountUsed < 0) throw new Error('Amount used must be positive');
+        if(!db.products.findOne({ "_id": productId })) throw new Error('Product not found');
+        var product = db.products.findOne({ "_id": productId });
+        if(product.stock.quantity < amountUsed) throw new Error('Not enough stock');
+        return db.products.updateOne(
+            { "_id": productId },
+            { $inc: { "stock.quantity": -amountUsed } }
+        );
+    }
+});
+
+db.eval("updateStockLevel('10', 100)");
 ```
-``` sql
-create sequence s_delivery_seq
- start with 1
- increment by 1;
-create table delivery
-(
- delivery_id int not null
- constraint pk_delivery
- primary key,
- supplier_id int,
-    "DATE" date,
-    price float
-);
-alter table delivery
- modify delivery_id int default s_delivery_seq.nextval;
-alter table delivery
-add constraint supplier_id_fk2 foreign key
-( supplier_id ) references SUPPLIERS ( supplier_id );
 
-```
-``` sql
-create sequence s_delivery_details_seq
- start with 1
- increment by 1;
-create table delivery_details
-(
- delivery_id int not null,
-    PRODUCT_AMOUNT FLOAT,
-    PRODUCTS VARCHAR2(50),
-    PRICE_PER_UNIT FLOAT,
-    PRICE FLOAT
-);
-alter table delivery_details
-add constraint delivery_id_fk1 foreign key
-( delivery_id ) references DELIVERY ( delivery_id );
+Dodawanie nowego produktu
+```js
+db.system.js.save({
+    _id: "addProduct",
+    value: function(productData) {
+        var supplier = db.suppliers.findOne({ _id: productData.supplier_id });
+        if (!supplier) {
+            throw new Error('Supplier not found');
+        }
+        return db.products.insertOne(productData);
+    }
+});
 
-```
-``` sql
-create sequence s_suppliers_seq
- start with 1
- increment by 1;
-create table SUPPLIERS
-(
-    SUPPLIER_ID  int not null
-        constraint PK_SUPPLIER
-            primary key,
-    SUPPLIER_NAME VARCHAR2(50),
-    PHONE         NUMBER,
-    MAIL          VARCHAR2(50),
-    ADDRESS       VARCHAR2(50)
-);
-alter table SUPPLIERS
- modify SUPPLIER_ID int default s_suppliers_seq.nextval;
-
-
-```
-``` sql
-create sequence s_history_seq
- start with 1
- increment by 1;
-create table HISTORY
-(
-    HISTORY_ID  int not null
-        constraint PK_HISTORY
-            primary key,
-    "DATE"        DATE,
-    PRICE         FLOAT,
-    PAID          CHAR(1)
-);
-alter table HISTORY
- modify HISTORY_ID int default s_history_seq.nextval;
-
-```
-``` sql
-create sequence s_history_details_seq
- start with 1
- increment by 1;
-create table HISTORY_DETAILS
-(
-    HISTORY_ID int,
-    DISH_ID VARCHAR2(50),
-    AMOUNT         NUMBER,
-    DISH_PRICE          VARCHAR2(50)
-);
-alter table HISTORY_DETAILS
-add constraint history_id_fk1 foreign key
-( HISTORY_ID ) references HISTORY ( HISTORY_ID );
+db.eval("addProduct({ name: 'Tomato Sauce', supplier_id: '1', stock: { quantity: 1000, unit: 'ml' } })");
 ```
