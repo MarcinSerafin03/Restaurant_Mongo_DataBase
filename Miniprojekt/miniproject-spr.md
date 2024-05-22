@@ -10,6 +10,8 @@
 ### MongoDB, Express, Node.js2
 
 ## Schemat
+![image](IMG/Schemat.png)
+
 ```js
 const UserSchema = {
     $jsonSchema: {
@@ -80,7 +82,7 @@ const UserSchema = {
     }
 }
 ```
-```js
+```
 const DishSchema = {
     $jsonSchema: {
         bsonType: "object",
