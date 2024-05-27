@@ -1,0 +1,128 @@
+[
+    {
+        "_id": "product_1",
+        "name": "Ziemniaki",
+        "supplier_id": "supplier_1",
+        "stock": {
+            "quantity": 10000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_2",
+        "name": "Ser twarogowy",
+        "supplier_id": "supplier_2",
+        "stock": {
+            "quantity": 5000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_3",
+        "name": "Schab",
+        "supplier_id": "supplier_3",
+        "stock": {
+            "quantity": 7000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_4",
+        "name": "Ziemniaki",
+        "supplier_id": "supplier_1",
+        "stock": {
+            "quantity": 8000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_5",
+        "name": "Pomidor",
+        "supplier_id": "supplier_2",
+        "stock": {
+            "quantity": 12000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_6",
+        "name": "Makaron",
+        "supplier_id": "supplier_3",
+        "stock": {
+            "quantity": 10000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_7",
+        "name": "Warzywa mieszane",
+        "supplier_id": "supplier_1",
+        "stock": {
+            "quantity": 15000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_8",
+        "name": "Ser feta",
+        "supplier_id": "supplier_2",
+        "stock": {
+            "quantity": 5000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_9",
+        "name": "Szpinak",
+        "supplier_id": "supplier_3",
+        "stock": {
+            "quantity": 6000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_10",
+        "name": "Ryba",
+        "supplier_id": "supplier_1",
+        "stock": {
+            "quantity": 8000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_11",
+        "name": "Frytki",
+        "supplier_id": "supplier_2",
+        "stock": {
+            "quantity": 10000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_12",
+        "name": "Kurczak",
+        "supplier_id": "supplier_3",
+        "stock": {
+            "quantity": 9000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_13",
+        "name": "Makaron",
+        "supplier_id": "supplier_1",
+        "stock": {
+            "quantity": 7000,
+            "unit": "grams"
+        }
+    },
+    {
+        "_id": "product_14",
+        "name": "Sos bolognese",
+        "supplier_id": "supplier_2",
+        "stock": {
+            "quantity": 5000,
+            "unit": "grams"
+        }
+    }
+]

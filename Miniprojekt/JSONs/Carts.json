@@ -1,0 +1,26 @@
+[
+    {
+        "_id": "cart_1",
+        "client_id": "client_1",
+        "dishes": [
+            {"dish_id": "dish_1", "dish_name": "Pierogi ruskie", "quantity": 2},
+            {"dish_id": "dish_3", "dish_name": "Zupa pomidorowa", "quantity": 1}
+        ]
+    },
+    {
+        "_id": "cart_2",
+        "client_id": "client_2",
+        "dishes": [
+            {"dish_id": "dish_4", "dish_name": "Sałatka grecka", "quantity": 1},
+            {"dish_id": "dish_6", "dish_name": "Ryba z frytkami", "quantity": 1}
+        ]
+    },
+    {
+        "_id": "cart_3",
+        "client_id": "client_3",
+        "dishes": [
+            {"dish_id": "dish_2", "dish_name": "Schabowy z ziemniakami", "quantity": 1},
+            {"dish_id": "dish_5", "dish_name": "Tarta szpinakowa", "quantity": 1}
+        ]
+    }
+]
