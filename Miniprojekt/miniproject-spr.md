@@ -240,6 +240,98 @@ const CartSchema = {
     }
 }
 ```
+
+```js
+const OrderSchema = {
+    $jsonSchema: {
+        bsonType: "object",
+        required: ["client_id", "date", "products", "status"],
+        properties: {
+            client_id: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            date: {
+                bsonType: "date",
+                description: "must be a date and is required"
+            },
+            products: {
+                bsonType: "array",
+                description: "must be an array and is required",
+                items: {
+                    bsonType: "object",
+                    required: ["product_id", "amount"],
+                    properties: {
+                        product_id: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        amount: {
+                            bsonType: "int",
+                            description: "must be an int and is required"
+                        }
+                    }
+                }
+            },
+            status: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            }
+        }
+    }
+}
+```
+
+```js
+const DeliverySchema = {
+    $jsonSchema: {
+        bsonType: "object",
+        required: ["supplier_id", "date", "products", "price"],
+        properties: {
+            supplier_id: {
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            date: {
+                bsonType: "date",
+                description: "must be a date and is required"
+            },
+            products: {
+                bsonType: "array",
+                description: "must be an array and is required",
+                items: {
+                    bsonType: "object",
+                    required: ["product_id", "amount", "unit", "price"],
+                    properties: {
+                        product_id: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        amount: {
+                            bsonType: "int",
+                            description: "must be an int and is required"
+                        },
+                        unit: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        price: {
+                            bsonType: "double",
+                            description: "must be a double and is required"
+                        }
+                    }
+                }
+            },
+            price: {
+                bsonType: "double",
+                description: "must be a double and is required"
+            }
+        }
+    }
+}
+```
+
+
 ## Tabele 
 
 ### Clients
@@ -322,7 +414,7 @@ const CartSchema = {
 ]
 ```
 
-### Cart
+### Carts
     
 ```json
 [
@@ -336,6 +428,43 @@ const CartSchema = {
 }
 ]
 ```
+### Orders
+
+```json
+[
+{
+    "_id": "order_id",
+    "client_id": "client_id",
+    "date": "YYYY-MM-DD",
+    "Cart": "cart_id",
+    "dishes": [
+        {"dish_id": "dish_id_1", "quantity": 2,"price": 25.00},
+        {"dish_id": "dish_id_2", "quantity": 1,"price": 12.50},
+    ],
+    "Price": 37.50,
+    "address": "Ulica 1 00-000 Miasto",
+    "status": "status"
+}
+]
+```
+
+### Deliveries
+
+```json
+[
+{
+    "_id": "delivery_id",
+    "supplier_id": "supplier_id",
+    "date": "YYYY-MM-DD",
+    "products": [
+        {"product_id": "product_id_1", "amount": 2, "unit": "grams", "price": 50.00},
+        {"product_id": "product_id_2", "amount": 1, "unit": "ml", "price": 25.00},
+    ],
+    "Price": 75.00
+}
+]
+```
+
 
 1
 
