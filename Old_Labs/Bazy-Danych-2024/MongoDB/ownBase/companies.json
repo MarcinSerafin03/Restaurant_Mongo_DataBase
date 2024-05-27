@@ -1,0 +1,38 @@
+[
+    {
+        "_id": "60df26e8a2c4e82f644c016a",
+        "name": "Adventure Tours Inc.",
+        "address": "Los Angeles",
+        "contact": "contact@adventuretours.com"
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c016e",
+        "name": "Wilderness Explorers",
+        "address": "Denver",
+        "contact": "info@wildernessexplorers.com"
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0174",
+        "name": "Tropical Adventures Ltd.",
+        "address": "Miami",
+        "contact": "hello@tropicaladventures.com"
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0178",
+        "name": "Alpine Adventures",
+        "address": "Seattle",
+        "contact": "info@alpineadventures.com"
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0180",
+        "name": "Northern Lights Expeditions",
+        "address": "Reykjavik",
+        "contact": "info@northernlights.com"
+    },
+    {
+        "_id": "60df26e8a2c4e82f644c0184",
+        "name": "Amazon Expeditions",
+        "address": "Manaus",
+        "contact": "contact@amazonexpeditions.com"
+    }
+]
