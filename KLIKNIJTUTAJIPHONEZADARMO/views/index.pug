@@ -1,0 +1,87 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css')
+  link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css')
+  link(rel='stylesheet', href='/styles.css')
+  title Tytu&lstrok; strony / Page tile
+nav.navbar.navbar-expand-sm.bg-light
+  .container-fluid
+    button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#collapsibleNavbar')
+      span.navbar-toggler-icon
+    #collapsibleNavbar.collapse.navbar-collapse
+      ul.navbar-nav.mx-auto.dropdown
+        li.nav-item.d-sm-none.dropdown
+          a.dropdown-item.m-2(href='/cart') Koszyk
+          a.dropdown-item.m-2(href='/orders') Historia zamówień
+          a.dropdown-item.m-2(href='/reservations') Zrob rezerwacje
+          a.dropdown-item.m-2(href='/logout') Wyloguj
+          //- a.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown') 
+          //- ul.dropdown-menu
+          //-   li
+          //-     a.dropdown-item(href='/cart') Koszyk
+          //-   li
+          //-     a.dropdown-item(href='/reservations') Zrob rezerwacje
+          //-   li
+          //-     a.dropdown-item(href='/logout') Wyloguj
+
+        li.nav-item.d-none.d-sm-block
+          a.nav-link(href='/cart') Koszyk
+        li.nav-item.d-none.d-sm-block
+          a.nav-link(href='/orders') Historia zamówień
+        li.nav-item.d-none.d-sm-block
+          a.nav-link(href='/reservations') Zrob rezerwacje
+        li.nav-item.d-none.d-sm-block
+          a.nav-link(href='/logout') Wyloguj
+
+.container
+  .row
+    .col.ms-2
+      h1 Restauracja 
+
+    #dishes.row.justify-content-lg-flex-start.justify-content-md-around
+    each dish in dishes
+        .col-lg-4.col-md-6.mb-4.dish-card(data-dish-id=_id)
+            .card.card-equal-height.ms-2.me-2
+                .card-header.p-0.ps-2.pt-2.pb-2 
+                  .row 
+                    .col-3.text-center  
+                    | #{dish.name}
+
+                    .col-3.text-center  
+                      a.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown') 
+                        ul.dropdown-menu 
+                          each product in dish.products
+                            li
+                              | #{product.name}
+
+                    
+                .card-body-top.p-0.pb-1 
+                  .col-12.text-center  
+                    | #{dish.description}
+                .row.card-body-bot.p-0.pe-4.ps-4.pb-3
+                    .col-12.text-center   
+                      button.btn.btn-primary(type="button" onclick=`addToCart('${dish._id}')`) Dodaj do koszyka
+                .card-footer.ps-2.mb-2.mt-1.rounded-1
+                  | Cena: #{dish.price} zł  
+
+
+
+footer.container-fluid.d-flex.justify-content-center.align-content-center.mt-5.mb-3.p-0
+  .container.m-0.bg-light.justify-content-center
+    .row.justify-content-center
+      .col-lg-3.col-md-4.col-sm-4.d-flex.flex-column.align-items-center.justify-content-center
+        p.mb-0 Nazwa naszej restauracji
+      .col-lg-3.col-md-4.col-sm-4.d-flex.flex-row.align-items-center.justify-content-center
+        i.bi.bi-envelope-fill.me-1
+        a.mb-2(href='https://www.bg.agh.edu.pl/')
+          | nasza.restauracja@gmail.com
+      .col-lg-3.col-md-4.col-sm-4.d-flex.flex-row.align-items-center.justify-content-center
+        i.bi.bi-telephone-fill.me-1
+        a.mb-2(href='https://www.bg.agh.edu.pl/')
+          | +48 12 617 32 08
+
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous')
+script(src='/script.js')

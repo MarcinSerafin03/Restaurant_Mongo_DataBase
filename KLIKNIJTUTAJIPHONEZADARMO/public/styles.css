@@ -1,0 +1,29 @@
+#itemContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.card-equal-height {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-header, .card-body-top, .card-body-bot, .card-footer {
+    flex: none;
+}
+
+.card-body-bot {
+    margin-top: auto; /* Pushes the content to the bottom */
+}
+
+.card {
+    height: 100%; /* Ensure all cards are the same height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

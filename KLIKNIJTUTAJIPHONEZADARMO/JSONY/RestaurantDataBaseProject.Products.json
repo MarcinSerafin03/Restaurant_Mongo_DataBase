@@ -1,0 +1,154 @@
+[{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9a2"
+  },
+  "name": "Ziemniaki",
+  "supplier_id": "665745469efcaf30a39d98b3",
+  "stock": {
+    "quantity": 10000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9a3"
+  },
+  "name": "Ser twarogowy",
+  "supplier_id": "665745469efcaf30a39d98b4",
+  "stock": {
+    "quantity": 5000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9a4"
+  },
+  "name": "Schab",
+  "supplier_id": "665745469efcaf30a39d98b5",
+  "stock": {
+    "quantity": 7000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9a5"
+  },
+  "name": "Ziemniaki",
+  "supplier_id": "665745469efcaf30a39d98b5",
+  "stock": {
+    "quantity": 8000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9a6"
+  },
+  "name": "Pomidor",
+  "supplier_id": "665745469efcaf30a39d98b4",
+  "stock": {
+    "quantity": 12000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9a7"
+  },
+  "name": "Makaron",
+  "supplier_id": "665745469efcaf30a39d98b5",
+  "stock": {
+    "quantity": 10000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9a8"
+  },
+  "name": "Warzywa mieszane",
+  "supplier_id": "665745469efcaf30a39d98b3",
+  "stock": {
+    "quantity": 15000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9a9"
+  },
+  "name": "Ser feta",
+  "supplier_id": "665745469efcaf30a39d98b4",
+  "stock": {
+    "quantity": 5000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9aa"
+  },
+  "name": "Szpinak",
+  "supplier_id": "665745469efcaf30a39d98b5",
+  "stock": {
+    "quantity": 6000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9ab"
+  },
+  "name": "Ryba",
+  "supplier_id": "665745469efcaf30a39d98b3",
+  "stock": {
+    "quantity": 8000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9ac"
+  },
+  "name": "Frytki",
+  "supplier_id": "665745469efcaf30a39d98b4",
+  "stock": {
+    "quantity": 10000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9ad"
+  },
+  "name": "Kurczak",
+  "supplier_id": "665745469efcaf30a39d98b5",
+  "stock": {
+    "quantity": 9000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9ae"
+  },
+  "name": "Makaron",
+  "supplier_id": "665745469efcaf30a39d98b3",
+  "stock": {
+    "quantity": 7000,
+    "unit": "grams"
+  }
+},
+{
+  "_id": {
+    "$oid": "665747c2e9b8cb60c637b9af"
+  },
+  "name": "Sos bolognese",
+  "supplier_id": "665745469efcaf30a39d98b4",
+  "stock": {
+    "quantity": 5000,
+    "unit": "grams"
+  }
+}]
