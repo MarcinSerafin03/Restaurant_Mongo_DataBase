@@ -20,7 +20,7 @@ html
 
         .mb-3 
           label.form-label(for='people') Liczba osób
-          input.form-control(type='number' id='people' name='people' min='1' required)
+          input.form-control(type='number' id='people' name='people' min='1' max='20' required)
         .text-center
           button.btn.btn-primary(type='submit') Zrób rezerwacje
         
@@ -43,3 +43,31 @@ html
 
 
 script(src='/script.js')
+script.
+  // Funkcja ustawiająca minimalne wartości dla pól daty i godziny
+  function setMinDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+
+    const dateField = document.getElementById('date');
+    const timeField = document.getElementById('time');
+
+    // Ustawienie minimalnej daty na dzisiaj
+    dateField.min = `${year}-${month}-${day}`;
+
+    // Ustawienie minimalnego czasu na teraz, tylko jeśli wybrana data to dzisiaj
+    dateField.addEventListener('change', () => {
+      if (dateField.value === `${year}-${month}-${day}`) {
+        timeField.min = `${hours}:${minutes}`;
+      } else {
+        timeField.min = '';
+      }
+    });
+  }
+
+  // Wywołanie funkcji po załadowaniu strony
+  document.addEventListener('DOMContentLoaded', setMinDateTime);
