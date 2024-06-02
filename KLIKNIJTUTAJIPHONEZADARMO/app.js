@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import bcrypt from 'bcrypt';
 import connectStore from 'connect-mongodb-session';
+import moment from 'moment'
 
 
 //sessions to kolekcja uzywana do logowania 
@@ -50,6 +51,7 @@ const clientsCollection = db.collection("Clients");
 const cartsCollection = db.collection("Carts");
 const reservationsCollection = db.collection("Reservations");
 const ordersCollection = db.collection("Orders");
+const adminsCollection = db.collection("Admins");
 
 
 //warunek bycia zalogowanym uzywany potem np przy wyswietlaniu koszyka
@@ -59,6 +61,14 @@ const requireLogin = (req, res, next) => {
     }
     next();
 };
+
+const checkAdmin = (req,res,next) => {
+    if(req.session.isAdmin){
+        return res.redirect('/admin');
+    }
+    next();
+};
+
 
 //strona rejestracji
 app.get('/register', (req, res) => {
@@ -83,20 +93,36 @@ app.get('/login', (req, res) => {
 // jesli haslo niepoprawne jestesmy nadal na stronie logowania
 app.post('/login', async (req, res) => {
     const { name,surname, password } = req.body;
-    const user = await clientsCollection.findOne({ name, surname });
-    if (user && await bcrypt.compare(password, user.password)) {
+    let user = await clientsCollection.findOne({ name, surname });
+
+    //jesli nie znalezlismy uzytkownika w kolekcji clientow to sprwadzamy w adminach
+    if(!user){
+        user = await adminsCollection.findOne({name,surname});
+        if(user && user.password === password){
+            req.session.userId = user._id;
+            req.session.isAdmin = true;
+            return res.redirect('/admin');
+        }
+
+    }else if (user && await bcrypt.compare(password, user.password)) {
         req.session.userId = user._id;
-        res.redirect('/');
-    } else {
-        res.redirect('/login');
+        req.session.isAdmin = false;
+        return res.redirect('/');
     }
+
+    return res.redirect('/login');
 });
 
 //wylogowywanie
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
-            return res.redirect('/');
+            if(req.session.isAdmin){
+                return res.redirect('/admin')
+            }else{
+                return res.redirect('/');
+            }
+            
         }
         res.clearCookie('connect.sid');
         res.redirect('/login');
@@ -104,7 +130,7 @@ app.get('/logout', (req, res) => {
 });
 
 //strona glowna
-app.get('/', requireLogin, async (req, res) => {
+app.get('/', requireLogin,checkAdmin, async (req, res) => {
     
     //pobieramy wszystkie dania z kolekcji "Dishes"
     const dishes = await dishesCollection.find({}).toArray(); 
@@ -136,8 +162,37 @@ app.post('/makereservation', requireLogin, async(req,res) =>{
     //pobieramy godzine,czas i ilosc miejsc
     const {date,time,people} = req.body;
 
+
+    //sprawdzanie czy nie ma juz za duzo rezerwacji na ta sama godzine 
+    const dateTime = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
+
+    const oneHourEarlier = dateTime.clone().subtract(1, 'hour');    
+    const oneHourLater = dateTime.clone().add(1, 'hour');
+    
+    const reservationsInRange = await reservationsCollection.find({
+        date: date,
+        time: {
+            $gte: oneHourEarlier.format('HH:mm'), 
+            $lte: oneHourLater.format('HH:mm') 
+        },
+        isCanceled: 0
+    }).toArray();
+
+    let occupiedPlaces = reservationsInRange.reduce((total,reservation) => {
+        return total + parseInt(reservation.people);
+    },0);
+
+
+    const placesLeft = 20 - occupiedPlaces;
+
+    if(placesLeft < parseInt(people)){
+        return res.redirect('/reservations');
+    }
+
+    const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
+
     //dodajemy rezerwacje do kolekcji rezerwacji
-    const reservationRes = await reservationsCollection.insertOne({client_id: new ObjectId(userId),date: date,time: time,people: people,isCanceled: 0});
+    const reservationRes = await reservationsCollection.insertOne({client: client,date: date,time: time,people: people,isCanceled: 0});
 
     //pobieramy rezerwacje ktora dodalismy 
     const reservationToAdd = await reservationsCollection.findOne({_id: reservationRes.insertedId})
@@ -322,8 +377,10 @@ app.post('/makeorder',requireLogin, async(req,res) => {
         //obliczamy cenę zamówienia 
         let orderPrice = cart.dishes.reduce((total,dish) => total += dish.price, 0);
 
+        const date = new Date().toISOString().split('T')[0];
+
         //dodajemy zamowienie do kolekcji orders
-        const orderRes = await ordersCollection.insertOne({client_id: new ObjectId(userId), data: new Date(), cart_id: cart._id, dishes: cart.dishes, price: orderPrice, address: client.address, status: "pending" });
+        const orderRes = await ordersCollection.insertOne({client: client, date: date, cart_id: cart._id, dishes: cart.dishes, price: orderPrice, address: client.address, status: "pending" });
 
         const orderToAdd = await ordersCollection.findOne({_id: orderRes.insertedId})
 
@@ -355,12 +412,76 @@ app.get('/orders', requireLogin, async (req, res) => {
     const clients = await clientsCollection.findOne({_id: new ObjectId(userId)}); 
 
     const orders = clients.history;
+    
 
     //przekaz tablice do pliku cart.pug
     res.render('orders', { orders: orders });
 });
 
+
+app.get('/admin', requireLogin, async (req,res) =>{
+
+    //strona admina
+    res.render('adminIndex');
+});
+
+app.get('/adminorders', requireLogin, async (req,res) =>{
+
+
+    //znajdz zamowienia ktore oczekuja na dostawe
+    const ordersPending = await ordersCollection.find({status: "pending"}).toArray();
+
+    //potwierdz dostawe zamowiena
+    const ordersDelivered = await ordersCollection.find({status: "delivered"}).toArray();
+
+
+    res.render('adminOrders',{ordersPending: ordersPending, ordersDelivered: ordersDelivered});
+});
+
+app.get('/adminreservations' , requireLogin, async(req,res) => {
+
+    //znajdz rezerwacje ktore nie sa anulowane
+    const reservations = await reservationsCollection.find({isCanceled: 0}).toArray();
+
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    //sprawdz czy rezerwacja nie jest w przeszlosci
+    const upcomingReservations = reservations.filter(reservations => reservations.date >= currentDate);
+
+    res.render('adminReservations',{reservations: upcomingReservations});
+});
+
+app.post('/deliverorder', requireLogin, async (req,res) =>{
+    
+    try{
+        const {orderID, clientID} = req.body
+
+        //ustaw order jako dostarczony
+        await ordersCollection.updateOne(
+            { _id: new ObjectId(orderID) },
+            { $set: { status: "delivered" } }
+        );
+
+        //ustaw order w historii klienta jako delivered
+        await clientsCollection.updateOne(
+            {_id: new ObjectId(clientID), "history._id": new ObjectId(orderID)},
+            {$set: {"history.$.status": "delivered"}}
+        );
+
+        return res.status(200).json({ success: true, message: 'Order delivered!' });
+        
+    }catch(error){
+        console.error('Error delivering order:', error);
+        return res.status(500).json({ success: false, message: 'An error occurred while delivering orderS.' });  
+    }
+    
+});
+
+
 const PORT = 8000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+

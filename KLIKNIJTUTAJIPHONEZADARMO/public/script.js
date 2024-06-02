@@ -107,3 +107,26 @@ function makeOrder(){
         alert("An error occured while making order.");
     })
 }
+
+function orderDelivered(orderID,clientID){
+    fetch('/deliverorder',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({orderID: orderID, clientID: clientID})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success){
+            alert('Delivered!');
+            window.location.reload();
+        }else{
+            alert('Couldnt set as delivered!');
+        }
+    })
+    .catch((error) => {
+        console.error('Error: ',error);
+        alert("An error occured while seting order to delivered.");
+    })
+}
