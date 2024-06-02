@@ -1,36 +1,29 @@
-[{
-  "_id": {
-    "$oid": "665745469efcaf30a39d98b3"
+[
+  {
+    "name": "Dostawca Janek",
+    "contact": {
+      "phone": "111-222-3333",
+      "email": "janek.dostawca@example.com",
+      "address": "Ulica Wrocławska 1, 50-001 Wrocław"
+    },
+    "products_supplied": ["Ziemniaki", "Warzywa mieszane", "Szpinak"]
   },
-  "name": "Dostawca Janek",
-  "contact": {
-    "phone": "111-222-3333",
-    "email": "janek.dostawca@example.com",
-    "address": "Ulica Wrocławska 1, 50-001 Wrocław"
+  {
+    "name": "Dostawca Marek",
+    "contact": {
+      "phone": "444-555-6666",
+      "email": "marek.dostawca@example.com",
+      "address": "Ulica Poznańska 2, 60-002 Poznań"
+    },
+    "products_supplied": ["Schab", "Makaron", "Ser feta", "Kurczak", "Frytki"]
   },
-  "products_supplied": []
-},
-{
-  "_id": {
-    "$oid": "665745469efcaf30a39d98b4"
-  },
-  "name": "Dostawca Marek",
-  "contact": {
-    "phone": "444-555-6666",
-    "email": "marek.dostawca@example.com",
-    "address": "Ulica Poznańska 2, 60-002 Poznań"
-  },
-  "products_supplied": []
-},
-{
-  "_id": {
-    "$oid": "665745469efcaf30a39d98b5"
-  },
-  "name": "Dostawca Anna",
-  "contact": {
-    "phone": "777-888-9999",
-    "email": "anna.dostawca@example.com",
-    "address": "Ulica Krakowska 3, 31-003 Kraków"
-  },
-  "products_supplied": []
-}]
+  {
+    "name": "Dostawca Anna",
+    "contact": {
+      "phone": "777-888-9999",
+      "email": "anna.dostawca@example.com",
+      "address": "Ulica Krakowska 3, 31-003 Kraków"
+    },
+    "products_supplied": ["Ser twarogowy", "Pomidor", "Ryba", "Sos bolognese"]
+  }
+]

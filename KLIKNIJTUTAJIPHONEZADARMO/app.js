@@ -49,6 +49,7 @@ const db = client.db("RestaurantDataBaseProject");
 const dishesCollection = db.collection("Dishes");
 const clientsCollection = db.collection("Clients");
 const cartsCollection = db.collection("Carts");
+const productsCollection = db.collection("Products");
 const reservationsCollection = db.collection("Reservations");
 const ordersCollection = db.collection("Orders");
 const adminsCollection = db.collection("Admins");
@@ -162,6 +163,24 @@ app.post('/makereservation', requireLogin, async(req,res) =>{
     //pobieramy godzine,czas i ilosc miejsc
     const {date,time,people} = req.body;
 
+    //sprawdzenie czy data jest w przyszlosci
+    const currentDate = new Date().toISOString().split('T')[0];
+    if(date < currentDate){
+        return res.redirect('/reservations');
+    }
+
+    //sprawdzenie czy godzina jest w przyszlosci
+    const currentTime = new Date().toISOString().split('T')[1].split('.')[0];
+    if(date === currentDate && time < currentTime){
+        return res.redirect('/reservations');
+    }
+
+    //sprawdzenie czy restauracja jest otwarta
+    const openTime = "12:00";
+    const closeTime = "22:00";
+    if(time < openTime || time > closeTime){
+        return res.redirect('/reservations');
+    }
 
     //sprawdzanie czy nie ma juz za duzo rezerwacji na ta sama godzine 
     const dateTime = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
@@ -190,7 +209,6 @@ app.post('/makereservation', requireLogin, async(req,res) =>{
     }
 
     const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
-
     //dodajemy rezerwacje do kolekcji rezerwacji
     const reservationRes = await reservationsCollection.insertOne({client: client,date: date,time: time,people: people,isCanceled: 0});
 
@@ -285,10 +303,25 @@ app.post('/addtocart', requireLogin, async(req,res) => {
 
         //znajdujemy nasze danie w kolekcji Dishes
         const dish = await dishesCollection.findOne({_id: new ObjectId(dishID)});
+        const products = dish.products;
     
         if (!dish) {
             return res.status(404).json({ success: false, message: 'Dish not found' });
         }
+
+        //sprawdzamy czy wystarczy produktu na stanie
+        //wyszukujemy produkty o tej samej nazwie w kolekcji Products
+        //jezeli wystarczy to odejmujemy ilosc produktow z magazynu
+        for(let i = 0; i < products.length; i++){
+            const product = await productsCollection.findOne({name: products[i].name});
+            if(product.stock.quantity < products[i].quantity){
+                return res.status(500).json({ success: false, message: 'Not enough products on stock' });
+            }
+            else{
+                await productsCollection.updateOne({name: products[i].name},{$set: {stock: {quantity: product.stock.quantity - products[i].quantity}}});
+            }
+        }
+        
         
         //dodajmy znalezione danie do koszyka naszego uzytkownika 
     
@@ -311,6 +344,18 @@ app.post('/clearcart',requireLogin, async(req,res) => {
     try{
         //z Sessions pobieramy ID naszego użytkownika 
         const userId = req.session.userId;
+
+        //zwracamy produkty do magazynu
+        const cart = await cartsCollection.findOne({client_id: new ObjectId(userId)});
+        const dishes = cart.dishes;
+        
+        for(let i = 0; i < dishes.length; i++){
+            const products = dishes[i].products;
+            for(let j = 0; j < products.length; j++){
+                const product = await productsCollection.findOne({name: products[j].name});
+                await productsCollection.updateOne({name: products[j].name},{$set: {stock: {quantity: product.stock.quantity + products[j].quantity}}});
+            }
+        }
         
         //ustawiamy zawartosc koszyka naszego uzytkownika na pusta tablice
         await cartsCollection.updateOne(

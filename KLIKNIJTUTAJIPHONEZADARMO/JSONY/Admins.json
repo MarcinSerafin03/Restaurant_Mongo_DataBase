@@ -1,7 +1,4 @@
 [{
-    "_id": {
-        "$oid": "665c47c9b85ebfbfe88b0213"
-    },
     "name": "Pan",
     "surname": "Admin",
     "email": "admin@gmail.com",

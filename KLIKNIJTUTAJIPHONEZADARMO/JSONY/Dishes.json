@@ -1,241 +1,167 @@
-[{
-  "_id": {
-    "$oid": "66574a44170d24ea1366f62b"
+[
+  {
+    "name": "Pierogi ruskie",
+    "description": "Tradycyjne pierogi z farszem ziemniaczano-serowym",
+    "price": 18.5,
+    "products": [
+      {
+        "name": "Ziemniaki",
+        "supplier_name": "Dostawca Janek",
+        "quantity": 300,
+        "unit": "grams"
+      },
+      {
+        "name": "Ser twarogowy",
+        "supplier_name": "Dostawca Anna",
+        "quantity": 200,
+        "unit": "grams"
+      }
+    ]
   },
-  "name": "Pierogi ruskie",
-  "description": "Tradycyjne pierogi z farszem ziemniaczano-serowym",
-  "price": 18.5,
-  "products": [
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9a2"
+  {
+    "name": "Schabowy z ziemniakami",
+    "description": "Klasyczny kotlet schabowy podawany z ziemniakami i surówką",
+    "price": 22.0,
+    "products": [
+      {
+        "name": "Schab",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 500,
+        "unit": "grams"
       },
-      "name": "Ziemniaki",
-      "supplier_id": "665745469efcaf30a39d98b3",
-      "quantity": 300,
-      "unit": "grams"
-    },
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9a3"
-      },
-      "name": "Ser twarogowy",
-      "supplier_id": "665745469efcaf30a39d98b4",
-      "quantity": 200,
-      "unit": "grams"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66574a44170d24ea1366f62c"
+      {
+        "name": "Ziemniaki",
+        "supplier_name": "Dostawca Janek",
+        "quantity": 500,
+        "unit": "grams"
+      }
+    ]
   },
-  "name": "Schabowy z ziemniakami",
-  "description": "Klasyczny kotlet schabowy podawany z ziemniakami i surówką",
-  "price": 22,
-  "products": [
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9a4"
+  {
+    "name": "Zupa pomidorowa",
+    "description": "Zupa pomidorowa z makaronem",
+    "price": 12.5,
+    "products": [
+      {
+        "name": "Pomidor",
+        "supplier_name": "Dostawca Anna",
+        "quantity": 100,
+        "unit": "grams"
       },
-      "name": "Schab",
-      "quantity": 500,
-      "unit": "grams"
-    },
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9a5"
-      },
-      "name": "Ziemniaki",
-      "quantity": 500,
-      "unit": "grams"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66574a44170d24ea1366f62d"
+      {
+        "name": "Makaron",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 1000,
+        "unit": "grams"
+      }
+    ]
   },
-  "name": "Zupa pomidorowa",
-  "description": "Zupa pomidorowa z makaronem",
-  "price": 12.5,
-  "products": [
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9a6"
+  {
+    "name": "Sałatka grecka",
+    "description": "Świeża sałatka z warzywami, oliwkami i serem feta",
+    "price": 15.0,
+    "products": [
+      {
+        "name": "Warzywa mieszane",
+        "supplier_name": "Dostawca Janek",
+        "quantity": 1000,
+        "unit": "grams"
       },
-      "name": "Pomidor",
-      "supplier_id": "665745469efcaf30a39d98b4",
-      "quantity": 100,
-      "unit": "grams"
-    },
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9a7"
+      {
+        "name": "Ser feta",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 50,
+        "unit": "grams"
       },
-      "name": "Makaron",
-      "supplier_id": "665745469efcaf30a39d98b5",
-      "quantity": 1000,
-      "unit": "grams"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66574a44170d24ea1366f62e"
+      {
+        "name": "Pomidor",
+        "supplier_name": "Dostawca Anna",
+        "quantity": 500,
+        "unit": "grams"
+      }
+    ]
   },
-  "name": "Sałatka grecka",
-  "description": "Świeża sałatka z warzywami, oliwkami i serem feta",
-  "price": 15,
-  "products": [
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9a8"
+  {
+    "name": "Tarta szpinakowa",
+    "description": "Tarta ze szpinakiem i serem feta",
+    "price": 17.5,
+    "products": [
+      {
+        "name": "Szpinak",
+        "supplier_name": "Dostawca Janek",
+        "quantity": 1000,
+        "unit": "grams"
       },
-      "name": "Warzywa mieszane",
-      "supplier_id": "665745469efcaf30a39d98b3",
-      "quantity": 1000,
-      "unit": "grams"
-    },
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9a9"
-      },
-      "name": "Ser feta",
-      "supplier_id": "665745469efcaf30a39d98b4",
-      "quantity": 50,
-      "unit": "grams"
-    },
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9a6"
-      },
-      "name": "Pomidor",
-      "supplier_id": "665745469efcaf30a39d98b4",
-      "quantity": 500,
-      "unit": "grams"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66574a44170d24ea1366f62f"
+      {
+        "name": "Ser feta",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 50,
+        "unit": "grams"
+      }
+    ]
   },
-  "name": "Tarta szpinakowa",
-  "description": "Tarta ze szpinakiem i serem feta",
-  "price": 17.5,
-  "products": [
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9aa"
+  {
+    "name": "Ryba z frytkami",
+    "description": "Smażona ryba z frytkami i surówką",
+    "price": 20.0,
+    "products": [
+      {
+        "name": "Ryba",
+        "supplier_name": "Dostawca Anna",
+        "quantity": 800,
+        "unit": "grams"
       },
-      "name": "Szpinak",
-      "supplier_id": "665745469efcaf30a39d98b5",
-      "quantity": 1000,
-      "unit": "grams"
-    },
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9a9"
-      },
-      "name": "Ser feta",
-      "supplier_id": "665745469efcaf30a39d98b4",
-      "quantity": 50,
-      "unit": "grams"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66574a44170d24ea1366f630"
+      {
+        "name": "Frytki",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 1000,
+        "unit": "grams"
+      }
+    ]
   },
-  "name": "Ryba z frytkami",
-  "description": "Smażona ryba z frytkami i surówką",
-  "price": 20,
-  "products": [
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9ab"
-      },
-      "name": "Ryba",
-      "supplier_id": "665745469efcaf30a39d98b3",
-      "quantity": 800,
-      "unit": "grams"
-    },
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9ac"
-      },
-      "name": "Frytki",
-      "supplier_id": "665745469efcaf30a39d98b4",
-      "quantity": 1000,
-      "unit": "grams"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66574a44170d24ea1366f631"
+  {
+    "name": "Risotto z kurczakiem",
+    "description": "Risotto z kurczakiem i warzywami",
+    "price": 19.5,
+    "products": [
+      {
+        "name": "Kurczak",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 900,
+        "unit": "grams"
+      }
+    ]
   },
-  "name": "Risotto z kurczakiem",
-  "description": "Risotto z kurczakiem i warzywami",
-  "price": 19.5,
-  "products": [
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9ad"
+  {
+    "name": "Makaron bolognese",
+    "description": "Makaron z sosem bolognese",
+    "price": 16.5,
+    "products": [
+      {
+        "name": "Sos bolognese",
+        "supplier_name": "Dostawca Anna",
+        "quantity": 500,
+        "unit": "grams"
       },
-      "name": "Kurczak",
-      "supplier_id": "665745469efcaf30a39d98b5",
-      "quantity": 900,
-      "unit": "grams"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "66574a44170d24ea1366f632"
+      {
+        "name": "Makaron",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 700,
+        "unit": "grams"
+      }
+    ]
   },
-  "name": "Makaron bolognese",
-  "description": "Makaron z sosem bolognese",
-  "price": 16.5,
-  "products": [
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9af"
-      },
-      "name": "Sos bolognese",
-      "supplier_id": "665745469efcaf30a39d98b4",
-      "quantity": 500,
-      "unit": "grams"
-    },
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9ae"
-      },
-      "name": "Makaron",
-      "supplier_id": "665745469efcaf30a39d98b3",
-      "quantity": 700,
-      "unit": "grams"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "665872b2fd53cfe0cd99f79f"
-  },
-  "name": "Makaron carbonara",
-  "description": "Makaron carbonara",
-  "price": 19,
-  "products": [
-    {
-      "_id": {
-        "$oid": "665747c2e9b8cb60c637b9ae"
-      },
-      "name": "Makaron",
-      "supplier_id": "665745469efcaf30a39d98b3",
-      "quantity": 700,
-      "unit": "grams"
-    }
-  ]
-}]
+  {
+    "name": "Makaron carbonara",
+    "description": "Makaron carbonara",
+    "price": 19.0,
+    "products": [
+      {
+        "name": "Makaron",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 700,
+        "unit": "grams"
+      }
+    ]
+  }
+]
