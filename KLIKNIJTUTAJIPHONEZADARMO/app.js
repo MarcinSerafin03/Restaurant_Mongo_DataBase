@@ -85,8 +85,8 @@ app.post('/register', async (req, res) => {
         password: hashedPassword,
         phone,
         address,
-        // history: [null],
-        // reservations: [null]
+        history: [],
+        reservations: []
     };
     console.log(clientDocument);
     await clientsCollection.insertOne(clientDocument);
@@ -94,6 +94,9 @@ app.post('/register', async (req, res) => {
     }
     catch(error){
         console.error('Error registering:', error);
+        if (error.errInfo && error.errInfo.details && error.errInfo.details.schemaRulesNotSatisfied) {
+            console.error('Validation errors:', JSON.stringify(error.errInfo.details.schemaRulesNotSatisfied, null, 2));
+        }
         return res.status(500).json({ success: false, message: 'An error occurred while registering.' });
     }
 });
@@ -422,6 +425,9 @@ app.post('/makeorder',requireLogin, async(req,res) => {
         //znajdujemy naszego klienta
         const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
 
+        // console.log(cart.dishes);
+        // console.log(cart.dishes.length);
+
         //jesli koszyk jest pusty to zwracamy blad 
         if(cart.dishes.length === 0){
             return res.status(500).json({ success: false, message: 'Cart empty' });
@@ -432,15 +438,30 @@ app.post('/makeorder',requireLogin, async(req,res) => {
 
         const date = new Date().toISOString().split('T')[0];
 
+        
         //dodajemy zamowienie do kolekcji orders
-        const orderRes = await ordersCollection.insertOne({client: client, date: date, cart_id: cart._id, dishes: cart.dishes, price: orderPrice, address: client.address, status: "pending" });
+        const orderRes = await ordersCollection.insertOne({client_id: client._id, date: date, cart_id: cart._id, dishes: cart.dishes, price: orderPrice, address: client.address, status: "pending" });
 
         const orderToAdd = await ordersCollection.findOne({_id: orderRes.insertedId})
+
+        const dishes = orderToAdd.dishes.map(dish => dish._id.toString());
+
+        console.log(dishes);
+
+        const orderObject = {
+            order_id: orderToAdd._id.toString(),
+            date: orderToAdd.date,
+            dishes: orderToAdd.dishes.map(dish => ({
+                dish_id: dish._id.toString(),
+                name: dish.name
+            }))
+        }
+        
 
         //pobrana rezerwacje dodajemy rowniez do listy rezerwacji naszego uzytkownika
         await clientsCollection.updateOne(
             {_id: new ObjectId(userId)},
-            {$push: {history: orderToAdd}}
+            {$push: {history: orderObject}}
         );
 
         //usuwamy koszyk
@@ -450,7 +471,10 @@ app.post('/makeorder',requireLogin, async(req,res) => {
         return res.status(200).json({ success: true, message: 'Order made!' });
     }catch(error){
         console.error('Error clearing cart:', error);
-        return res.status(500).json({ success: false, message: 'An error occurred while clearing the cart.' });   
+        if (error.errInfo && error.errInfo.details && error.errInfo.details.schemaRulesNotSatisfied) {
+            console.error('Validation errors:', JSON.stringify(error.errInfo.details.schemaRulesNotSatisfied, null, 2));
+        }
+        return res.status(500).json({ success: false, message: 'An error occurred while registering.' });
     }
 
 });

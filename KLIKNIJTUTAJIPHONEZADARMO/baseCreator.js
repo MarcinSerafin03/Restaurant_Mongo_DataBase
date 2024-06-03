@@ -44,8 +44,8 @@ const schemas = {
             'password',
             'phone',
             'address',
-            // 'history',
-            // 'reservations'
+            'history',
+            'reservations'
           ],
           properties: {
             name: {
@@ -72,85 +72,84 @@ const schemas = {
               bsonType: 'string',
               description: 'must be a string and is required'
             },
-            // history: {
-            //   bsonType: 'array',
-            //   description: 'must be an array if present',
-            //   items: {
-            //     bsonType: ['object', 'null'],
-            //     required: [
-            //       'order_id',
-            //       'date',
-            //       'products'
-            //     ],
-            //     properties: {
-            //       order_id: {
-            //         bsonType: 'string',
-            //         description: 'must be a string and is required'
-            //       },
-            //       date: {
-            //         bsonType: 'date',
-            //         description: 'must be a date and is required'
-            //       },
-            //       products: {
-            //         bsonType: 'array',
-            //         description: 'must be an array and is required',
-            //         items: {
-            //           bsonType: 'object',
-            //           required: [
-            //             'product_id',
-            //             'amount'
-            //           ],
-            //           properties: {
-            //             product_id: {
-            //               bsonType: 'string',
-            //               description: 'must be a string and is required'
-            //             },
-            //             amount: {
-            //               bsonType: 'int',
-            //               description: 'must be an int and is required'
-            //             }
-            //           }
-            //         }
-            //       }
-            //     }
-            //   }
-            // },
-        //     reservations: {
-        //       bsonType: 'array',
-        //       description: 'must be an array if present',
-        //       minItems: 0,
-        //       items: {
-        //         bsonType: ['object', 'null'],
-        //         required: [
-        //           'date',
-        //           'time',
-        //           'people',
-        //           'isCanceled'
-        //         ],
-        //         properties: {
-        //           date: {
-        //             bsonType: 'date',
-        //             description: 'must be a date and is required'
-        //           },
-        //           time: {
-        //             bsonType: 'string',
-        //             description: 'must be a string and is required'
-        //           },
-        //           people: {
-        //             bsonType: 'int',
-        //             description: 'must be an int and is required'
-        //           },
-        //           isCanceled: {
-        //             bsonType: 'bool',
-        //             description: 'must be a bool and is required'
-        //           }
-        //         }
-        //       }
-        //     }
-        //   },
+            history: {
+              bsonType: 'array',
+              description: 'must be an array if present',
+              items: {
+                bsonType: ['object', 'null'],
+                required: [
+                  'order_id',
+                  'date',
+                  'dishes'
+                ],
+                properties: {
+                  order_id: {
+                    bsonType: 'string',
+                    description: 'must be a string and is required'
+                  },
+                  date: {
+                    bsonType: 'string',
+                    description: 'must be a string and is required'
+                  },
+                  dishes: {
+                    bsonType: 'array',
+                    description: 'must be an array and is required',
+                    items: {
+                      bsonType: 'object',
+                      required: [
+                        'dish_id',
+                        'name'
+                      ],
+                      properties: {
+                        dish_id: {
+                          bsonType: 'string',
+                          description: 'must be a string and is required'
+                        },
+                        name: {
+                            bsonType: 'string',
+                            description: 'must be a string and is required'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            reservations: {
+              bsonType: 'array',
+              description: 'must be an array if present',
+              minItems: 0,
+              items: {
+                bsonType: ['object', 'null'],
+                required: [
+                  'date',
+                  'time',
+                  'people',
+                  'isCanceled'
+                ],
+                properties: {
+                  date: {
+                    bsonType: 'date',
+                    description: 'must be a date and is required'
+                  },
+                  time: {
+                    bsonType: 'string',
+                    description: 'must be a string and is required'
+                  },
+                  people: {
+                    bsonType: 'int',
+                    description: 'must be an int and is required'
+                  },
+                  isCanceled: {
+                    bsonType: 'bool',
+                    description: 'must be a bool and is required'
+                  }
+                }
+              }
+            }
           },
-          additionalProperties: false
-        }
+        },
+        
     },
     Dishes: {
         $jsonSchema: {
