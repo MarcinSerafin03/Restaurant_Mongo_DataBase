@@ -3,7 +3,7 @@ import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-import bcrypt from 'bcrypt';
+import bcrypt, { hash } from 'bcrypt';
 import connectStore from 'connect-mongodb-session';
 import moment from 'moment'
 
@@ -53,7 +53,7 @@ const productsCollection = db.collection("Products");
 const reservationsCollection = db.collection("Reservations");
 const ordersCollection = db.collection("Orders");
 const adminsCollection = db.collection("Admins");
-
+const supplierOrdersCollection = db.collection("SupplierOrders");
 
 //warunek bycia zalogowanym uzywany potem np przy wyswietlaniu koszyka
 const requireLogin = (req, res, next) => {
@@ -69,8 +69,6 @@ const checkAdmin = (req,res,next) => {
     }
     next();
 };
-
-
 //strona rejestracji
 app.get('/register', (req, res) => {
     res.render('register');
@@ -78,10 +76,29 @@ app.get('/register', (req, res) => {
 
 //operacja rejestracji
 app.post('/register', async (req, res) => {
+    try{
     const { name, surname, email, password, phone, address } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    await clientsCollection.insertOne({ name,surname,email, password: hashedPassword, phone, address, history: [],reservations: [] });
+    const clientDocument = {
+        name,
+        surname,
+        email,
+        password: hashedPassword,
+        phone,
+        address,
+        history: [],
+        reservations: []
+    };
+    await clientsCollection.insertOne(clientDocument);
     res.redirect('/login');
+    }
+    catch(error){
+        console.error('Error registering:', error);
+        if (error.errInfo && error.errInfo.details && error.errInfo.details.schemaRulesNotSatisfied) {
+            console.error('Validation errors:', JSON.stringify(error.errInfo.details.schemaRulesNotSatisfied, null, 2));
+        }
+        return res.status(500).json({ success: false, message: 'An error occurred while registering.' });
+    }
 });
 
 
@@ -95,7 +112,6 @@ app.get('/login', (req, res) => {
 app.post('/login', async (req, res) => {
     const { name,surname, password } = req.body;
     let user = await clientsCollection.findOne({ name, surname });
-
     //jesli nie znalezlismy uzytkownika w kolekcji clientow to sprwadzamy w adminach
     if(!user){
         user = await adminsCollection.findOne({name,surname});
@@ -105,7 +121,7 @@ app.post('/login', async (req, res) => {
             return res.redirect('/admin');
         }
 
-    }else if (user && await bcrypt.compare(password, user.password)) {
+    }else if (user && (await bcrypt.compare(password, user.password))|| user.password === password) {
         req.session.userId = user._id;
         req.session.isAdmin = false;
         return res.redirect('/');
@@ -157,72 +173,90 @@ app.get('/reservations', requireLogin, async (req, res) => {
 
 app.post('/makereservation', requireLogin, async(req,res) =>{
 
-    //z Sessions pobieramy ID naszego użytkownika 
-    const userId = req.session.userId;
+    try{
+        //z Sessions pobieramy ID naszego użytkownika 
+        const userId = req.session.userId;
 
-    //pobieramy godzine,czas i ilosc miejsc
-    const {date,time,people} = req.body;
+        //pobieramy godzine,czas i ilosc miejsc
+        const {date,time,people} = req.body;
 
-    //sprawdzenie czy data jest w przyszlosci
-    const currentDate = new Date().toISOString().split('T')[0];
-    if(date < currentDate){
-        return res.redirect('/reservations');
+        //sprawdzenie czy data jest w przyszlosci
+        const currentDate = new Date().toISOString().split('T')[0];
+        if(date < currentDate){
+            return res.redirect('/reservations');
+        }
+
+        //sprawdzenie czy godzina jest w przyszlosci
+        const currentTime = new Date().toISOString().split('T')[1].split('.')[0];
+        if(date === currentDate && time < currentTime){
+            return res.redirect('/reservations');
+        }
+
+        //sprawdzanie czy nie ma juz za duzo rezerwacji na ta sama godzine 
+        const dateTime = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
+
+        const oneHourEarlier = dateTime.clone().subtract(1, 'hour');    
+        const oneHourLater = dateTime.clone().add(1, 'hour');
+
+        const reservationsInRange = await reservationsCollection.find({
+            date: date,
+            time: {
+                $gte: oneHourEarlier.format('HH:mm'), 
+                $lte: oneHourLater.format('HH:mm') 
+            },
+            isCanceled: false
+        }).toArray();
+
+        let occupiedPlaces = reservationsInRange.reduce((total,reservation) => {
+            return total + parseInt(reservation.people);
+        },0);
+
+
+        const placesLeft = 20 - occupiedPlaces;
+
+        if(placesLeft < parseInt(people)){
+            return res.redirect('/reservations');
+        }
+
+        const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
+        console.log(client)
+
+        const clientObject = {
+            name: client.name,
+            surname: client.surname,
+            email: client.email,
+            password: client.password,
+            phone: client.phone,
+            address: client.address
+        }
+
+        //dodajemy rezerwacje do kolekcji rezerwacji
+        const reservationRes = await reservationsCollection.insertOne({client: clientObject,date: date,time: time,people: parseInt(people),isCanceled: false});
+
+        //pobieramy rezerwacje ktora dodalismy 
+        const reservationToAdd = await reservationsCollection.findOne({_id: reservationRes.insertedId})
+
+        const reservationObject = {
+            date: reservationToAdd.date,
+            time: reservationToAdd.time,
+            people: reservationToAdd.people,
+            isCanceled: reservationToAdd.isCanceled
+        }
+
+        //pobrana rezerwacje dodajemy rowniez do listy rezerwacji naszego uzytkownika
+        await clientsCollection.updateOne(
+            {_id: new ObjectId(userId)},
+            {$push: {reservations: reservationObject}}
+        );
+
+        res.redirect('/reservations');
+    }catch(error){
+        console.error('Error registering:', error);
+        if (error.errInfo && error.errInfo.details && error.errInfo.details.schemaRulesNotSatisfied) {
+            console.error('Validation errors:', JSON.stringify(error.errInfo.details.schemaRulesNotSatisfied, null, 2));
+        }
+        return res.status(500).json({ success: false, message: 'An error occurred while registering.' });
     }
-
-    //sprawdzenie czy godzina jest w przyszlosci
-    const currentTime = new Date().toISOString().split('T')[1].split('.')[0];
-    if(date === currentDate && time < currentTime){
-        return res.redirect('/reservations');
-    }
-
-    //sprawdzenie czy restauracja jest otwarta
-    const openTime = "12:00";
-    const closeTime = "22:00";
-    if(time < openTime || time > closeTime){
-        return res.redirect('/reservations');
-    }
-
-    //sprawdzanie czy nie ma juz za duzo rezerwacji na ta sama godzine 
-    const dateTime = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
-
-    const oneHourEarlier = dateTime.clone().subtract(1, 'hour');    
-    const oneHourLater = dateTime.clone().add(1, 'hour');
-    
-    const reservationsInRange = await reservationsCollection.find({
-        date: date,
-        time: {
-            $gte: oneHourEarlier.format('HH:mm'), 
-            $lte: oneHourLater.format('HH:mm') 
-        },
-        isCanceled: 0
-    }).toArray();
-
-    let occupiedPlaces = reservationsInRange.reduce((total,reservation) => {
-        return total + parseInt(reservation.people);
-    },0);
-
-
-    const placesLeft = 20 - occupiedPlaces;
-
-    if(placesLeft < parseInt(people)){
-        return res.redirect('/reservations');
-    }
-
-    const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
-    //dodajemy rezerwacje do kolekcji rezerwacji
-    const reservationRes = await reservationsCollection.insertOne({client: client,date: date,time: time,people: people,isCanceled: 0});
-
-    //pobieramy rezerwacje ktora dodalismy 
-    const reservationToAdd = await reservationsCollection.findOne({_id: reservationRes.insertedId})
-
-    //pobrana rezerwacje dodajemy rowniez do listy rezerwacji naszego uzytkownika
-    await clientsCollection.updateOne(
-        {_id: new ObjectId(userId)},
-        {$push: {reservations: reservationToAdd}}
-    );
-
-    res.redirect('/reservations');
-    
 });
 
 
@@ -235,7 +269,7 @@ app.post('/cancelreservation',requireLogin, async(req,res) =>{
     const {reservationID} = req.body;
 
     //w kolekcji rezerwacji ustawaimy status rezerwacji na canceled
-    await reservationsCollection.updateOne({_id: new ObjectId(reservationID)}, {$set: {isCanceled: 1}});
+    await reservationsCollection.updateOne({_id: new ObjectId(reservationID)}, {$set: {isCanceled: true}});
 
     //znajdujemy naszego klienta
     const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
@@ -403,6 +437,26 @@ app.post('/deleteproduct',requireLogin, async(req,res) => {
 
 });
 
+app.post('/callsupplierorder',requireLogin, async(req,res) => {
+    console.log("DSADASD")
+    try{
+        const {productID} = req.body;
+        const product = await productsCollection.findOne({_id: new ObjectId(productID)});
+        const supplier_name = product.supplier_name;
+        const supplier = await clientsCollection.findOne({name: supplier_name});
+        if (!product) {
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+        const supplierOrder={client_id: supplier._id, date: new Date().toISOString().split('T')[0],products: product, price: product.price, status: "pending" }
+        console.log(supplierOrder);
+        await Collection.insertOne(supplierOrder);
+    }catch(error){
+        console.error('Error calling supplier:', error);
+        return res.status(500).json({ success: false, message: 'An error occurred while calling the supplier.' });
+    }
+    return res.status(200).json({ success: true, message: 'Order made!' });
+});
+
 app.post('/makeorder',requireLogin, async(req,res) => {
     try{
         //z Sessions pobieramy ID naszego użytkownika 
@@ -420,19 +474,43 @@ app.post('/makeorder',requireLogin, async(req,res) => {
         }
 
         //obliczamy cenę zamówienia 
-        let orderPrice = cart.dishes.reduce((total,dish) => total += dish.price, 0);
+        let orderPrice = cart.dishes.reduce((total,dish) => total + parseFloat(dish.price), 0.0);
 
-        const date = new Date().toISOString().split('T')[0];
+        const date = new Date().toISOString().split('T')[0]; 
 
+        const clientObject = {
+            client_id: client._id,
+            name: client.name,
+            surname: client.surname
+        }
+        
         //dodajemy zamowienie do kolekcji orders
-        const orderRes = await ordersCollection.insertOne({client: client, date: date, cart_id: cart._id, dishes: cart.dishes, price: orderPrice, address: client.address, status: "pending" });
+        const orderRes = await ordersCollection.insertOne({client: clientObject, date: date, cart_id: cart._id, dishes: cart.dishes, price: orderPrice, address: client.address, status: "pending" });
 
         const orderToAdd = await ordersCollection.findOne({_id: orderRes.insertedId})
+
+        const dishes = orderToAdd.dishes.map(dish => dish._id.toString());
+
+        console.log(dishes);
+
+        const orderObject = {
+            order_id: orderToAdd._id.toString(),
+            date: orderToAdd.date,
+            price: orderPrice,
+            address: client.address,
+            status: 'pending',
+            dishes: orderToAdd.dishes.map(dish => ({
+                dish_id: dish._id.toString(),
+                name: dish.name,
+                price: dish.price
+            }))
+        }
+        
 
         //pobrana rezerwacje dodajemy rowniez do listy rezerwacji naszego uzytkownika
         await clientsCollection.updateOne(
             {_id: new ObjectId(userId)},
-            {$push: {history: orderToAdd}}
+            {$push: {history: orderObject}}
         );
 
         //usuwamy koszyk
@@ -442,7 +520,10 @@ app.post('/makeorder',requireLogin, async(req,res) => {
         return res.status(200).json({ success: true, message: 'Order made!' });
     }catch(error){
         console.error('Error clearing cart:', error);
-        return res.status(500).json({ success: false, message: 'An error occurred while clearing the cart.' });   
+        if (error.errInfo && error.errInfo.details && error.errInfo.details.schemaRulesNotSatisfied) {
+            console.error('Validation errors:', JSON.stringify(error.errInfo.details.schemaRulesNotSatisfied, null, 2));
+        }
+        return res.status(500).json({ success: false, message: 'An error occurred while registering.' });
     }
 
 });
@@ -483,10 +564,16 @@ app.get('/adminorders', requireLogin, async (req,res) =>{
     res.render('adminOrders',{ordersPending: ordersPending, ordersDelivered: ordersDelivered});
 });
 
+app.get('/adminsupplierorders', requireLogin, async(req,res) =>{
+    const products = await productsCollection.find({}).toArray(); 
+    res.render('adminSupplierOrders',{products: products});
+});
+    
+
 app.get('/adminreservations' , requireLogin, async(req,res) => {
 
     //znajdz rezerwacje ktore nie sa anulowane
-    const reservations = await reservationsCollection.find({isCanceled: 0}).toArray();
+    const reservations = await reservationsCollection.find({isCanceled: false}).toArray();
 
     const currentDate = new Date().toISOString().split('T')[0];
 
@@ -501,15 +588,20 @@ app.post('/deliverorder', requireLogin, async (req,res) =>{
     try{
         const {orderID, clientID} = req.body
 
+
+        
         //ustaw order jako dostarczony
         await ordersCollection.updateOne(
             { _id: new ObjectId(orderID) },
             { $set: { status: "delivered" } }
         );
 
+        console.log(orderID);
+        console.log(clientID);
+
         //ustaw order w historii klienta jako delivered
         await clientsCollection.updateOne(
-            {_id: new ObjectId(clientID), "history._id": new ObjectId(orderID)},
+            {_id: new ObjectId(clientID), "history.order_id": orderID},
             {$set: {"history.$.status": "delivered"}}
         );
 
@@ -517,7 +609,10 @@ app.post('/deliverorder', requireLogin, async (req,res) =>{
         
     }catch(error){
         console.error('Error delivering order:', error);
-        return res.status(500).json({ success: false, message: 'An error occurred while delivering orderS.' });  
+        if (error.errInfo && error.errInfo.details && error.errInfo.details.schemaRulesNotSatisfied) {
+            console.error('Validation errors:', JSON.stringify(error.errInfo.details.schemaRulesNotSatisfied, null, 2));
+        }
+        return res.status(500).json({ success: false, message: 'An error occurred while registering.' });
     }
     
 });

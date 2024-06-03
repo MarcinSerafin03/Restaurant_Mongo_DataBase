@@ -7,7 +7,7 @@ const schemas = {
     Products: {
         $jsonSchema: {
             bsonType: "object",
-            required: ["name", "supplier_name", "stock"],
+            required: ["name", "supplier_name","price", "stock"],
             properties: {
                 name: {
                     bsonType: "string",
@@ -17,13 +17,17 @@ const schemas = {
                     bsonType: "string",
                     description: "must be a string and is required"
                 },
+                price: {
+                    bsonType: "double",
+                    description: "must be a double and is required"
+                },
                 stock: {
                     bsonType: "object",
                     required: ["quantity", "unit"],
                     properties: {
                         quantity: {
-                            bsonType: "int",
-                            description: "must be an int and is required"
+                            bsonType: "number",
+                            description: "must be an number and is required"
                         },
                         unit: {
                             bsonType: "string",
@@ -36,71 +40,140 @@ const schemas = {
     },
     Clients: {
         $jsonSchema: {
-            bsonType: "object",
-            required: ["name", "surname", "email", "password", "phone", "address"],
-            properties: {
-                name: {
+          bsonType: 'object',
+          required: [
+            'name',
+            'surname',
+            'email',
+            'password',
+            'phone',
+            'address',
+            'history',
+            'reservations'
+          ],
+          properties: {
+            name: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            surname: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            email: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            password: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            phone: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            address: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            history: {
+              bsonType: 'array',
+              description: 'must be an array if present',
+              items: {
+                bsonType: ['object', 'null'],
+                required: [
+                  'order_id',
+                  'date',
+                  'price',
+                  'address',
+                  'status',
+                  'dishes'
+                ],
+                properties: {
+                  order_id: {
+                    bsonType: 'string',
+                    description: 'must be a string and is required'
+                  },
+                  date: {
+                    bsonType: 'string',
+                    description: 'must be a string and is required'
+                  },
+                  price: {
+                      bsonType: "number",
+                      description: "must be a number and is required"
+                  },
+                  address: {
                     bsonType: "string",
                     description: "must be a string and is required"
-                },
-                surname: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                email: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                password: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                phone: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                address: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                history: {
-                    bsonType: "array",
-                    description: "must be an array and is required",
+                  },
+                  status: {
+                    enum: ["pending", "in progress", "delivered"],
+                    description: "can only be one of the enum values and is required"
+                  },   
+                  dishes: {
+                    bsonType: 'array',
+                    description: 'must be an array and is required',
                     items: {
-                        bsonType: "object",
-                        required: ["order_id", "date", "products"],
-                        properties: {
-                            order_id: {
-                                bsonType: "string",
-                                description: "must be a string and is required"
-                            },
-                            date: {
-                                bsonType: "date",
-                                description: "must be a date and is required"
-                            },
-                            products: {
-                                bsonType: "array",
-                                description: "must be an array and is required",
-                                items: {
-                                    bsonType: "object",
-                                    required: ["product_id", "amount"],
-                                    properties: {
-                                        product_id: {
-                                            bsonType: "string",
-                                            description: "must be a string and is required"
-                                        },
-                                        amount: {
-                                            bsonType: "int",
-                                            description: "must be an int and is required"
-                                        }
-                                    }
-                                }
-                            }
+                      bsonType: 'object',
+                      required: [
+                        'dish_id',
+                        'name',
+                        'price'
+                      ],
+                      properties: {
+                        dish_id: {
+                          bsonType: 'string',
+                          description: 'must be a string and is required'
+                        },
+                        name: {
+                            bsonType: 'string',
+                            description: 'must be a string and is required'
+                        },
+                        price: {
+                            bsonType: "number",
+                            description: "must be a number and is required"
                         }
+                      }
                     }
+                  }
                 }
+              }
+            },
+            reservations: {
+              bsonType: 'array',
+              description: 'must be an array if present',
+              minItems: 0,
+              items: {
+                bsonType: ['object', 'null'],
+                required: [
+                  'date',
+                  'time',
+                  'people',
+                  'isCanceled'
+                ],
+                properties: {
+                  date: {
+                    bsonType: 'string',
+                    description: 'must be a string and is required'
+                  },
+                  time: {
+                    bsonType: 'string',
+                    description: 'must be a string and is required'
+                  },
+                  people: {
+                    bsonType: 'int',
+                    description: 'must be an int and is required'
+                  },
+                  isCanceled: {
+                    bsonType: 'bool',
+                    description: 'must be a bool and is required'
+                  }
+                }
+              }
             }
-        }
+          },
+        },
+        
     },
     Dishes: {
         $jsonSchema: {
@@ -116,8 +189,8 @@ const schemas = {
                     description: "must be a string and is required"
                 },
                 price: {
-                    bsonType: "double",
-                    description: "must be a double and is required"
+                    bsonType: "number",
+                    description: "must be a number and is required"
                 },
                 products: {
                     bsonType: "array",
@@ -135,8 +208,8 @@ const schemas = {
                                 description: "must be a string and is required"
                             },
                             quantity: {
-                                bsonType: "int",
-                                description: "must be an int and is required"
+                                bsonType: "number",
+                                description: "must be an number and is required"
                             },
                             unit: {
                                 bsonType: "string",
@@ -207,8 +280,8 @@ const schemas = {
                                 description: "must be a string and is required"
                             },
                             quantity: {
-                                bsonType: "int",
-                                description: "must be an int and is required"
+                                bsonType: "number",
+                                description: "must be an number and is required"
                             }
                         }
                     }
@@ -219,11 +292,26 @@ const schemas = {
     Orders : {
         $jsonSchema: {
             bsonType: "object",
-            required: ["client_id", "date", "cart", "dishes", "price", "address", "status"],
+            required: ["client", "date", "cart", "dishes", "price", "address", "status"],
             properties: {
-                client_id: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
+                client: {
+                    bsonType: "object",
+                    description: "must be an object and is required",
+                    required: ["client_id", "name", "surname"],
+                    properties: {
+                        client_id: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        name: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        surname: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        }
+                    }
                 },
                 date: {
                     bsonType: "date",
@@ -249,19 +337,19 @@ const schemas = {
                                 description: "must be a string and is required"
                             },
                             quantity: {
-                                bsonType: "int",
-                                description: "must be an int and is required"
+                                bsonType: "number",
+                                description: "must be an number and is required"
                             },
                             price: {
-                                bsonType: "double",
-                                description: "must be a double and is required"
+                                bsonType: "number",
+                                description: "must be a number and is required"
                             }
                         }
                     }
                 },
                 price: {
-                    bsonType: "double",
-                    description: "must be a double and is required"
+                    bsonType: "number",
+                    description: "must be a number and is required"
                 },
                 address: {
                     bsonType: "string",
@@ -274,7 +362,7 @@ const schemas = {
             }
         }
     },
-    Deliveries : {
+    SupplierOrders : {
         $jsonSchema: {
             bsonType: "object",
             required: ["supplier_id", "date", "products", "price", "status"],
@@ -287,39 +375,23 @@ const schemas = {
                     bsonType: "date",
                     description: "must be a date and is required"
                 },
-                products: {
-                    bsonType: "array",
-                    description: "must be an array and is required",
-                    items: {
-                        bsonType: "object",
-                        required: ["product_id", "product_name", "amount", "unit", "price"],
-                        properties: {
-                            product_id: {
-                                bsonType: "string",
-                                description: "must be a string and is required"
-                            },
-                            product_name: {
-                                bsonType: "string",
-                                description: "must be a string and is required"
-                            },
-                            amount: {
-                                bsonType: "int",
-                                description: "must be an int and is required"
-                            },
-                            unit: {
-                                bsonType: "string",
-                                description: "must be a string and is required"
-                            },
-                            price: {
-                                bsonType: "double",
-                                description: "must be a double and is required"
-                            }
+                product:{
+                    bsonType: "object",
+                    required: ["product_id", "price"],
+                    properties: {
+                        product_id: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        price: {
+                            bsonType: "number",
+                            description: "must be a double and is required"
                         }
                     }
                 },
                 price: {
-                    bsonType: "double",
-                    description: "must be a double and is required"
+                    bsonType: "number",
+                    description: "must be a number and is required"
                 },
                 status: {
                     enum: ["pending", "in progress", "delivered"],
@@ -394,7 +466,7 @@ const schemas = {
             properties: {
                 client: {
                     bsonType: "object",
-                    required: ["name","surname","email","password","phone","address","history","reservations"],
+                    required: ["name","surname","email","password","phone","address"/* ,"history","reservations" */],
                     properties: {
                         name: {
                             bsonType: "string",
@@ -420,67 +492,67 @@ const schemas = {
                             bsonType: "string",
                             description: "must be a string and is required"
                         },
-                        history: {
-                            bsonType: "array",
-                            description: "must be an array and is required",
-                            items: {
-                                bsonType: "object",
-                                required: ["cart_id","dishes","price","address","status"],
-                                properties: {
-                                    order_id: {
-                                        bsonType: "string",
-                                        description: "must be a string and is required"
-                                    },
-                                    date: {
-                                        bsonType: "date",
-                                        description: "must be a date and is required"
-                                    },
-                                    products: {
-                                        bsonType: "array",
-                                        description: "must be an array and is required",
-                                        items: {
-                                            bsonType: "object",
-                                            required: ["product_id","amount"],
-                                            properties: {
-                                                product_id: {
-                                                    bsonType: "string",
-                                                    description: "must be a string and is required"
-                                                },
-                                                amount: {
-                                                    bsonType: "int",
-                                                    description: "must be an int and is required"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        reservations: {
-                            bsonType: "array",
-                            description: "must be an array and is required",
-                            items: {
-                                bsonType: "object",
-                                required: ["date","time","people","isCanceled"],
-                                properties: {
-                                    date: {
-                                        bsonType: "date",
-                                        description: "must be a date and is required"
-                                    },
-                                    time: {
-                                        bsonType: "string",
-                                        description: "must be a string and is required"
-                                    },
-                                    people: {
-                                        bsonType: "int",
-                                        description: "must be an int and is required"
-                                    },
-                                    isCanceled: {
-                                        bsonType: "bool",
-                                    }
-                                }
-                            }
-                        }
+                        // history: {
+                        //     bsonType: "array",
+                        //     description: "must be an array and is required",
+                        //     items: {
+                        //         bsonType: "object",
+                        //         required: ["cart_id","dishes","price","address","status"],
+                        //         properties: {
+                        //             order_id: {
+                        //                 bsonType: "string",
+                        //                 description: "must be a string and is required"
+                        //             },
+                        //             date: {
+                        //                 bsonType: "date",
+                        //                 description: "must be a date and is required"
+                        //             },
+                        //             products: {
+                        //                 bsonType: "array",
+                        //                 description: "must be an array and is required",
+                        //                 items: {
+                        //                     bsonType: "object",
+                        //                     required: ["product_id","amount"],
+                        //                     properties: {
+                        //                         product_id: {
+                        //                             bsonType: "string",
+                        //                             description: "must be a string and is required"
+                        //                         },
+                        //                         amount: {
+                        //                             bsonType: "number",
+                        //                             description: "must be an number and is required"
+                        //                         }
+                        //                     }
+                        //                 }
+                        //             }
+                        //         }
+                        //     }
+                        // },
+                        // reservations: {
+                        //     bsonType: "array",
+                        //     description: "must be an array and is required",
+                        //     items: {
+                        //         bsonType: "object",
+                        //         required: ["date","time","people","isCanceled"],
+                        //         properties: {
+                        //             date: {
+                        //                 bsonType: "date",
+                        //                 description: "must be a date and is required"
+                        //             },
+                        //             time: {
+                        //                 bsonType: "string",
+                        //                 description: "must be a string and is required"
+                        //             },
+                        //             people: {
+                        //                 bsonType: "int",
+                        //                 description: "must be an int and is required"
+                        //             },
+                        //             isCanceled: {
+                        //                 bsonType: "bool",
+                        //             }
+                        //         }
+                        //     }
+                        // }
                     }
                 },
                 date: {
@@ -509,6 +581,7 @@ const jsonFiles = [
     {collectionName: 'Dishes', filePath: 'JSONY/Dishes.json' },
     {collectionName: 'Suppliers', filePath: 'JSONY/Suppliers.json' },
     {collectionName: 'Admins', filePath: 'JSONY/Admins.json' },
+    {collectionName: 'Clients', filePath: 'JSONY/Clients.json' },
 ];
 
 
@@ -519,7 +592,7 @@ const collections = [
     {collectionName: 'Suppliers'},
     {collectionName: 'Carts'},
     {collectionName: 'Orders'},
-    {collectionName: 'Deliveries'},
+    {collectionName: 'SupplierOrders'},
     {collectionName: 'Admins'},
     {collectionName: 'Sessions'},
     {collectionName: 'Reservations'}
@@ -540,11 +613,22 @@ async function createCollectionsWithSchemas(db, schemas) {
     for (const [collectionName, schema] of Object.entries(schemas)) {
         try {
             console.log(`Creating collection ${collectionName} with schema validation...`);
-            await db.createCollection(collectionName, {
-                validator: { $jsonSchema: schema.$jsonSchema },
-                validationLevel: "strict",
-                validationAction: "warn",
-            });
+            if (collectionName === 'Clients') {
+                await db.createCollection(collectionName, {
+                    validator: { $jsonSchema: schema.$jsonSchema },
+                    validationLevel: "strict",
+                    validationAction: "error",
+                });
+                console.log(`Collection ${collectionName} created with schema validation.`);
+                continue;
+            }
+            else{
+                await db.createCollection(collectionName, {
+                    validator: { $jsonSchema: schema.$jsonSchema },
+                    validationLevel: "strict",
+                    validationAction: "warn",
+                });
+            }
             console.log(`Collection ${collectionName} created with schema validation.`);
         } catch (err) {
             console.error(`Error creating collection ${collectionName}:`, err);

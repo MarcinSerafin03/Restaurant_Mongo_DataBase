@@ -30,7 +30,7 @@ html
                     .row.justify-content-center.mb-2  
                       | Adres: #{order.address}
                     .row.justify-content-center.mb-2  
-                      button.btn.btn-primary(type="button" onclick=`orderDelivered('${order._id}','${order.client._id}')`) Ustaw jako dostarczone 
+                      button.btn.btn-primary(type="button" onclick=`orderDelivered('${order._id}','${order.client.client_id}')`) Ustaw jako dostarczone 
           else
             .row.mb-2.text-center
               p Nie ma żadnych oczekujących zamówień
