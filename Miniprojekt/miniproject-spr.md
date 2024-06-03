@@ -7,12 +7,18 @@
 ---
 
 ## Technologie 
-### MongoDB, Express, Node.js2
+
+##### Technologia bazodanowa - MongoDB
+##### Technologia serwerowa - Express
+##### Technologia backendowa - Node.js
+
 
 Wiele elementów znajduję sie w odpowiednik plikach podanych przy nagłówkach dla czytelności sprawozdania
-## Tabele 
+## Kolekcje:
+Poniżej znajdują się schematy tabel zaimplementowanych w MongoDB, które wykorzystuje nasza aplikacja
 
 ### Clients
+Kolekcja przechowująca dane klientów logujących się do aplikacji restauracji. Każdy klient ma przypisane ID, dane osobiste oraz kontaktowe, hasło i historię zamówień.
 ```json
 [
     {
@@ -59,6 +65,7 @@ Wiele elementów znajduję sie w odpowiednik plikach podanych przy nagłówkach 
 ```
 
 ### Dishes
+Kolekcja zawierająca dostępne do zamówienia potrawy. Każda potrawa ma swoje ID, nazwę, opis, cenę oraz produkty z których została przygotowana.
 
 ``` json
 [
@@ -76,6 +83,7 @@ Wiele elementów znajduję sie w odpowiednik plikach podanych przy nagłówkach 
 ```
 
 ### Products
+Kolekcja produktów podstawowych z których składają się dania w kolekcji dishes. Każdy produkt posiada swoje ID, nazwę, nazwę dostawcy, cenę oraz ilość w magazynie.
 
 ```json
 [
@@ -93,6 +101,7 @@ Wiele elementów znajduję sie w odpowiednik plikach podanych przy nagłówkach 
 ```
 
 ### Suppliers
+Kolekcja w której znajdują się dane dostawców produktów podstawowych używanych do produkcji dań w kolekcji dishes. Dane te zawierają ID dostawcy, nazwę, dane kontaktowe oraz ID produktów które dostarczają.
 
 ```json
 [
@@ -113,6 +122,7 @@ Wiele elementów znajduję sie w odpowiednik plikach podanych przy nagłówkach 
 ```
 
 ### Carts
+Kolekcja w której trzymane są aktualne koszyki osób dokonujących zamówień na stronie restauracji
     
 ```json
 [
@@ -127,6 +137,7 @@ Wiele elementów znajduję sie w odpowiednik plikach podanych przy nagłówkach 
 ]
 ```
 ### Orders
+Kolekcja w której trzymane są złożone już zamówienia klientów. Każdy zamówienie posiada swoje ID, dane klienta który złożył zamówienie oraz zawartość zamówienia wraz z datą, ceną i statusem. 
 
 ```json
 [
@@ -151,6 +162,7 @@ Wiele elementów znajduję sie w odpowiednik plikach podanych przy nagłówkach 
 ```
 
 ### SupplierOrders
+Kolekcja zawierająca zamówienia, które restauracja złożyła u pewnego dostawcy, każde takie zamówienie posiada swoje ID, ID dostawcy, date, produkty które obejmuje, cenę oraz status realizacji.
 
 ```json
 [
@@ -169,24 +181,285 @@ Wiele elementów znajduję sie w odpowiednik plikach podanych przy nagłówkach 
 ```
 
 
-
-
-## Schemat - Scheme.js
-
 ## Operacje
 
 #### CRUD - CRUD.js
+Poniżej opisane zostały operacje połączeniea się z bazą MongoDB, zamknięcia tego połączenia oraz operacje CRUD - create, read, update, delete na podstawie kolekcji Products. Operacje CRUD dla innych kolekcji zrealizowane są analogicznie i zapisane w pliku CRUD.js
+
+```javascript
+const { MongoClient } = require('mongodb');
+
+const uri = 'mongodb://localhost:27017';
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+async function connect() {
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB');
+    } catch (error) {
+        console.error('Error connecting to MongoDB:', error);
+    }
+}
+
+async function close() {
+    try {
+        await client.close();
+        console.log('MongoDB connection closed');
+    } catch (error) {
+        console.error('Error closing MongoDB connection:', error);
+    }
+}
+
+const Products = {
+    async create(name,supplier_name,price,stock) {
+        try {
+            const product={name,supplier_name,price,stock}
+            const database = client.db('RestaurantDataBaseProject');
+            const collection = database.collection('Products');
+            const result = await collection.insertOne(product);
+            return result.insertedId;
+        } catch (error) {
+            console.error('Error creating product:', error);
+            return null;
+        }
+    },
+
+    async read(name) {
+        try {
+            const database = client.db('RestaurantDataBaseProject');
+            const collection = database.collection('Products');
+            return await collection.findOne({name:name});
+        } catch (error) {
+            console.error('Error reading products:', error);
+            return [];
+        }
+    },
+
+    async update(name, updates) {
+        try {
+            const database = client.db('RestaurantDataBaseProject');
+            const collection = database.collection('Products');
+            await collection.updateOne({ name: name }, { $set: updates });
+            return true;
+        } catch (error) {
+            console.error('Error updating product:', error);
+            return false;
+        }
+    },
+
+    async delete(name) {
+        try {
+            const database = client.db('RestaurantDataBaseProject');
+            const collection = database.collection('Products');
+            await collection.deleteOne({ _id: id });
+            return true;
+        } catch (error) {
+            console.error('Error deleting product:', error);
+            return false;
+        }
+    }
+};
+```
 
 #### Agregacje - Aggregate.js
+Poniższy paragraf opisuje stworzenie raportu wydatków poszczególnych klientów
+```javascript
+const { MongoClient } = require('mongodb');
+
+const uri = 'mongodb://localhost:27017';
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+async function baseAggregate(db) {
+    const ordersCollection = db.collection('Orders');
+    const clientsCollection = db.collection('Clients');
+
+    const pipeline = [
+        {
+            $lookup: {
+                from: 'Clients',
+                localField: 'client.client_id',
+                foreignField: '_id',
+                as: 'clientDetails'
+            }
+        },
+        {
+            $unwind: '$clientDetails'
+        },
+        {
+            $group: {
+                _id: '$client.client_id',
+                totalSpent: { $sum: '$price' },
+                totalDishesOrdered: { $sum: { $size: '$dishes' } },
+                clientInfo: { $first: '$clientDetails' }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                client_id: '$_id',
+                clientName: { $concat: ['$clientInfo.name', ' ', '$clientInfo.surname'] },
+                totalSpent: 1,
+                totalDishesOrdered: 1
+            }
+        },
+        {
+            $sort: { totalSpent: -1 }
+        }
+    ];
+
+    const result = await ordersCollection.aggregate(pipeline).toArray();
+    console.log('Client Spending Report:', result);
+}
+
+async function main() {
+    const uri = "mongodb://localhost:27017/"; // replace with your MongoDB connection string
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    try {
+        await client.connect();
+        const database = client.db('RestaurantDataBaseProject');
+        await baseAggregate(database);
+    } finally {
+        await client.close();
+    }
+}
+
+main().catch(console.error);
+```
+Raport wydatków robimy po kolei najpierw łącząc się z bazą danych, następnie pobierając kolekcje Orders oraz Clients, łącząc te kolekcje po id klienta i sumując cenę zleceń jako totalSpent oraz ilość zamówionych potraw jako totalDishesOrdered
 
 ## Uruchomienie
 
 
-#### Stworzenie bazy danych - Site/dbCreator.js
 
-#### Uruchomienie serwera - Site/app.js
+#### Stworzenie bazy danych - Site/dbCreator.js
+Poniżej znajduje się wycinek ze skryptu dbCreator.js służący do tworzenia bazy danych MongoDB oraz dodawania do niej podstawowych tabel wraz z bazowymi informacjami na temat m.in. potraw czy produktów. Całość skryptu - wraz z brakującym tutaj schematem bazy danych dostępna jest w pliku dbCreatord.js
+
+```javascript
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const { MongoClient } = require('mongodb');
+const fs = require('fs');
+
+
+const jsonFiles = [
+    {collectionName: 'Products', filePath: 'JSONY/Products.json' },
+    {collectionName: 'Dishes', filePath: 'JSONY/Dishes.json' },
+    {collectionName: 'Suppliers', filePath: 'JSONY/Suppliers.json' },
+    {collectionName: 'Admins', filePath: 'JSONY/Admins.json' },
+    {collectionName: 'Clients', filePath: 'JSONY/Clients.json' },
+];
+
+
+const collections = [
+    {collectionName: 'Products'},
+    {collectionName: 'Clients'},
+    {collectionName: 'Dishes'},
+    {collectionName: 'Suppliers'},
+    {collectionName: 'Carts'},
+    {collectionName: 'Orders'},
+    {collectionName: 'SupplierOrders'},
+    {collectionName: 'Admins'},
+    {collectionName: 'Sessions'},
+    {collectionName: 'Reservations'}
+];
+async function removeCollection(database, collections) {
+    for (const {collectionName } of collections) {
+        try {
+            const collection = database.collection(collectionName);
+            await collection.drop();
+            console.log(`Removed ${collectionName} collection.`);
+        } catch (err) {
+            console.error('Error removing collection:', err);
+        }
+    }
+}
+
+async function createCollectionsWithSchemas(db, schemas) {
+    for (const [collectionName, schema] of Object.entries(schemas)) {
+        try {
+            console.log(`Creating collection ${collectionName} with schema validation...`);
+            if (collectionName === 'Clients') {
+                await db.createCollection(collectionName, {
+                    validator: { $jsonSchema: schema.$jsonSchema },
+                    validationLevel: "strict",
+                    validationAction: "error",
+                });
+                console.log(`Collection ${collectionName} created with schema validation.`);
+                continue;
+            }
+            else{
+                await db.createCollection(collectionName, {
+                    validator: { $jsonSchema: schema.$jsonSchema },
+                    validationLevel: "strict",
+                    validationAction: "warn",
+                });
+            }
+            console.log(`Collection ${collectionName} created with schema validation.`);
+        } catch (err) {
+            console.error(`Error creating collection ${collectionName}:`, err);
+        }
+    }
+}
+
+async function clearCollections(database, collections) {
+    for (const { dbName, collectionName } of collections) {
+        try {
+            const collection = database.collection(collectionName);
+            const result = await collection.deleteMany({});
+            console.log(`Cleared ${result.deletedCount} documents from the ${collectionName} collection.`);
+        } catch (err) {
+            console.error('Error clearing collection:', err);
+        } 
+    }
+}
+
+async function uploadData(database, jsonFiles) {
+    for (const { collectionName, filePath } of jsonFiles) {
+        try {
+            const collection = database.collection(collectionName);
+            console.log(`Importing data to ${collectionName} collection...`);
+            const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    
+            if (Array.isArray(data)) {
+                await collection.insertMany(data);
+            } else {
+                await collection.insertOne(data);
+            }
+    
+            console.log(`Data successfully imported to ${collectionName} collection.`);
+        } catch (err) {
+            console.error('Error importing data:', err);
+        }
+    }
+}
+
+async function main() {
+    const uri = "mongodb://localhost:27017/"; // replace with your MongoDB connection string (propably same but with 27017)
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    try {
+        await client.connect();
+        const database = client.db('RestaurantDataBaseProject');
+        await removeCollection(database, collections);
+        await createCollectionsWithSchemas(database, schemas);
+        await clearCollections(database, collections);
+        await uploadData(database, jsonFiles);
+
+    } catch (err) {
+        console.error(err);
+    } finally {
+        await client.close();
+    }
+}
+
+main().catch(console.error);
 
 ```
+
+#### Uruchomienie serwera - Site/app.js
+Aby uruchomić serwer należy najpierw wykonać npm install - służy pobraniu wszelkich pakietów niezbędnych do wystartowania serwera na naszym komputerze, następnie wykonać node dbCreator.js, aby zainicjalizować bazę danych trzymającą informacje z których korzystamy na stronie restauracji, a następnie włączyć stronę restauracji przy użyciu node app.js 
+``` 
 npm install
+node dbCreator.js
 node app.js
 ```
