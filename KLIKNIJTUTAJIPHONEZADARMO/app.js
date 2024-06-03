@@ -3,7 +3,7 @@ import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-import bcrypt from 'bcrypt';
+import bcrypt, { hash } from 'bcrypt';
 import connectStore from 'connect-mongodb-session';
 import moment from 'moment'
 
@@ -53,6 +53,7 @@ const productsCollection = db.collection("Products");
 const reservationsCollection = db.collection("Reservations");
 const ordersCollection = db.collection("Orders");
 const adminsCollection = db.collection("Admins");
+const supplierOrdersCollection = db.collection("SupplierOrders");
 
 //warunek bycia zalogowanym uzywany potem np przy wyswietlaniu koszyka
 const requireLogin = (req, res, next) => {
@@ -88,7 +89,6 @@ app.post('/register', async (req, res) => {
         history: [],
         reservations: []
     };
-    console.log(clientDocument);
     await clientsCollection.insertOne(clientDocument);
     res.redirect('/login');
     }
@@ -112,7 +112,6 @@ app.get('/login', (req, res) => {
 app.post('/login', async (req, res) => {
     const { name,surname, password } = req.body;
     let user = await clientsCollection.findOne({ name, surname });
-
     //jesli nie znalezlismy uzytkownika w kolekcji clientow to sprwadzamy w adminach
     if(!user){
         user = await adminsCollection.findOne({name,surname});
@@ -122,7 +121,7 @@ app.post('/login', async (req, res) => {
             return res.redirect('/admin');
         }
 
-    }else if (user && await bcrypt.compare(password, user.password)) {
+    }else if (user && (await bcrypt.compare(password, user.password))|| user.password === password) {
         req.session.userId = user._id;
         req.session.isAdmin = false;
         return res.redirect('/');
@@ -219,7 +218,6 @@ app.post('/makereservation', requireLogin, async(req,res) =>{
     }
 
     const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
-    console.log(client)
     //dodajemy rezerwacje do kolekcji rezerwacji
     const reservationRes = await reservationsCollection.insertOne({client: client,date: date,time: time,people: people,isCanceled: 0});
 
@@ -414,6 +412,26 @@ app.post('/deleteproduct',requireLogin, async(req,res) => {
 
 });
 
+app.post('/callsupplierorder',requireLogin, async(req,res) => {
+    console.log("DSADASD")
+    try{
+        const {productID} = req.body;
+        const product = await productsCollection.findOne({_id: new ObjectId(productID)});
+        const supplier_name = product.supplier_name;
+        const supplier = await clientsCollection.findOne({name: supplier_name});
+        if (!product) {
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+        const supplierOrder={client_id: supplier._id, date: new Date().toISOString().split('T')[0],products: product, price: product.price, status: "pending" }
+        console.log(supplierOrder);
+        await Collection.insertOne(supplierOrder);
+    }catch(error){
+        console.error('Error calling supplier:', error);
+        return res.status(500).json({ success: false, message: 'An error occurred while calling the supplier.' });
+    }
+    return res.status(200).json({ success: true, message: 'Order made!' });
+});
+
 app.post('/makeorder',requireLogin, async(req,res) => {
     try{
         //z Sessions pobieramy ID naszego użytkownika 
@@ -424,9 +442,6 @@ app.post('/makeorder',requireLogin, async(req,res) => {
 
         //znajdujemy naszego klienta
         const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
-
-        // console.log(cart.dishes);
-        // console.log(cart.dishes.length);
 
         //jesli koszyk jest pusty to zwracamy blad 
         if(cart.dishes.length === 0){
@@ -514,6 +529,12 @@ app.get('/adminorders', requireLogin, async (req,res) =>{
 
     res.render('adminOrders',{ordersPending: ordersPending, ordersDelivered: ordersDelivered});
 });
+
+app.get('/adminsupplierorders', requireLogin, async(req,res) =>{
+    const products = await productsCollection.find({}).toArray(); 
+    res.render('adminSupplierOrders',{products: products});
+});
+    
 
 app.get('/adminreservations' , requireLogin, async(req,res) => {
 

@@ -7,7 +7,7 @@ const schemas = {
     Products: {
         $jsonSchema: {
             bsonType: "object",
-            required: ["name", "supplier_name", "stock"],
+            required: ["name", "supplier_name","price", "stock"],
             properties: {
                 name: {
                     bsonType: "string",
@@ -16,6 +16,10 @@ const schemas = {
                 supplier_name: {
                     bsonType: "string",
                     description: "must be a string and is required"
+                },
+                price: {
+                    bsonType: "double",
+                    description: "must be a double and is required"
                 },
                 stock: {
                     bsonType: "object",
@@ -323,7 +327,7 @@ const schemas = {
             }
         }
     },
-    Deliveries : {
+    SupplierOrders : {
         $jsonSchema: {
             bsonType: "object",
             required: ["supplier_id", "date", "products", "price", "status"],
@@ -336,33 +340,17 @@ const schemas = {
                     bsonType: "date",
                     description: "must be a date and is required"
                 },
-                products: {
-                    bsonType: "array",
-                    description: "must be an array and is required",
-                    items: {
-                        bsonType: "object",
-                        required: ["product_id", "product_name", "amount", "unit", "price"],
-                        properties: {
-                            product_id: {
-                                bsonType: "string",
-                                description: "must be a string and is required"
-                            },
-                            product_name: {
-                                bsonType: "string",
-                                description: "must be a string and is required"
-                            },
-                            amount: {
-                                bsonType: "int",
-                                description: "must be an int and is required"
-                            },
-                            unit: {
-                                bsonType: "string",
-                                description: "must be a string and is required"
-                            },
-                            price: {
-                                bsonType: "double",
-                                description: "must be a double and is required"
-                            }
+                product:{
+                    bsonType: "object",
+                    required: ["product_id", "price"],
+                    properties: {
+                        product_id: {
+                            bsonType: "string",
+                            description: "must be a string and is required"
+                        },
+                        price: {
+                            bsonType: "number",
+                            description: "must be a double and is required"
                         }
                     }
                 },
@@ -558,6 +546,7 @@ const jsonFiles = [
     {collectionName: 'Dishes', filePath: 'JSONY/Dishes.json' },
     {collectionName: 'Suppliers', filePath: 'JSONY/Suppliers.json' },
     {collectionName: 'Admins', filePath: 'JSONY/Admins.json' },
+    {collectionName: 'Clients', filePath: 'JSONY/Clients.json' },
 ];
 
 
@@ -568,7 +557,7 @@ const collections = [
     {collectionName: 'Suppliers'},
     {collectionName: 'Carts'},
     {collectionName: 'Orders'},
-    {collectionName: 'Deliveries'},
+    {collectionName: 'SupplierOrders'},
     {collectionName: 'Admins'},
     {collectionName: 'Sessions'},
     {collectionName: 'Reservations'}

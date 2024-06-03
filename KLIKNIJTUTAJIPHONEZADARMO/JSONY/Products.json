@@ -2,6 +2,7 @@
   {
     "name": "Ziemniaki",
     "supplier_name": "Dostawca Janek",
+    "price": 2.5,
     "stock": {
       "quantity": 10000,
       "unit": "grams"
@@ -10,6 +11,7 @@
   {
     "name": "Ser twarogowy",
     "supplier_name": "Dostawca Anna",
+    "price": 3.5,
     "stock": {
       "quantity": 5000,
       "unit": "grams"
@@ -18,6 +20,7 @@
   {
     "name": "Schab",
     "supplier_name": "Dostawca Marek",
+    "price": 5.5,
     "stock": {
       "quantity": 7000,
       "unit": "grams"
@@ -26,6 +29,7 @@
   {
     "name": "Pomidor",
     "supplier_name": "Dostawca Anna",
+    "price": 1.5,
     "stock": {
       "quantity": 12000,
       "unit": "grams"
@@ -34,6 +38,7 @@
   {
     "name": "Makaron",
     "supplier_name": "Dostawca Marek",
+    "price": 2.0,
     "stock": {
       "quantity": 10000,
       "unit": "grams"
@@ -42,6 +47,7 @@
   {
     "name": "Warzywa mieszane",
     "supplier_name": "Dostawca Janek",
+    "price": 3.0,
     "stock": {
       "quantity": 15000,
       "unit": "grams"
@@ -50,6 +56,7 @@
   {
     "name": "Ser feta",
     "supplier_name": "Dostawca Marek",
+    "price": 4.0,
     "stock": {
       "quantity": 5000,
       "unit": "grams"
@@ -58,6 +65,7 @@
   {
     "name": "Szpinak",
     "supplier_name": "Dostawca Janek",
+    "price": 2.5,
     "stock": {
       "quantity": 6000,
       "unit": "grams"
@@ -66,6 +74,7 @@
   {
     "name": "Ryba",
     "supplier_name": "Dostawca Anna",
+    "price": 6.0,
     "stock": {
       "quantity": 8000,
       "unit": "grams"
@@ -74,6 +83,7 @@
   {
     "name": "Frytki",
     "supplier_name": "Dostawca Marek",
+    "price": 3.0,
     "stock": {
       "quantity": 10000,
       "unit": "grams"
@@ -82,6 +92,7 @@
   {
     "name": "Kurczak",
     "supplier_name": "Dostawca Marek",
+    "price": 4.5,
     "stock": {
       "quantity": 9000,
       "unit": "grams"
@@ -90,6 +101,7 @@
   {
     "name": "Sos bolognese",
     "supplier_name": "Dostawca Anna",
+    "price": 3.5,
     "stock": {
       "quantity": 5000,
       "unit": "grams"
