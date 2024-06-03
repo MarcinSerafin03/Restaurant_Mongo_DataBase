@@ -1,7 +1,9 @@
 # Bazy Danych Projekt
 ## Baza danych Restauracji
 
-Markdown i PDF w folderze MiniProject a zdjęcia w MiniProject/IMG
+Markdown i PDF w folderze Miniproject
+
+Strona oraz uruchomienie bazy(instrukcja w sprawozadniu) w folderze Miniprojekt/Site
 
 ### Autorzy:
 Antoni Dulewicz, Marcin Serafin, Wojciech Wietrzny

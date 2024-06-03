@@ -13,7 +13,7 @@
 ##### Technologia backendowa - Node.js
 
 
-Wiele elementów znajduję sie w odpowiednik plikach podanych przy nagłówkach dla czytelności sprawozdania
+Wiele elementów znajduję sie w odpowiednich plikach podanych przy nagłówkach dla czytelności sprawozdania
 ## Kolekcje:
 Poniżej znajdują się schematy tabel zaimplementowanych w MongoDB, które wykorzystuje nasza aplikacja
 
