@@ -36,70 +36,120 @@ const schemas = {
     },
     Clients: {
         $jsonSchema: {
-            bsonType: "object",
-            required: ["name", "surname", "email", "password", "phone", "address"],
-            properties: {
-                name: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                surname: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                email: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                password: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                phone: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                address: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
-                history: {
-                    bsonType: "array",
-                    description: "must be an array and is required",
-                    items: {
-                        bsonType: "object",
-                        required: ["order_id", "date", "products"],
-                        properties: {
-                            order_id: {
-                                bsonType: "string",
-                                description: "must be a string and is required"
-                            },
-                            date: {
-                                bsonType: "date",
-                                description: "must be a date and is required"
-                            },
-                            products: {
-                                bsonType: "array",
-                                description: "must be an array and is required",
-                                items: {
-                                    bsonType: "object",
-                                    required: ["product_id", "amount"],
-                                    properties: {
-                                        product_id: {
-                                            bsonType: "string",
-                                            description: "must be a string and is required"
-                                        },
-                                        amount: {
-                                            bsonType: "int",
-                                            description: "must be an int and is required"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+          bsonType: 'object',
+          required: [
+            'name',
+            'surname',
+            'email',
+            'password',
+            'phone',
+            'address',
+            // 'history',
+            // 'reservations'
+          ],
+          properties: {
+            name: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            surname: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            email: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            password: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            phone: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            address: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            // history: {
+            //   bsonType: 'array',
+            //   description: 'must be an array if present',
+            //   items: {
+            //     bsonType: ['object', 'null'],
+            //     required: [
+            //       'order_id',
+            //       'date',
+            //       'products'
+            //     ],
+            //     properties: {
+            //       order_id: {
+            //         bsonType: 'string',
+            //         description: 'must be a string and is required'
+            //       },
+            //       date: {
+            //         bsonType: 'date',
+            //         description: 'must be a date and is required'
+            //       },
+            //       products: {
+            //         bsonType: 'array',
+            //         description: 'must be an array and is required',
+            //         items: {
+            //           bsonType: 'object',
+            //           required: [
+            //             'product_id',
+            //             'amount'
+            //           ],
+            //           properties: {
+            //             product_id: {
+            //               bsonType: 'string',
+            //               description: 'must be a string and is required'
+            //             },
+            //             amount: {
+            //               bsonType: 'int',
+            //               description: 'must be an int and is required'
+            //             }
+            //           }
+            //         }
+            //       }
+            //     }
+            //   }
+            // },
+        //     reservations: {
+        //       bsonType: 'array',
+        //       description: 'must be an array if present',
+        //       minItems: 0,
+        //       items: {
+        //         bsonType: ['object', 'null'],
+        //         required: [
+        //           'date',
+        //           'time',
+        //           'people',
+        //           'isCanceled'
+        //         ],
+        //         properties: {
+        //           date: {
+        //             bsonType: 'date',
+        //             description: 'must be a date and is required'
+        //           },
+        //           time: {
+        //             bsonType: 'string',
+        //             description: 'must be a string and is required'
+        //           },
+        //           people: {
+        //             bsonType: 'int',
+        //             description: 'must be an int and is required'
+        //           },
+        //           isCanceled: {
+        //             bsonType: 'bool',
+        //             description: 'must be a bool and is required'
+        //           }
+        //         }
+        //       }
+        //     }
+        //   },
+          },
+          additionalProperties: false
         }
     },
     Dishes: {
@@ -540,11 +590,22 @@ async function createCollectionsWithSchemas(db, schemas) {
     for (const [collectionName, schema] of Object.entries(schemas)) {
         try {
             console.log(`Creating collection ${collectionName} with schema validation...`);
-            await db.createCollection(collectionName, {
-                validator: { $jsonSchema: schema.$jsonSchema },
-                validationLevel: "strict",
-                validationAction: "warn",
-            });
+            if (collectionName === 'Clients') {
+                await db.createCollection(collectionName, {
+                    validator: { $jsonSchema: schema.$jsonSchema },
+                    validationLevel: "strict",
+                    validationAction: "error",
+                });
+                console.log(`Collection ${collectionName} created with schema validation.`);
+                continue;
+            }
+            else{
+                await db.createCollection(collectionName, {
+                    validator: { $jsonSchema: schema.$jsonSchema },
+                    validationLevel: "strict",
+                    validationAction: "warn",
+                });
+            }
             console.log(`Collection ${collectionName} created with schema validation.`);
         } catch (err) {
             console.error(`Error creating collection ${collectionName}:`, err);

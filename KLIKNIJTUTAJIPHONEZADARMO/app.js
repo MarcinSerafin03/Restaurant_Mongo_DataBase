@@ -54,7 +54,6 @@ const reservationsCollection = db.collection("Reservations");
 const ordersCollection = db.collection("Orders");
 const adminsCollection = db.collection("Admins");
 
-
 //warunek bycia zalogowanym uzywany potem np przy wyswietlaniu koszyka
 const requireLogin = (req, res, next) => {
     if (!req.session.userId) {
@@ -69,8 +68,6 @@ const checkAdmin = (req,res,next) => {
     }
     next();
 };
-
-
 //strona rejestracji
 app.get('/register', (req, res) => {
     res.render('register');
@@ -78,10 +75,27 @@ app.get('/register', (req, res) => {
 
 //operacja rejestracji
 app.post('/register', async (req, res) => {
+    try{
     const { name, surname, email, password, phone, address } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    await clientsCollection.insertOne({ name,surname,email, password: hashedPassword, phone, address, history: [],reservations: [] });
+    const clientDocument = {
+        name,
+        surname,
+        email,
+        password: hashedPassword,
+        phone,
+        address,
+        // history: [null],
+        // reservations: [null]
+    };
+    console.log(clientDocument);
+    await clientsCollection.insertOne(clientDocument);
     res.redirect('/login');
+    }
+    catch(error){
+        console.error('Error registering:', error);
+        return res.status(500).json({ success: false, message: 'An error occurred while registering.' });
+    }
 });
 
 
@@ -175,13 +189,6 @@ app.post('/makereservation', requireLogin, async(req,res) =>{
         return res.redirect('/reservations');
     }
 
-    //sprawdzenie czy restauracja jest otwarta
-    const openTime = "12:00";
-    const closeTime = "22:00";
-    if(time < openTime || time > closeTime){
-        return res.redirect('/reservations');
-    }
-
     //sprawdzanie czy nie ma juz za duzo rezerwacji na ta sama godzine 
     const dateTime = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
 
@@ -209,6 +216,7 @@ app.post('/makereservation', requireLogin, async(req,res) =>{
     }
 
     const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
+    console.log(client)
     //dodajemy rezerwacje do kolekcji rezerwacji
     const reservationRes = await reservationsCollection.insertOne({client: client,date: date,time: time,people: people,isCanceled: 0});
 
