@@ -53,6 +53,7 @@ const productsCollection = db.collection("Products");
 const reservationsCollection = db.collection("Reservations");
 const ordersCollection = db.collection("Orders");
 const adminsCollection = db.collection("Admins");
+const suppliersCollection = db.collection("Suppliers");
 const supplierOrdersCollection = db.collection("SupplierOrders");
 
 //warunek bycia zalogowanym uzywany potem np przy wyswietlaniu koszyka
@@ -438,18 +439,20 @@ app.post('/deleteproduct',requireLogin, async(req,res) => {
 });
 
 app.post('/callsupplierorder',requireLogin, async(req,res) => {
-    console.log("DSADASD")
     try{
         const {productID} = req.body;
         const product = await productsCollection.findOne({_id: new ObjectId(productID)});
-        const supplier_name = product.supplier_name;
-        const supplier = await clientsCollection.findOne({name: supplier_name});
+
         if (!product) {
             return res.status(404).json({ success: false, message: 'Product not found' });
         }
+
+        const supplier_name = product.supplier_name;
+        const supplier = await suppliersCollection.findOne({name: supplier_name});
+    
         const supplierOrder={client_id: supplier._id, date: new Date().toISOString().split('T')[0],products: product, price: product.price, status: "pending" }
-        console.log(supplierOrder);
-        await Collection.insertOne(supplierOrder);
+
+        await supplierOrdersCollection.insertOne(supplierOrder);
     }catch(error){
         console.error('Error calling supplier:', error);
         return res.status(500).json({ success: false, message: 'An error occurred while calling the supplier.' });
