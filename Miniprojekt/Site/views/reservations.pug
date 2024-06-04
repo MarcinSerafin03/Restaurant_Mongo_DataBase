@@ -33,7 +33,7 @@ html
               .col
                 | Data: #{data.date}, godzina: #{data.time}, liczba osób: #{data.people}
               .col-auto
-                  button.btn.btn-primary(type="button" onclick=`cancelReservation('${data._id}')`) Cancel
+                  button.btn.btn-primary(type="button" onclick=`cancelReservation('${data.reservation_id}')`) Cancel
       else
         p Nie masz żadnych rezerwacji
     

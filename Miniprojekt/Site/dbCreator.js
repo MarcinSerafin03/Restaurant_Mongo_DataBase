@@ -146,12 +146,17 @@ const schemas = {
               items: {
                 bsonType: ['object', 'null'],
                 required: [
+                  'reservation_id',
                   'date',
                   'time',
                   'people',
                   'isCanceled'
                 ],
                 properties: {
+                  reservation_id: {
+                    bsonType: 'string',
+                    description: 'must be a string and is required'
+                  },
                   date: {
                     bsonType: 'string',
                     description: 'must be a string and is required'

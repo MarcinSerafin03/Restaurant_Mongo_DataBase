@@ -88,6 +88,7 @@ function deleteProduct(itemID){
 }
 
 function cancelReservation(reservationID){
+    console.log(reservationID);
     fetch('/cancelreservation',{
         method: 'POST',
         headers: {

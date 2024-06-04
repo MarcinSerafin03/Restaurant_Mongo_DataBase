@@ -220,7 +220,6 @@ app.post('/makereservation', requireLogin, async(req,res) =>{
         }
 
         const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
-        console.log(client)
 
         const clientObject = {
             name: client.name,
@@ -238,6 +237,7 @@ app.post('/makereservation', requireLogin, async(req,res) =>{
         const reservationToAdd = await reservationsCollection.findOne({_id: reservationRes.insertedId})
 
         const reservationObject = {
+            reservation_id: reservationToAdd._id.toString(),
             date: reservationToAdd.date,
             time: reservationToAdd.time,
             people: reservationToAdd.people,
@@ -279,7 +279,7 @@ app.post('/cancelreservation',requireLogin, async(req,res) =>{
     const newReservations = client.reservations;
 
     //znajdujemy rezerwacje ktora chcemy usunać
-    const index = client.reservations.findIndex(element => element._id.toString() === reservationID);
+    const index = client.reservations.findIndex(element => element.reservation_id === reservationID);
 
     if(index !== -1){
         //usuwamy rezerwacje z listy
@@ -494,8 +494,6 @@ app.post('/makeorder',requireLogin, async(req,res) => {
 
         const dishes = orderToAdd.dishes.map(dish => dish._id.toString());
 
-        console.log(dishes);
-
         const orderObject = {
             order_id: orderToAdd._id.toString(),
             date: orderToAdd.date,
@@ -598,9 +596,6 @@ app.post('/deliverorder', requireLogin, async (req,res) =>{
             { _id: new ObjectId(orderID) },
             { $set: { status: "delivered" } }
         );
-
-        console.log(orderID);
-        console.log(clientID);
 
         //ustaw order w historii klienta jako delivered
         await clientsCollection.updateOne(
