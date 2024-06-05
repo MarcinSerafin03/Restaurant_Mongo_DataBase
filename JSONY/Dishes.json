@@ -1,0 +1,167 @@
+[
+  {
+    "name": "Pierogi ruskie",
+    "description": "Tradycyjne pierogi z farszem ziemniaczano-serowym",
+    "price": 18.5,
+    "products": [
+      {
+        "name": "Ziemniaki",
+        "supplier_name": "Dostawca Janek",
+        "quantity": 300,
+        "unit": "grams"
+      },
+      {
+        "name": "Ser twarogowy",
+        "supplier_name": "Dostawca Anna",
+        "quantity": 200,
+        "unit": "grams"
+      }
+    ]
+  },
+  {
+    "name": "Schabowy z ziemniakami",
+    "description": "Klasyczny kotlet schabowy podawany z ziemniakami i surówką",
+    "price": 22.0,
+    "products": [
+      {
+        "name": "Schab",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 500,
+        "unit": "grams"
+      },
+      {
+        "name": "Ziemniaki",
+        "supplier_name": "Dostawca Janek",
+        "quantity": 500,
+        "unit": "grams"
+      }
+    ]
+  },
+  {
+    "name": "Zupa pomidorowa",
+    "description": "Zupa pomidorowa z makaronem",
+    "price": 12.5,
+    "products": [
+      {
+        "name": "Pomidor",
+        "supplier_name": "Dostawca Anna",
+        "quantity": 100,
+        "unit": "grams"
+      },
+      {
+        "name": "Makaron",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 1000,
+        "unit": "grams"
+      }
+    ]
+  },
+  {
+    "name": "Sałatka grecka",
+    "description": "Świeża sałatka z warzywami, oliwkami i serem feta",
+    "price": 15.0,
+    "products": [
+      {
+        "name": "Warzywa mieszane",
+        "supplier_name": "Dostawca Janek",
+        "quantity": 1000,
+        "unit": "grams"
+      },
+      {
+        "name": "Ser feta",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 50,
+        "unit": "grams"
+      },
+      {
+        "name": "Pomidor",
+        "supplier_name": "Dostawca Anna",
+        "quantity": 500,
+        "unit": "grams"
+      }
+    ]
+  },
+  {
+    "name": "Tarta szpinakowa",
+    "description": "Tarta ze szpinakiem i serem feta",
+    "price": 17.5,
+    "products": [
+      {
+        "name": "Szpinak",
+        "supplier_name": "Dostawca Janek",
+        "quantity": 1000,
+        "unit": "grams"
+      },
+      {
+        "name": "Ser feta",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 50,
+        "unit": "grams"
+      }
+    ]
+  },
+  {
+    "name": "Ryba z frytkami",
+    "description": "Smażona ryba z frytkami i surówką",
+    "price": 20.0,
+    "products": [
+      {
+        "name": "Ryba",
+        "supplier_name": "Dostawca Anna",
+        "quantity": 800,
+        "unit": "grams"
+      },
+      {
+        "name": "Frytki",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 1000,
+        "unit": "grams"
+      }
+    ]
+  },
+  {
+    "name": "Risotto z kurczakiem",
+    "description": "Risotto z kurczakiem i warzywami",
+    "price": 19.5,
+    "products": [
+      {
+        "name": "Kurczak",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 900,
+        "unit": "grams"
+      }
+    ]
+  },
+  {
+    "name": "Makaron bolognese",
+    "description": "Makaron z sosem bolognese",
+    "price": 16.5,
+    "products": [
+      {
+        "name": "Sos bolognese",
+        "supplier_name": "Dostawca Anna",
+        "quantity": 500,
+        "unit": "grams"
+      },
+      {
+        "name": "Makaron",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 700,
+        "unit": "grams"
+      }
+    ]
+  },
+  {
+    "name": "Makaron carbonara",
+    "description": "Makaron carbonara",
+    "price": 19.0,
+    "products": [
+      {
+        "name": "Makaron",
+        "supplier_name": "Dostawca Marek",
+        "quantity": 700,
+        "unit": "grams"
+      }
+    ]
+  }
+]
