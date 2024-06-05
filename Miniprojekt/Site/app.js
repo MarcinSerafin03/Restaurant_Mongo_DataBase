@@ -64,12 +64,14 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
+//warunek czy jesteśmy adminem
 const checkAdmin = (req,res,next) => {
     if(req.session.isAdmin){
         return res.redirect('/admin');
     }
     next();
 };
+
 //strona rejestracji
 app.get('/register', (req, res) => {
     res.render('register');
@@ -147,7 +149,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
-//strona glowna
+//strona glowna dla uzytkownika
 app.get('/', requireLogin,checkAdmin, async (req, res) => {
     
     //pobieramy wszystkie dania z kolekcji "Dishes"
@@ -157,6 +159,7 @@ app.get('/', requireLogin,checkAdmin, async (req, res) => {
     res.render('index', {dishes: dishes});
 });
 
+//strona rezerwacji
 app.get('/reservations', requireLogin, async (req, res) => {
 
     //z Sessions pobieramy ID naszego użytkownika żebyśmy wiedzieli kogo rezerwacje wyświetlić
@@ -172,6 +175,7 @@ app.get('/reservations', requireLogin, async (req, res) => {
     res.render('reservations', { reservationData });
 });
 
+//składnie rezerwacji
 app.post('/makereservation', requireLogin, async(req,res) =>{
 
     try{
@@ -219,6 +223,7 @@ app.post('/makereservation', requireLogin, async(req,res) =>{
             return res.redirect('/reservations');
         }
 
+        //pobranie danych o uzytkowniku skladajacym rezerwacje
         const client = await clientsCollection.findOne({_id: new ObjectId(userId)});
 
         const clientObject = {
@@ -261,7 +266,7 @@ app.post('/makereservation', requireLogin, async(req,res) =>{
 });
 
 
-
+//anulowanie rezerwacji
 app.post('/cancelreservation',requireLogin, async(req,res) =>{
     //z Sessions pobieramy ID naszego użytkownika 
     const userId = req.session.userId;
@@ -296,6 +301,7 @@ app.post('/cancelreservation',requireLogin, async(req,res) =>{
 
 });
 
+//strona koszyka
 app.get('/cart', requireLogin, async (req, res) => {
     //z Sessions pobieramy ID naszego użytkownika żebyśmy wiedzieli kogo koszyk wyswietlic
     const userId = req.session.userId;
@@ -304,7 +310,7 @@ app.get('/cart', requireLogin, async (req, res) => {
     //znajdz koszyk w kolekcji Carts o numerze clienta_id równym id naszego uzytkownika 
     const cart = await cartsCollection.findOne({client_id: new ObjectId(userId)}); 
 
-    //jesli nie znaleźlismy koszyka to znaczy że nie istnieje wiec tworzymy dodajemy nowy koszyk do kolekcji
+    //jesli nie znaleźlismy koszyka to znaczy że nie istnieje wiec tworzymy i dodajemy nowy koszyk do kolekcji
     if(!cart){
         await cartsCollection.insertOne({client_id: new ObjectId(userId),dishes: []})
     }
@@ -318,6 +324,7 @@ app.get('/cart', requireLogin, async (req, res) => {
     res.render('cart', { cartItems });
 });
 
+//dodawanie do koszyka
 app.post('/addtocart', requireLogin, async(req,res) => {
     try{
         //z Sessions pobieramy ID naszego użytkownika 
@@ -375,6 +382,7 @@ app.post('/addtocart', requireLogin, async(req,res) => {
    
 });
 
+//czyszczenie koszyka
 app.post('/clearcart',requireLogin, async(req,res) => {
     try{
         //z Sessions pobieramy ID naszego użytkownika 
@@ -406,7 +414,7 @@ app.post('/clearcart',requireLogin, async(req,res) => {
      
 });
 
-
+//usuwanie poszczegolnego produktu z koszyka
 app.post('/deleteproduct',requireLogin, async(req,res) => {
     //z Sessions pobieramy ID naszego użytkownika 
     const userId = req.session.userId;
@@ -438,6 +446,7 @@ app.post('/deleteproduct',requireLogin, async(req,res) => {
 
 });
 
+//zamawianie produktu przez admina
 app.post('/callsupplierorder',requireLogin, async(req,res) => {
     try{
         const {productID} = req.body;
@@ -460,6 +469,7 @@ app.post('/callsupplierorder',requireLogin, async(req,res) => {
     return res.status(200).json({ success: true, message: 'Order made!' });
 });
 
+//skladanie zamowiena
 app.post('/makeorder',requireLogin, async(req,res) => {
     try{
         //z Sessions pobieramy ID naszego użytkownika 
@@ -529,7 +539,7 @@ app.post('/makeorder',requireLogin, async(req,res) => {
 
 });
 
-
+//strona z historia zamowien
 app.get('/orders', requireLogin, async (req, res) => {
     //z Sessions pobieramy ID naszego użytkownika żebyśmy wiedzieli kogo koszyk wyswietlic
     const userId = req.session.userId;
@@ -545,13 +555,14 @@ app.get('/orders', requireLogin, async (req, res) => {
     res.render('orders', { orders: orders });
 });
 
-
+//strona glowna admina
 app.get('/admin', requireLogin, async (req,res) =>{
 
     //strona admina
     res.render('adminIndex');
 });
 
+//strona z zamowieniami wszystkich klientow
 app.get('/adminorders', requireLogin, async (req,res) =>{
 
 
@@ -565,12 +576,13 @@ app.get('/adminorders', requireLogin, async (req,res) =>{
     res.render('adminOrders',{ordersPending: ordersPending, ordersDelivered: ordersDelivered});
 });
 
+//strona z zamawianiem produktow
 app.get('/adminsupplierorders', requireLogin, async(req,res) =>{
     const products = await productsCollection.find({}).toArray(); 
     res.render('adminSupplierOrders',{products: products});
 });
     
-
+//strona z rezerwacjami klientow
 app.get('/adminreservations' , requireLogin, async(req,res) => {
 
     //znajdz rezerwacje ktore nie sa anulowane
@@ -584,6 +596,7 @@ app.get('/adminreservations' , requireLogin, async(req,res) => {
     res.render('adminReservations',{reservations: upcomingReservations});
 });
 
+//ustawaianie zamowienia jako delivered
 app.post('/deliverorder', requireLogin, async (req,res) =>{
     
     try{
