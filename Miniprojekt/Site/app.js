@@ -12,7 +12,7 @@ import moment from 'moment'
 const MongoDBStore = connectStore(session);
 
 const store = new MongoDBStore({
-    uri: "mongodb+srv://PanAdmin:adminowehaslo@restaurantdatabaseproje.urdpfqf.mongodb.net/",
+    uri: "mongodb://localhost:27017/",
     databaseName: "RestaurantDataBaseProject",
     collection: "Sessions"
 }, function(error) {
@@ -616,7 +616,7 @@ app.post('/deliverorder', requireLogin, async (req,res) =>{
 });
 
 
-const PORT = 10000;
+const PORT = 8000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
