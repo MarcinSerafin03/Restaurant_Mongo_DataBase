@@ -616,7 +616,7 @@ app.post('/deliverorder', requireLogin, async (req,res) =>{
 });
 
 
-const PORT = 8000;
+const PORT = 10000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
