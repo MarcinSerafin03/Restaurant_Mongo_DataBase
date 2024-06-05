@@ -1,9 +1,9 @@
 # Bazy Danych Projekt
 ## Baza danych Restauracji
 
-Markdown i PDF w folderze Miniprojekt
+Dokumentacja projektu w wersjach Markdown i PDF znajdują się w folderze Miniprojekt
 
-Strona oraz uruchomienie bazy(instrukcja w sprawozadniu) w folderze Miniprojekt/Site
+Strona oraz uruchomienie bazy(instrukcja w sprawozadniu) znajdują się w folderze Miniprojekt/Site
 
 ### Autorzy:
 Antoni Dulewicz, Marcin Serafin, Wojciech Wietrzny
