@@ -42,7 +42,7 @@ app.use(session({
 }));
 
 //podlaczanie naszej bazy danych 
-const client = new MongoClient("mongodb://localhost:27017/");
+const client = new MongoClient("mongodb+srv://PanAdmin:adminowehaslo@restaurantdatabaseproje.urdpfqf.mongodb.net/");
 await client.connect();
 
 const db = client.db("RestaurantDataBaseProject");
@@ -616,7 +616,7 @@ app.post('/deliverorder', requireLogin, async (req,res) =>{
 });
 
 
-const PORT = 10000;
+const PORT = process.env.PORT || 4000;;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
