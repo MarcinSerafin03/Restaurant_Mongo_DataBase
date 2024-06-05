@@ -613,7 +613,7 @@ async function uploadData(database, jsonFiles) {
 }
 
 async function main() {
-    const uri = "mongodb+srv://PanAdmin:adminowehaslo@restaurantdatabaseproje.urdpfqf.mongodb.net/"; // replace with your MongoDB connection string (propably same but with 27017)
+    const uri = "mongodb://localhost:27017/"; // replace with your MongoDB connection string (propably same but with 27017)
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     try {
