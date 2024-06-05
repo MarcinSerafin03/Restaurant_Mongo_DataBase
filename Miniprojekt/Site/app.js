@@ -12,7 +12,7 @@ import moment from 'moment'
 const MongoDBStore = connectStore(session);
 
 const store = new MongoDBStore({
-    uri: "mongodb://localhost:27017/",
+    uri: "mongodb+srv://PanAdmin:adminowehaslo@restaurantdatabaseproje.urdpfqf.mongodb.net/",
     databaseName: "RestaurantDataBaseProject",
     collection: "Sessions"
 }, function(error) {
