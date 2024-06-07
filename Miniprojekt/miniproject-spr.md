@@ -327,9 +327,27 @@ main().catch(console.error);
 ```
 Raport wydatków robimy po kolei najpierw łącząc się z bazą danych, następnie pobierając kolekcje Orders oraz Clients, łącząc te kolekcje po id klienta i sumując cenę zleceń jako totalSpent oraz ilość zamówionych potraw jako totalDishesOrdered
 
+## Front-End
+
+Nasza aplikacja zawiera widoki pozwalające na zrealizowanie wszystkich zaimplementowanych operacji tj.: dodanie potrawy do koszyka, złożenie zamówienia, zarezerwowanie stolika, podgląd przyszłych rezerwacji czy podgąd historii zamówień, a także 2 pierwotne czyli rejestracje i logowanie. Widoki zostały zrealizowane przy pomocy javascripta, css oraz pug.js
+
+![Widok rejestracji](Screenshots\Register.png)
+
+![Widok logowania](Screenshots\Login.png)
+
+![Widok restauracji](Screenshots\RestaurantTop.png)
+
+![Widok restauracji](Screenshots\RestaurantBottom.png)
+
+![Widok koszyka](Screenshots\Cart.png)
+
+![Widok zamowienia](Screenshots\Orders.png)
+
+![Widok rezerwacji](Screenshots\Reservations.png)
+
+
+
 ## Uruchomienie
-
-
 
 #### Stworzenie bazy danych - Site/dbCreator.js
 Poniżej znajduje się wycinek ze skryptu dbCreator.js służący do tworzenia bazy danych MongoDB oraz dodawania do niej podstawowych tabel wraz z bazowymi informacjami na temat m.in. potraw czy produktów. Całość skryptu - wraz z brakującym tutaj schematem bazy danych dostępna jest w pliku dbCreatord.js
@@ -456,6 +474,7 @@ main().catch(console.error);
 
 ```
 
+
 #### Uruchomienie serwera - Site/app.js
 Aby uruchomić serwer należy najpierw wykonać npm install - służy pobraniu wszelkich pakietów niezbędnych do wystartowania serwera na naszym komputerze, następnie wykonać node dbCreator.js, aby zainicjalizować bazę danych trzymającą informacje z których korzystamy na stronie restauracji, a następnie włączyć stronę restauracji przy użyciu node app.js 
 ``` 
@@ -463,3 +482,4 @@ npm install
 node dbCreator.js
 node app.js
 ```
+
