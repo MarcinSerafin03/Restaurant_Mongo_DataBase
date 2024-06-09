@@ -329,7 +329,7 @@ Raport wydatków robimy po kolei najpierw łącząc się z bazą danych, następ
 
 ## Front-End
 
-Nasza aplikacja zawiera widoki pozwalające na zrealizowanie wszystkich zaimplementowanych operacji tj.: dodanie potrawy do koszyka, złożenie zamówienia, zarezerwowanie stolika, podgląd przyszłych rezerwacji czy podgąd historii zamówień, a także 2 pierwotne czyli rejestracje i logowanie. Widoki zostały zrealizowane przy pomocy javascripta, css oraz pug.js
+Nasza aplikacja zawiera widoki pozwalające na zrealizowanie wszystkich zaimplementowanych operacji dla klientów tj.: dodanie potrawy do koszyka, złożenie zamówienia, zarezerwowanie stolika, podgląd przyszłych rezerwacji czy podgąd historii zamówień, a także 2 pierwotne czyli rejestracje i logowanie. Widoki zostały zrealizowane przy pomocy javascripta, css oraz pug.js
 
 ![Widok rejestracji](Screenshots\Register.png)
 
@@ -345,7 +345,13 @@ Nasza aplikacja zawiera widoki pozwalające na zrealizowanie wszystkich zaimplem
 
 ![Widok rezerwacji](Screenshots\Reservations.png)
 
+Dodatkowo zaimplementowano również widoki dla administratora, które obejmują sprawdzanie obecnych zamówień, przeglądanie historii dostarczonych zamówień, przeglądanie rezerwacji, a także zamawianie dostaw produktów do restauracji
 
+![Widok zamówień od strony admina](Screenshots\AdminOrders.png)
+
+![Widok rezerwacji od strony admina](Screenshots\AdminReservations.png)
+
+![Widok zamawiania produktów od strony admina](Screenshots\Products.png)
 
 ## Uruchomienie
 
