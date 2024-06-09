@@ -331,27 +331,27 @@ Raport wydatków robimy po kolei najpierw łącząc się z bazą danych, następ
 
 Nasza aplikacja zawiera widoki pozwalające na zrealizowanie wszystkich zaimplementowanych operacji dla klientów tj.: dodanie potrawy do koszyka, złożenie zamówienia, zarezerwowanie stolika, podgląd przyszłych rezerwacji czy podgąd historii zamówień, a także 2 pierwotne czyli rejestracje i logowanie. Widoki zostały zrealizowane przy pomocy javascripta, css oraz pug.js
 
-![Widok rejestracji](Site\Screenshots\Register.png)
+![Widok rejestracji](Site%2FScreenshots%2FRegister.png)
 
-![Widok logowania](Site\Screenshots\Login.png)
+![Widok logowania](Site%2FScreenshots%2FLogin.png)
 
-![Widok restauracji](Site\Screenshots\RestaurantTop.png)
+![Widok restauracji](Site%2FScreenshots%2FRestaurantTop.png)
 
-![Widok restauracji](Site\Screenshots\RestaurantBottom.png)
+![Widok restauracji](Site%2FScreenshots%2FRestaurantBottom.png)
 
-![Widok koszyka](Site\Screenshots\Cart.png)
+![Widok koszyka](Site%2FScreenshots%2FCart.png)
 
-![Widok zamowienia](Site\Screenshots\Orders.png)
+![Widok zamowienia](Site%2FScreenshots%2FOrders.png)
 
-![Widok rezerwacji](Site\Screenshots\Reservations.png)
+![Widok rezerwacji](Site%2FScreenshots%2FReservations.png)
 
 Dodatkowo zaimplementowano również widoki dla administratora, które obejmują sprawdzanie obecnych zamówień, przeglądanie historii dostarczonych zamówień, przeglądanie rezerwacji, a także zamawianie dostaw produktów do restauracji
 
-![Widok zamówień od strony admina](Site\Screenshots\AdminOrders.png)
+![Widok zamówień od strony admina](Site%2FScreenshots%2FAdminOrders.png)
 
 
 
-![Widok rezerwacji od strony admina](Site\Screenshots%2FAdminReservations.png)
+![Widok rezerwacji od strony admina](Site%2FScreenshots%2FAdminReservations.png)
 
 ![Widok zamawiania produktów od strony admina](Site%2FScreenshots%2FAdminProducts.png)
 
