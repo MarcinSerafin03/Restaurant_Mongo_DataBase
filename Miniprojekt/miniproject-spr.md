@@ -351,9 +351,9 @@ Dodatkowo zaimplementowano również widoki dla administratora, które obejmują
 
 
 
-![Widok rezerwacji od strony admina](Site\Screenshots\AdminReservations.png)
+![Widok rezerwacji od strony admina](Site\Screenshots%2FAdminReservations.png)
 
-![Widok zamawiania produktów od strony admina](Site\Screenshots\AdminProducts.png)
+![Widok zamawiania produktów od strony admina](Site%2FScreenshots%2FAdminProducts.png)
 
 ## Uruchomienie
 
