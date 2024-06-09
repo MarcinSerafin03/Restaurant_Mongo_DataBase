@@ -347,11 +347,13 @@ Nasza aplikacja zawiera widoki pozwalające na zrealizowanie wszystkich zaimplem
 
 Dodatkowo zaimplementowano również widoki dla administratora, które obejmują sprawdzanie obecnych zamówień, przeglądanie historii dostarczonych zamówień, przeglądanie rezerwacji, a także zamawianie dostaw produktów do restauracji
 
-![Widok zamówień od strony admina](Screenshots\AdminOrders.png)
+![Widok zamówień od strony admina](Site/Screenshots/AdminOrders.png)
+
+
 
 ![Widok rezerwacji od strony admina](Screenshots\AdminReservations.png)
 
-![Widok zamawiania produktów od strony admina](Screenshots\Products.png)
+![Widok zamawiania produktów od strony admina](Screenshots\AdminProducts.png)
 
 ## Uruchomienie
 
