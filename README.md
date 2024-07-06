@@ -1,5 +1,5 @@
-# Project for Database Course
-## Restaurant Database
+# Restaurant Database
+## Project for Database Course
 
 Project Report as Markdown and PDF in Miniproject Folder
 
