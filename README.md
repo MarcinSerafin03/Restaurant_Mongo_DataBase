@@ -1,14 +1,14 @@
-# Bazy Danych Projekt
-## Baza danych Restauracji
+# Project for Database Course
+## Restaurant Database
 
-Dokumentacja projektu w wersjach Markdown i PDF znajdują się w folderze Miniprojekt
+Project Report as Markdown and PDF in Miniproject Folder
 
-Strona oraz uruchomienie bazy(instrukcja w sprawozadniu) znajdują się w folderze Miniprojekt/Site
+Website and Base creator(with guide in report) in Miniproject/Site
 
-### Autorzy:
+### Creators:
 Antoni Dulewicz, Marcin Serafin, Wojciech Wietrzny
 
-### Technologie:
-MongoDB, Node.js, Express
+### Tech Stack:
+MongoDB, Node.js, Express.js
 
 
